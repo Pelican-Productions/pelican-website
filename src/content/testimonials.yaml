@@ -1,0 +1,36 @@
+- id: 'katie'
+  quote:
+      'There are friends I’ve made that’ll be in my life forever and I’m so
+      grateful to Pelican for that.'
+  cite: 'Katie, ten years of Music Theatre Camp'
+  pages:
+      - 'home'
+      - 'about'
+  order: 1
+- id: 'chelsea'
+  quote: 'The best performances are those where you have the most fun.'
+  cite: 'Chelsea, Music Theatre Camp'
+  pages:
+      - 'home'
+  order: 2
+- id: 'zoe'
+  quote: 'Just do it – you won’t regret it!'
+  cite: 'Zoe, twelve years at Pelican'
+  pages:
+      - 'home'
+  order: 3
+- id: 'sing-oz-member'
+  quote: 'Thank you Pelican for giving us adults a chance to find our voice.'
+  cite: 'Sing!OZ member'
+  pages:
+      - 'home'
+      - 'sing-oz'
+  order: 4
+- id: 'isabelle'
+  quote:
+      'Don’t be afraid to make mistakes, take on all challenges and
+      opportunities given to you.'
+  cite: 'Isabelle, Music Theatre Camp'
+  pages:
+      - 'home'
+  order: 5

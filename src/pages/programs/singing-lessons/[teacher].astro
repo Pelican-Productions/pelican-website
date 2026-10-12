@@ -1,0 +1,56 @@
+---
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { TeacherProfile } from '@/modules/programs';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+    const people = await getCollection(
+        'people',
+        (p: CollectionEntry<'people'>) => !!p.data.teacher,
+    );
+    return people.map((person: CollectionEntry<'people'>) => ({
+        params: { teacher: person.id },
+        props: { person },
+    }));
+}
+
+interface Props {
+    person: CollectionEntry<'people'>;
+}
+
+const { person } = Astro.props;
+const teacher = person.data.teacher!;
+const program = await getEntry('programs', 'singing-lessons');
+
+const jsonLd = [
+    {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: person.data.name,
+        jobTitle: 'Singing Teacher',
+        description: teacher.lead,
+        image: new URL(person.data.image.src, site.url).href,
+        url: new URL(Astro.url.pathname, site.url).href,
+        worksFor: {
+            '@type': 'Organization',
+            name: site.name,
+            url: site.url,
+        },
+    },
+];
+---
+
+<BaseLayout
+    title={teacher.title}
+    description={teacher.description}
+    image={person.data.image.src}
+    jsonLd={jsonLd}
+>
+    <TeacherProfile
+        person={person}
+        section={program?.data.sections.teacherPage}
+    />
+</BaseLayout>

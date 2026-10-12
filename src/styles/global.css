@@ -1,140 +1,350 @@
+@import 'tailwindcss';
+
 /*
- * DESIGN BRIEF — Pelican Productions
- * Youth theatre brand on warm paper (#e2e2df). Display type: Bebas Neue.
- * Body: DM Sans 500. Brand palette: watermelon (#FF2E63), cobalt (#0060FF),
- * teal (#43A998), mint (#A7DCC7) on cream cards (#f7f6f2) and ink (#070607).
- * Cobalt is the text and button colour. Large rounded cards (40px), pill chips
- * and CTAs, dotted dividers, halftone overlays on cobalt panels.
+ * Pelican Productions theme (v56 design).
+ * Values come from the computed styles of the static v56 site, not its
+ * stylesheet. Font CSS variables (--font-inter etc.) are injected by Astro's
+ * fonts API via <Font /> in BaseLayout.
  */
 
-@import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
-
 @theme {
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    /* Brand palette */
+    --color-navy: #070a1f;
+    --color-midnight: #0b1240;
+    --color-indigo: #0e1646;
+    --color-card: #0d1347;
+    --color-line: #1b2255;
+    --color-line-soft: #25307a;
+    --color-field: #4a56a8;
+    --color-ink: #0b1033;
+    --color-muted: #33406f;
+    --color-pink: #ff4d6d;
+    --color-watermelon: #ea4f8b;
+    --color-hot: #d6336f;
+    /* v56 .stat numbers (final override: -webkit-text-fill-color #c5245f). */
+    --color-berry: #c5245f;
+    --color-cobalt: #2f6bf2;
+    --color-cobalt-deep: #2457d6;
+    --color-lightblue: #5bd8fd;
+    --color-glow: #7fd8fd;
+    --color-ice: #8fdcfd;
+    --color-pale: #e6f6ff;
+    --color-pale-line: #d4ecf8;
+    --color-zebra: #f3f6ff;
+    --color-lavender: #c7c9f2;
+    --color-peri: #c5cbff;
+    --color-link: #aab3ff;
+    --color-yellow: #f4e84f;
+    --color-focus: #1b6ef3;
 
-    --color-paper: #e2e2df;
-    --color-ink: #070607;
-    --color-cream: #f7f6f2;
-    --color-watermelon: #ff2e63;
-    --color-cobalt: #0060ff;
-    --color-teal: #43a998;
-    --color-mint: #a7dcc7;
-    --color-sun: #a7dcc7;
-    --color-violet: #0060ff;
-    --color-white: #ffffff;
+    /* Type */
+    --font-sans:
+        var(--font-inter), Inter, system-ui, -apple-system, 'Segoe UI',
+        sans-serif;
+    --font-display: var(--font-inter), Inter, system-ui, sans-serif;
+    --font-script:
+        var(--font-caveat), Caveat, 'Bradley Hand', 'Segoe Print', cursive;
+    --font-brush:
+        var(--font-caveat-brush), 'Caveat Brush', 'Bradley Hand', cursive;
+    --font-mono: var(--font-space-mono), 'Space Mono', ui-monospace, monospace;
+    /* v56 asks for "Bebas Neue" but never loads it, so every browser renders Impact. */
+    --font-condensed: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    --font-brand: var(--font-montserrat), Montserrat, sans-serif;
+    --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-    --radius-card: 40px;
-    --radius-pill: 800px;
+    --text-hero: clamp(2.6rem, 6vw, 4.8rem);
+    --text-hero--line-height: 1.02;
+    --text-h2: clamp(2.2rem, 5.4vw, 4.2rem);
+    --text-h2--line-height: 1.02;
+    --text-lead: 1.1rem;
+    --text-lead--line-height: 1.7;
+    --text-quote: clamp(2.2rem, 4.5vw, 3.6rem);
+    --text-quote--line-height: 1.15;
 
-    --text-display-hero: 189px;
-    --text-display-xl: 160px;
-    --text-display-lg: 96px;
-    --text-display-md: 80px;
-    --text-display-sm: 64px;
-    --text-display-xs: 48px;
-    --text-display-2xs: 40px;
-    --text-display-3xs: 32px;
+    --tracking-tightish: -0.015em;
+    --tracking-kicker: 0.22em;
+    --tracking-nav: 0.12em;
 
-    --leading-display: 0.94;
-    --leading-display-relaxed: 1.1;
-    --leading-body: 1.55;
+    /* Shape */
+    --radius-btn: 3px;
+    --radius-card: 4px;
 
-    --tracking-display: 0.02em;
+    --shadow-hard: 6px 6px 0 var(--color-navy);
+    --shadow-hard-glow: 6px 6px 0 var(--color-glow);
+    --shadow-soft: 0 9px 18px rgba(10, 14, 42, 0.16);
+    --shadow-lift: 0 11px 24px rgba(10, 14, 42, 0.16);
+    --shadow-drop: 0 13px 30px rgba(10, 14, 42, 0.16);
+    --shadow-float: 0 3px 10px rgba(10, 14, 42, 0.25);
+    --shadow-pop: 0 8px 20px rgba(47, 107, 242, 0.35);
 
-    --animate-marquee: marquee 40s linear infinite;
+    /* Layout */
+    --container-wrap: 1180px;
+    --container-lead: 39em;
+    --breakpoint-nav: 56.25rem;
+
+    /* Motion */
+    --animate-tick: tick 40s linear infinite;
+    --animate-marquee: tick 70s linear infinite;
+    --animate-dash: dash 2.6s linear infinite;
+    --animate-glow: glow 6s ease-in-out infinite;
+    --animate-bulbs: bulbs 1.2s steps(1) infinite;
+
+    @keyframes tick {
+        to {
+            transform: translateX(-50%);
+        }
+    }
+    @keyframes dash {
+        to {
+            stroke-dashoffset: -32;
+        }
+    }
+    @keyframes bulbs {
+        50% {
+            opacity: 0.35;
+        }
+    }
+    @keyframes glow {
+        0%,
+        100% {
+            filter: drop-shadow(0 0 2px #fff)
+                drop-shadow(0 0 8px rgba(73, 196, 242, 0.65))
+                drop-shadow(0 0 5px rgba(255, 111, 159, 0.4));
+        }
+        50% {
+            filter: drop-shadow(0 0 3px #fff)
+                drop-shadow(0 0 20px rgba(73, 196, 242, 1))
+                drop-shadow(0 0 14px rgba(255, 111, 159, 0.75));
+        }
+        79% {
+            opacity: 0.62;
+        }
+        80%,
+        83% {
+            opacity: 1;
+        }
+        82% {
+            opacity: 0.75;
+        }
+    }
 }
 
-@keyframes marquee {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-50%);
-    }
-}
-
+/*
+ * Section tones. Every <Section tone> sets data-tone; children (Heading,
+ * Kicker, Lead, Button, Facts, PathCard...) read these vars so they adapt
+ * without per-page overrides.
+ */
 @layer base {
+    :root,
+    [data-tone='paper'] {
+        --tone-bg: var(--color-navy);
+        --tone-text: #fff;
+        --tone-heading: #fff;
+        --tone-lead: var(--color-peri);
+        --tone-body: var(--color-lavender);
+        --tone-kicker: var(--color-lightblue);
+        --tone-rule: rgba(255, 255, 255, 0.85);
+        --tone-mark-bg: var(--color-yellow);
+        --tone-mark-fg: var(--color-navy);
+        --tone-btn-shadow: var(--shadow-hard-glow);
+        --tone-link: var(--color-glow);
+        --tone-ghost: rgba(255, 255, 255, 0.7);
+        --tone-ghost-text: #fff;
+        /* Facts rows: v56 .facts keeps navy rules on every tone; dt glows on dark. */
+        --tone-fact-term: var(--color-glow);
+        --tone-fact-text: #fff;
+    }
+    [data-tone='sky'] {
+        --tone-bg: var(--color-midnight);
+    }
+    [data-tone='navy'] {
+        --tone-bg: var(--color-indigo);
+        --tone-lead: var(--color-lavender);
+    }
+    [data-tone='cobalt'] {
+        --tone-bg: var(--color-cobalt);
+        --tone-lead: #fff;
+        --tone-body: #fff;
+        --tone-kicker: var(--color-yellow);
+        --tone-btn-shadow: var(--shadow-hard);
+    }
+    [data-tone='default'],
+    [data-tone='ice'],
+    [data-tone='white'],
+    [data-tone='pink'] {
+        --tone-bg: var(--color-pale);
+        --tone-text: var(--color-ink);
+        --tone-heading: var(--color-navy);
+        --tone-lead: var(--color-muted);
+        --tone-body: var(--color-ink);
+        --tone-kicker: var(--color-pink);
+        --tone-rule: var(--color-navy);
+        --tone-btn-shadow: var(--shadow-hard);
+        --tone-link: var(--color-cobalt);
+        --tone-ghost: var(--color-ink);
+        --tone-ghost-text: var(--color-ink);
+        --tone-fact-term: var(--color-navy);
+        --tone-fact-text: var(--tone-lead);
+    }
+    [data-tone='white'] {
+        --tone-bg: #fff;
+    }
+    [data-tone='ice'] {
+        --tone-bg: var(--color-ice);
+        --tone-mark-bg: var(--color-navy);
+        --tone-mark-fg: var(--color-yellow);
+        --tone-kicker: var(--color-navy);
+    }
+    /* Navy block, yellow text: ice by default, opt-in elsewhere via Section marks="invert". */
+    [data-mark='invert'] {
+        --tone-mark-bg: var(--color-navy);
+        --tone-mark-fg: var(--color-yellow);
+    }
+    [data-tone='pink'] {
+        --tone-bg: var(--color-watermelon);
+        --tone-heading: var(--color-navy);
+        --tone-lead: var(--color-navy);
+        --tone-body: var(--color-navy);
+        --tone-text: var(--color-navy);
+        --tone-kicker: #fff;
+    }
+
     html {
-        @apply scroll-smooth;
+        -webkit-text-size-adjust: 100%;
+        scroll-padding-top: 72px;
     }
 
     body {
-        @apply bg-paper text-ink font-sans antialiased;
-        font-weight: 500;
+        background: var(--color-navy);
+        color: #fff;
+        font-family: var(--font-sans);
+        font-size: 16.5px;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        letter-spacing: var(--tracking-tightish);
+    }
+
+    /*
+     * v56 forces 1.02 on every h1-h3. Size tokens set their own line-height;
+     * this is the fallback when a caller swaps in text-[...] and tailwind-merge
+     * drops the token (and its line-height) with it.
+     */
+    h1,
+    h2,
+    h3 {
+        line-height: 1.02;
     }
 
     a {
-        @apply text-ink no-underline transition-colors;
+        color: inherit;
     }
 
-    a:not([data-button]):hover {
-        @apply text-cobalt;
-    }
-
-    a[data-quiet] {
-        @apply text-inherit no-underline;
-    }
-
-    a[data-quiet]:hover {
-        @apply text-inherit;
+    img,
+    svg,
+    video {
+        display: block;
+        max-width: 100%;
     }
 
     img {
-        @apply block max-w-full;
+        height: auto;
+    }
+
+    /*
+     * Highlighter used inside headings. v56 computes yellow block + navy text
+     * on every tone (pale, navy, sky, cobalt, hero) except the ice key-dates
+     * band and the home "performer?" lane, which are navy block + yellow text.
+     */
+    mark {
+        background: var(--tone-mark-bg, var(--color-yellow));
+        color: var(--tone-mark-fg, var(--color-navy));
+        padding: 0 0.16em;
+        display: inline-block;
+        line-height: 1.05;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+    }
+
+    :focus-visible {
+        outline: 3px solid var(--color-focus);
+        outline-offset: 3px;
+    }
+
+    [data-tone] :focus-visible,
+    header :focus-visible,
+    footer :focus-visible {
+        outline-color: var(--color-yellow);
+    }
+
+    [data-tone='default'] :focus-visible,
+    [data-tone='white'] :focus-visible,
+    [data-tone='ice'] :focus-visible,
+    [data-tone='pink'] :focus-visible {
+        outline-color: var(--color-focus);
+    }
+
+    ::selection {
+        background: var(--color-yellow);
+        color: var(--color-navy);
+    }
+}
+
+@layer components {
+    .wrap {
+        width: 100%;
+        max-width: var(--container-wrap);
+        margin-inline: auto;
+        padding-inline: 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Rich text inside sections: inherits tone colours. */
+    .prose-tone p {
+        color: var(--tone-body);
+        margin-block: 0 1em;
+    }
+    .prose-tone a {
+        color: var(--tone-link);
+        font-weight: 700;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+    }
+    .prose-tone ul {
+        list-style: disc;
+        padding-left: 1.2em;
+        color: var(--tone-body);
+        margin-bottom: 1em;
     }
 }
 
 @layer utilities {
-    .font-display {
-        font-family: var(--font-display);
-        font-weight: 400;
-        letter-spacing: var(--tracking-display);
+    .sr-only-focusable:not(:focus):not(:focus-within) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
     }
+}
 
-    .text-body {
-        @apply text-base leading-[1.55];
-    }
-
-    .text-body-lg {
-        @apply text-lg leading-[1.55];
-    }
-
-    .border-ink {
-        border-color: var(--color-ink);
-    }
-
-    .border-ink-dotted {
-        border-color: var(--color-ink);
-        border-style: dotted;
-    }
-
-    .border-white-dotted {
-        border-color: var(--color-white);
-        border-style: dotted;
-    }
-
-    .focus-ring {
-        @apply outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
-    }
-
-    .focus-ring-dark {
-        @apply outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink;
-    }
-
-    .animate-marquee {
-        animation: var(--animate-marquee);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .animate-marquee {
-            animation: none;
-        }
-
-        a[data-quiet] {
-            transform: none;
-        }
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

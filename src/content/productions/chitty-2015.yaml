@@ -1,0 +1,22 @@
+title: 'Chitty Chitty Bang Bang'
+year: 2015
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/chitty-2015/cover.webp'
+        alt: ''
+    colors:
+        - '#2f6bf2'
+        - '#5b7cff'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/chitty-2015/1.webp'
+      alt: 'The Chitty car takes flight with the cast on board'
+    - src: '/images/musicals/chitty-2015/2.webp'
+      alt: 'Cast portrait in costume'
+    - src: '/images/musicals/chitty-2015/3.webp'
+      alt: 'Three cast members grinning for the camera'
+    - src: '/images/musicals/chitty-2015/4.webp'
+      alt: 'Two young cast members back to back in costume'
+order: 17

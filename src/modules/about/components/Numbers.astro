@@ -1,0 +1,20 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import Stats, { type Stat } from '@/components/ui/Stats.astro';
+
+interface Props {
+    heading?: string | undefined;
+    items: Stat[];
+}
+
+const { heading, items } = Astro.props;
+---
+
+<Section tone="default">
+    {heading && <Heading text={heading} />}
+    <Stats
+        items={items}
+        class="[&>div]:border-navy [&_dt]:font-semibold [&>div]:justify-end [&>div]:border-t-[3px] [&>div]:pt-4"
+    />
+</Section>

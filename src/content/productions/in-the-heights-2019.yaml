@@ -1,0 +1,26 @@
+title: 'In the Heights'
+year: 2019
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/in-the-heights-2019/cover.webp'
+        alt: ''
+    colors:
+        - '#2f6bf2'
+        - '#5b7cff'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/in-the-heights-2019/1.webp'
+      alt: 'The full company dancing on the Washington Heights street set'
+    - src: '/images/musicals/in-the-heights-2019/2.webp'
+      alt: 'The ensemble in a big dance number beneath the bridge'
+    - src: '/images/musicals/in-the-heights-2019/3.webp'
+      alt: 'Couples dancing under purple and gold light'
+    - src: '/images/musicals/in-the-heights-2019/4.webp'
+      alt: 'A dancer in red at the club scene'
+    - src: '/images/musicals/in-the-heights-2019/5.webp'
+      alt: 'The cast celebrating outside the bodega'
+    - src: '/images/musicals/in-the-heights-2019/6.webp'
+      alt: 'Singers at the bodega counter'
+order: 11

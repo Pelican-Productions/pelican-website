@@ -1,13 +1,48 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { ContactPage } from '@/modules/contact';
-import { contactMeta } from '@/data/contact';
+import Band from '@/components/ui/Band.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import Section from '@/components/ui/Section.astro';
+import { ContactForm } from '@/modules/contact';
+import { inlineHtml } from '@/lib/content-text';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'contact');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const { band, form } = sections;
 ---
 
 <BaseLayout
-    title={contactMeta.title}
-    description={contactMeta.description}
-    active="contact"
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
 >
-    <ContactPage />
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+    />
+    {
+        band?.image && (
+            <Band
+                src={band.image.src}
+                alt={band.image.alt}
+            />
+        )
+    }
+    <Section>
+        {
+            form?.body?.map((p: string) => (
+                <p
+                    class="text-muted my-4"
+                    set:html={inlineHtml(p)}
+                />
+            ))
+        }
+        <ContactForm />
+    </Section>
 </BaseLayout>

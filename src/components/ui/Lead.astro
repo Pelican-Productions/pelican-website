@@ -1,0 +1,21 @@
+---
+import { cn } from '@/lib/cn';
+
+interface Props {
+    align?: 'left' | 'center' | undefined;
+
+    class?: string | undefined;
+}
+
+const { align = 'left', class: className } = Astro.props;
+---
+
+<p
+    class={cn(
+        'my-4 max-w-lead text-lead text-[var(--tone-lead)]',
+        align === 'center' && 'mx-auto text-center',
+        className,
+    )}
+>
+    <slot />
+</p>

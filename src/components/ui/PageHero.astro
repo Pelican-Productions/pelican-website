@@ -1,46 +1,230 @@
 ---
-import Container from '@/components/ui/Container.astro';
+import CtaRow, { type Cta } from '@/components/ui/CtaRow.astro';
 import Heading from '@/components/ui/Heading.astro';
-import MediaFrame from '@/components/ui/MediaFrame.astro';
+import Kicker from '@/components/ui/Kicker.astro';
 import { cn } from '@/lib/cn';
 
+type Variant = 'default' | 'classes' | 'camps' | 'singoz';
+
 interface Props {
-    title: string;
-    subtitle?: string;
-    image?: string;
-    class?: string;
+    /** h1 text; wrap words in ==equals== for a yellow <mark>. Or use the "heading" slot. */
+    heading?: string | undefined;
+
+    /** Intro paragraph. The default slot is rendered after it (extra copy, badges...). */
+    intro?: string | undefined;
+
+    kicker?: string | undefined;
+
+    ctas?: Cta[] | undefined;
+
+    /**
+     * Artwork on the right. default: flat line Pelican (white, blue wing, pink beak).
+     * classes / camps / singoz: the matching sub-brand logo (v56 .cls/.cmp/.sgz).
+     */
+    variant?: Variant | undefined;
+
+    /** Replace the artwork with any image (decorative, so alt is empty). */
+    image?: { src: string; width: number; height: number } | undefined;
+    /** Hide the dotted flight-path squiggle. */
+    flight?: boolean | undefined;
+
+    class?: string | undefined;
 }
 
-const { title, subtitle, image, class: className } = Astro.props;
+const {
+    heading,
+    intro,
+    kicker,
+    ctas = [],
+    variant = 'default',
+    image,
+    flight = true,
+    class: className,
+} = Astro.props;
+
+const art: Record<Variant, { src: string; width: number; height: number }> = {
+    default: { src: '/images/logo-light.svg', width: 240, height: 239 },
+    classes: {
+        src: '/images/pelican-logo-classes.png',
+        width: 364,
+        height: 232,
+    },
+    camps: { src: '/images/pelican-logo-camps.png', width: 364, height: 224 },
+    singoz: { src: '/images/pelican-logo-singoz.png', width: 364, height: 228 },
+};
+
+const artwork = image ?? art[variant];
+const line = !image && variant === 'default';
 ---
 
-<section class={cn('mt-12 md:mt-16', className)}>
-    <Container>
-        <div
-            class={cn(
-                'flex flex-col gap-8',
-                image && 'md:grid md:grid-cols-2 md:items-center md:gap-12',
-            )}
-        >
-            <div class="flex max-w-2xl flex-col gap-6">
-                <Heading as="h1" size="display">
-                    {title}
+<section
+    class={cn('hero-sub', !line && 'is-brand', className)}
+    data-tone="paper"
+>
+    {
+        flight && (
+            <svg
+                class="flight"
+                viewBox="0 0 520 240"
+                aria-hidden="true"
+                focusable="false"
+            >
+                <path d="M168 30 C 128 92, 26 104, 30 168 C 34 236, 176 236, 178 166 C 180 104, 64 112, 92 190 C 112 242, 224 242, 322 204" />
+            </svg>
+        )
+    }
+    <img
+        class="art"
+        src={artwork.src}
+        width={artwork.width}
+        height={artwork.height}
+        alt=""
+        aria-hidden="true"
+        decoding="async"
+    />
+    <div class="wrap">
+        {kicker && <Kicker>{kicker}</Kicker>}
+        {
+            heading ? (
+                <Heading
+                    as="h1"
+                    text={heading}
+                    class="text-[clamp(2.6rem,6vw,5rem)] leading-[1.02]"
+                />
+            ) : (
+                <Heading
+                    as="h1"
+                    class="text-[clamp(2.6rem,6vw,5rem)] leading-[1.02]"
+                >
+                    <slot name="heading" />
                 </Heading>
-                {
-                    subtitle && (
-                        <p class="text-body-lg m-0 max-w-xl">{subtitle}</p>
-                    )
-                }
-            </div>
-            {
-                image && (
-                    <MediaFrame
-                        src={image}
-                        alt=""
-                        class="min-h-[280px] md:min-h-[360px]"
-                    />
-                )
-            }
-        </div>
-    </Container>
+            )
+        }
+        {intro && <p class="intro">{intro}</p>}
+        <slot />
+        {ctas.length > 0 && <CtaRow ctas={ctas} />}
+    </div>
 </section>
+
+<style>
+    .hero-sub {
+        position: relative;
+        overflow: hidden;
+        padding: 84px 0 92px;
+        background:
+            radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1.6px) 0
+                0 / 22px 22px,
+            radial-gradient(
+                50% 70% at 88% 100%,
+                rgba(30, 40, 210, 0.55),
+                transparent 70%
+            ),
+            radial-gradient(
+                45% 60% at 8% 0%,
+                rgba(91, 216, 253, 0.16),
+                transparent 70%
+            ),
+            var(--color-navy);
+        color: #fff;
+    }
+
+    /* Keep copy clear of the artwork (v56: .hero.sub .wrap>*). */
+    @media (min-width: 901px) {
+        .wrap > :global(*) {
+            max-width: 62%;
+        }
+    }
+
+    .intro {
+        font-size: 1.15rem;
+        line-height: 1.6;
+        color: var(--color-peri);
+    }
+
+    .flight {
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        right: 180px;
+        width: min(360px, 28vw);
+        transform: translateY(-38%);
+        fill: none;
+        overflow: visible;
+        pointer-events: none;
+    }
+
+    .is-brand .flight {
+        right: 236px;
+        transform: translateY(-47%);
+    }
+
+    .flight path {
+        stroke: var(--color-ice);
+        stroke-width: 3;
+        stroke-dasharray: 2 14;
+        stroke-linecap: round;
+        opacity: 0.9;
+        animation: var(--animate-dash);
+    }
+
+    /* Sits under .wrap (z-index 1) so copy always paints over the artwork. */
+    .art {
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        right: 70px;
+        width: 240px;
+        height: auto;
+        transform: translateY(-50%) rotate(-4deg);
+        filter: drop-shadow(0 0 2px #fff)
+            drop-shadow(0 0 8px rgba(73, 196, 242, 0.6))
+            drop-shadow(0 0 5px rgba(255, 111, 159, 0.35));
+        pointer-events: none;
+    }
+
+    .is-brand .art {
+        width: 364px;
+        transform: translateY(-50%);
+        filter: none;
+    }
+
+    @media (max-width: 1200px) {
+        .is-brand .art {
+            width: 300px;
+        }
+
+        .is-brand .flight {
+            right: 212px;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .hero-sub {
+            padding: 72px 0 92px;
+        }
+
+        .art {
+            top: 20px;
+            right: 14px;
+            width: 92px;
+            transform: rotate(-4deg);
+            opacity: 0.55;
+        }
+
+        .is-brand .art {
+            width: 140px;
+            transform: none;
+            opacity: 0.6;
+        }
+
+        .flight {
+            display: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .flight path {
+            animation: none;
+        }
+    }
+</style>

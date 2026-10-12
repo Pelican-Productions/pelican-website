@@ -1,0 +1,26 @@
+title: "Disney's The Little Mermaid JR"
+year: 2019
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/mermaid-2019/cover.webp'
+        alt: ''
+    colors:
+        - '#0b0d24'
+        - '#ff4d6d'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/mermaid-2019/1.webp'
+      alt: 'Ursula seizes the trident, surrounded by her eels and the cast'
+    - src: '/images/musicals/mermaid-2019/2.webp'
+      alt: 'Sailors on deck with Prince Eric aboard the ship'
+    - src: '/images/musicals/mermaid-2019/3.webp'
+      alt: 'Ursula in her grand purple gown with Flotsam and Jetsam'
+    - src: '/images/musicals/mermaid-2019/4.webp'
+      alt: 'Sebastian and King Triton in the coral kingdom'
+    - src: '/images/musicals/mermaid-2019/5.webp'
+      alt: 'Ariel shows Flounder her latest treasure'
+    - src: '/images/musicals/mermaid-2019/6.webp'
+      alt: 'Ariel singing'
+order: 12

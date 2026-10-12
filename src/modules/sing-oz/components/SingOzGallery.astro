@@ -1,0 +1,44 @@
+---
+import { getEntry } from 'astro:content';
+import Gallery, { type GalleryImage } from '@/components/ui/Gallery.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+import { cn } from '@/lib/cn';
+import type { PageSection } from '../types';
+
+interface Props {
+    section: PageSection;
+    tone?: Tone | undefined;
+
+    /** stage: 4-up landscape (.sozgal). portrait: 3-up 4:5 (.solgal). */
+    layout?: 'stage' | 'portrait' | undefined;
+}
+
+const { section, tone = 'default', layout = 'stage' } = Astro.props;
+const gallery = section.gallery ? await getEntry(section.gallery) : undefined;
+const images = gallery?.data.images ?? section.images ?? [];
+// Object positions from the v56 .sozgal rules.
+const stagePositions = ['50% 100%', '50% 100%', '50% 0%', '50% 40%'];
+---
+
+<Section
+    id={section.id}
+    tone={tone}
+>
+    {section.heading && <Heading text={section.heading} />}
+    {section.lead && <Lead>{section.lead}</Lead>}
+    <Gallery
+        images={images.map((image: GalleryImage, i: number) => ({
+            ...image,
+            position:
+                image.position ??
+                (layout === 'stage' ? stagePositions[i] : '50% 40%'),
+        }))}
+        class={cn(
+            layout === 'stage' && 'md:grid-cols-4',
+            layout === 'portrait' &&
+                'md:grid-cols-3 [&_figure]:border-white [&_img]:aspect-[4/5] max-md:[&>figure:nth-child(3)]:col-span-full max-md:[&>figure:nth-child(3)_img]:aspect-[4/3]',
+        )}
+    />
+</Section>

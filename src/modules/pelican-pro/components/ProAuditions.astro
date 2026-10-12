@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import type { ContentSection } from '@/modules/programs';
+
+interface Props {
+    section: ContentSection;
+}
+
+const { section } = Astro.props;
+const dates = (await getCollection('keyDates')).sort(
+    (a, b) => a.data.order - b.data.order,
+);
+const columns = (section.items ?? []).map(item => ({
+    title: item.title,
+    dates: dates.filter(d =>
+        (d.data.lists as string[]).includes(item.id ?? ''),
+    ),
+}));
+---
+
+<Section
+    tone="navy"
+    id={section.id ?? 'auditions'}
+>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    <div class="mt-5 grid gap-10 md:grid-cols-2">
+        {
+            columns.map(col => (
+                <div>
+                    {col.title && (
+                        <h3 class="font-display mb-2.5 text-[1.32rem] leading-[1.02] font-extrabold text-white uppercase">
+                            {col.title}
+                        </h3>
+                    )}
+                    <ol class="mt-[18px] list-none p-0">
+                        {col.dates.map(d => (
+                            <li class="border-line-soft bg-card grid grid-cols-[96px_1fr] gap-x-[18px] border py-3.5 sm:grid-cols-[110px_1fr]">
+                                <span class="bg-cobalt block self-start text-white">
+                                    <b class="font-condensed block text-[2.1rem] leading-[0.95] font-normal">
+                                        {d.data.when}
+                                    </b>
+                                    <small class="font-mono text-[0.78rem] font-bold tracking-[0.12em]">
+                                        {d.data.sub}
+                                    </small>
+                                </span>
+                                <span class="block pr-3">
+                                    <strong class="font-ui block text-[1.15rem] leading-[1.7] font-medium text-white">
+                                        {d.data.title}
+                                    </strong>
+                                    {d.data.text && (
+                                        <span
+                                            class="text-lavender block"
+                                            set:html={inlineHtml(d.data.text)}
+                                        />
+                                    )}
+                                </span>
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+            ))
+        }
+    </div>
+    {
+        section.note && (
+            <p
+                class="text-lavender mt-[34px] mb-[15px] text-[0.95rem]"
+                set:html={inlineHtml(section.note)}
+            />
+        )
+    }
+    {section.ctas && <CtaRow ctas={section.ctas} />}
+</Section>

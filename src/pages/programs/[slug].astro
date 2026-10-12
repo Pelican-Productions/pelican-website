@@ -1,0 +1,47 @@
+---
+import { getCollection, getEntries, type CollectionEntry } from 'astro:content';
+import PageHero from '@/components/ui/PageHero.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { AgeGroups, ProgramSections } from '@/modules/programs';
+
+export const prerender = true;
+export async function getStaticPaths() {
+    const entries = await getCollection('programs');
+    return entries.map((entry: CollectionEntry<'programs'>) => ({
+        params: { slug: entry.id },
+        props: { entry },
+    }));
+}
+
+interface Props {
+    entry: CollectionEntry<'programs'>;
+}
+
+const { entry } = Astro.props;
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const offerings = await getEntries(entry.data.offerings);
+const teachers = (await getEntries(entry.data.teachers)).sort(
+    (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+>
+    <PageHero
+        heading={hero.heading}
+        {...hero.text ? { intro: hero.text } : {}}
+        ctas={hero.ctas}
+    />
+    <AgeGroups
+        offerings={offerings}
+        cta={hero.ctas[0]}
+    />
+    <ProgramSections
+        sections={sections}
+        teachers={teachers}
+    />
+</BaseLayout>

@@ -1,0 +1,63 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { newsletter } from '@/data/site';
+
+interface Props {
+    id?: string | undefined;
+}
+
+const { id = 'updates' } = Astro.props;
+---
+
+<section
+    class="news bg-navy text-lavender py-[84px]"
+    id={id}
+    aria-labelledby={`${id}-title`}
+>
+    <div class="wrap">
+        <h2
+            id={`${id}-title`}
+            class="font-condensed tracking-tightish mb-8 text-[clamp(2.6rem,7vw,4.6rem)] leading-[0.86] font-normal text-white uppercase"
+        >
+            {newsletter.heading}<br /><span class="text-yellow"
+                >{newsletter.headingAccent}</span
+            >
+        </h2>
+        <form
+            name="newsletter"
+            method="POST"
+            action={newsletter.action}
+            class="max-w-[720px]"
+        >
+            <p hidden>
+                <label
+                    >Leave blank <input
+                        name="bot"
+                        tabindex="-1"
+                        autocomplete="off"
+                    /></label
+                >
+            </p>
+            <label
+                class="sr-only"
+                for={`${id}-email`}
+                >Email address</label
+            >
+            <input
+                id={`${id}-email`}
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder={newsletter.placeholder}
+                class="rounded-btn border-field bg-navy placeholder:text-lavender/70 focus:border-lightblue block w-full border px-[22px] py-[18px] text-[1.1rem] text-white"
+            />
+            <Button
+                type="submit"
+                class="mt-[30px]"
+                shadow="navy"
+                >{newsletter.button}</Button
+            >
+        </form>
+    </div>
+</section>

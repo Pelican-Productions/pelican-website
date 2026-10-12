@@ -1,0 +1,53 @@
+---
+import Facts from '@/components/ui/Facts.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import type { PageSection } from '../types';
+import SingOzRecord from './SingOzRecord.astro';
+
+interface Props {
+    section: PageSection;
+}
+
+const { section } = Astro.props;
+const record = section.items?.[0];
+---
+
+<Section id={section.id}>
+    <div class="grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr]">
+        <div>
+            {section.heading && <Heading text={section.heading} />}
+            {
+                section.body?.map((p: string) => (
+                    <Lead>
+                        <Fragment set:html={inlineHtml(p)} />
+                    </Lead>
+                ))
+            }
+            {
+                section.facts && (
+                    <Facts
+                        items={section.facts.map(f => ({
+                            term: f.label,
+                            detail: inlineHtml(f.value),
+                        }))}
+                    />
+                )
+            }
+        </div>
+        {
+            record?.cta && record.title && (
+                <SingOzRecord
+                    href={record.cta.href}
+                    kicker={record.kicker}
+                    title={record.title}
+                    text={record.text}
+                    label={record.label}
+                    cta={record.cta.label}
+                />
+            )
+        }
+    </div>
+</Section>

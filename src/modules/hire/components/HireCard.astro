@@ -1,0 +1,98 @@
+---
+/**
+ * White card with a cobalt top rule (v56 .card on light sections). Renders as
+ * a link when `href` is set (hire overview), otherwise a static card (spaces,
+ * catalogue).
+ */
+import { cn } from '@/lib/cn';
+import { inlineHtml } from '@/lib/content-text';
+import type { HireItem } from '../types';
+
+interface Props {
+    item: HireItem;
+}
+
+const { item } = Astro.props;
+const href = item.cta?.href ?? item.href;
+const Tag = href ? 'a' : 'div';
+// Linked overview cards use the 4:3 .card crop; space and catalogue cards are
+// 16:10 (v56 .pic).
+const position = item.image?.position ?? (href ? '50% 22%' : undefined);
+---
+
+<Tag
+    href={href}
+    class={cn(
+        'group border-cobalt text-ink shadow-soft flex flex-col overflow-hidden border-t-4 bg-white no-underline',
+        href &&
+            'hover:shadow-lift transition-[transform,box-shadow] duration-150 hover:-translate-y-1',
+    )}
+>
+    {
+        item.image && (
+            <div
+                class={cn(
+                    'bg-navy relative overflow-hidden',
+                    href ? 'aspect-[4/3]' : 'aspect-[16/10]',
+                )}
+            >
+                <img
+                    src={item.image.src}
+                    alt={item.image.alt}
+                    width={item.image.width ?? 800}
+                    height={item.image.height ?? 600}
+                    loading="lazy"
+                    decoding="async"
+                    class="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    style={position ? { objectPosition: position } : undefined}
+                />
+                {item.tag && (
+                    <span class="border-yellow bg-navy/80 font-ui absolute bottom-3 left-3 rounded-[2px] border-l-4 px-[11px] pt-1.5 pb-[5px] text-[0.8rem] leading-none font-bold tracking-[0.1em] text-white uppercase">
+                        {item.tag}
+                    </span>
+                )}
+            </div>
+        )
+    }
+    <div class="flex flex-1 flex-col px-5 pt-4 pb-5">
+        {
+            item.title && (
+                <h3 class="font-display text-ink mb-[0.5em] text-[1.32rem] leading-[1.02] font-extrabold tracking-normal uppercase">
+                    {item.title}
+                </h3>
+            )
+        }
+        {
+            item.text && (
+                <p
+                    class="text-muted text-[1.02rem] leading-[1.7]"
+                    set:html={inlineHtml(item.text)}
+                />
+            )
+        }
+        {
+            item.list && (
+                <ul class="mt-2 list-none p-0">
+                    {item.list.map((entry: string) => (
+                        <li class="text-muted before:bg-hot relative py-[3px] pl-[22px] leading-[1.4] before:absolute before:top-[0.72em] before:left-0.5 before:size-2 before:content-['']">
+                            {entry}
+                        </li>
+                    ))}
+                </ul>
+            )
+        }
+        {
+            href && item.cta && (
+                <span class="font-ui text-cobalt mt-auto text-[0.95rem] font-bold">
+                    {item.cta.label}
+                    <span
+                        aria-hidden="true"
+                        class="ml-1 inline-block transition-transform group-hover:translate-x-1"
+                    >
+                        &rarr;
+                    </span>
+                </span>
+            )
+        }
+    </div>
+</Tag>

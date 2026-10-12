@@ -1,0 +1,14 @@
+title: 'Annie JR'
+year: 2018
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/annie-jr-2018.jpg'
+        alt: ''
+    colors:
+        - '#ff4d6d'
+        - '#ff8fa3'
+    credit: 'Pelican Productions'
+photos: []
+order: 13

@@ -1,0 +1,26 @@
+title: 'Heathers'
+year: 2024
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/heathers-2024/cover.webp'
+        alt: ''
+    colors:
+        - '#2f6bf2'
+        - '#5b7cff'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/heathers-2024/1.webp'
+      alt: 'The three Heathers on the catwalk above the cast'
+    - src: '/images/musicals/heathers-2024/2.webp'
+      alt: 'The full company at the party'
+    - src: '/images/musicals/heathers-2024/3.webp'
+      alt: 'The cast dancing with cafeteria trays'
+    - src: '/images/musicals/heathers-2024/4.webp'
+      alt: 'The Heathers under red and green light'
+    - src: '/images/musicals/heathers-2024/5.webp'
+      alt: 'The Heathers make their entrance'
+    - src: '/images/musicals/heathers-2024/6.webp'
+      alt: 'Two Heathers in full voice'
+order: 5

@@ -1,0 +1,166 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+
+export interface Quote {
+    text: string;
+    cite: string;
+}
+
+interface Props {
+    quotes: Quote[];
+    /** Section heading; *asterisks* mark highlights. Omit for a bare quote. */
+    heading?: string | undefined;
+
+    /** Accessible name for the section when there is no heading. */
+    label?: string | undefined;
+
+    tone?: Tone | undefined;
+
+    /** Milliseconds each quote stays up. */
+    interval?: number | undefined;
+
+    id?: string | undefined;
+}
+
+const {
+    quotes,
+    heading,
+    label = 'What families say',
+    tone = 'cobalt',
+    interval = 3000,
+    id,
+} = Astro.props;
+
+const rotating = quotes.length > 1;
+---
+
+<Section
+    tone={tone}
+    id={id}
+    aria-label={heading ? undefined : label}
+    class="text-center"
+>
+    {
+        heading && (
+            <Heading
+                text={heading}
+                align="center"
+            />
+        )
+    }
+    <div
+        class="qwrap mt-2.5 grid"
+        data-qrot={rotating ? String(interval) : undefined}
+        aria-live="off"
+    >
+        {
+            quotes.map((quote, i) => (
+                <blockquote
+                    class:list={['q', { on: i === 0 }]}
+                    aria-hidden={rotating && i !== 0 ? 'true' : undefined}
+                >
+                    <p class="font-script text-quote mx-auto mb-[18px] max-w-[674px] font-semibold text-white">
+                        {quote.text}
+                    </p>
+                    <cite class="block font-sans text-base font-medium tracking-[0.01em] text-white not-italic">
+                        {quote.cite}
+                    </cite>
+                </blockquote>
+            ))
+        }
+    </div>
+    {
+        rotating && (
+            <button
+                type="button"
+                class="rounded-btn font-ui mt-6 border border-white/60 px-3 py-1 text-sm text-white"
+                data-qrot-toggle
+                aria-pressed="false"
+            >
+                Pause quotes
+            </button>
+        )
+    }
+</Section>
+
+<style>
+    .q {
+        grid-area: 1 / 1;
+        margin: 0;
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+            opacity 0.35s,
+            transform 0.35s;
+        pointer-events: none;
+    }
+
+    .q.on {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.35s;
+        pointer-events: auto;
+    }
+</style>
+
+<script>
+    const timers = new Set<number>();
+
+    document.addEventListener('astro:before-swap', () => {
+        timers.forEach(t => window.clearInterval(t));
+        timers.clear();
+    });
+
+    document.addEventListener('astro:page-load', () => {
+        const reduce = window.matchMedia(
+            '(prefers-reduced-motion: reduce)',
+        ).matches;
+        document.querySelectorAll<HTMLElement>('[data-qrot]').forEach(wrap => {
+            const quotes = [...wrap.querySelectorAll<HTMLElement>('.q')];
+            if (quotes.length < 2) return;
+            const delay = Number(wrap.dataset.qrot) || 3000;
+            const button =
+                wrap.parentElement?.querySelector<HTMLButtonElement>(
+                    '[data-qrot-toggle]',
+                );
+            let index = 0;
+            let timer: number | undefined;
+
+            function show(next: number) {
+                quotes[index]?.classList.remove('on');
+                quotes[index]?.setAttribute('aria-hidden', 'true');
+                index = next;
+                quotes[index]?.classList.add('on');
+                quotes[index]?.removeAttribute('aria-hidden');
+            }
+            function start() {
+                timer = window.setInterval(
+                    () => show((index + 1) % quotes.length),
+                    delay,
+                );
+                timers.add(timer);
+            }
+            function stop() {
+                if (timer === undefined) return;
+                window.clearInterval(timer);
+                timers.delete(timer);
+                timer = undefined;
+            }
+
+            if (!reduce) start();
+            function syncButton() {
+                if (!button) return;
+                const paused = timer === undefined;
+                button.setAttribute('aria-pressed', String(paused));
+                button.textContent = paused ? 'Play quotes' : 'Pause quotes';
+            }
+            syncButton();
+            button?.addEventListener('click', () => {
+                if (timer === undefined) start();
+                else stop();
+                syncButton();
+            });
+        });
+    });
+</script>

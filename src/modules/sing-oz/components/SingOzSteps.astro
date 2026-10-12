@@ -1,0 +1,41 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+import type { PageSection } from '../types';
+
+interface Props {
+    section: PageSection;
+    tone?: Tone | undefined;
+}
+
+const { section, tone = 'sky' } = Astro.props;
+const items = section.items ?? [];
+---
+
+<Section
+    id={section.id}
+    tone={tone}
+>
+    {section.heading && <Heading text={section.heading} />}
+    <ol class="mt-5 grid list-none gap-x-12 p-0 md:grid-cols-2">
+        {
+            items.map(item => (
+                <li class="group grid grid-cols-[70px_1fr] gap-3.5 border-t-2 border-[var(--tone-rule)] py-[22px] last:border-b-2 md:[&:nth-last-child(2)]:border-b-2">
+                    <span class="font-condensed group-hover:text-pink text-[2.8rem] leading-[0.9] text-[var(--tone-heading)] transition-colors">
+                        {item.number}
+                    </span>
+                    <div>
+                        <h3 class="font-display mb-1 text-[1.1rem] leading-tight font-extrabold text-[var(--tone-heading)] uppercase">
+                            {item.title}
+                        </h3>
+                        {item.text && (
+                            <p class="m-0 text-[var(--tone-lead)]">
+                                {item.text}
+                            </p>
+                        )}
+                    </div>
+                </li>
+            ))
+        }
+    </ol>
+</Section>

@@ -1,0 +1,66 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import { site } from '@/data/site';
+import { HireSections } from '@/modules/hire';
+
+export const prerender = true;
+export async function getStaticPaths() {
+    const entries = await getCollection('hire');
+    return entries.map(entry => ({
+        params: { slug: entry.id },
+        props: { entry },
+    }));
+}
+
+interface Props {
+    entry: CollectionEntry<'hire'>;
+}
+
+const { entry } = Astro.props;
+const {
+    title,
+    description,
+    ogImage,
+    noindex,
+    name,
+    hero,
+    sections,
+    enquiryTopic,
+} = entry.data;
+
+const service = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    url: new URL(Astro.url.pathname, site.url).href,
+    areaServed: 'Adelaide, South Australia',
+    provider: {
+        '@type': 'EntertainmentBusiness',
+        name: site.name,
+        url: site.url,
+        address: { '@type': 'PostalAddress', ...site.address },
+    },
+};
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+    jsonLd={[service]}
+>
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+        variant="default"
+    />
+    <HireSections
+        sections={sections}
+        enquiryTopic={enquiryTopic}
+    />
+</BaseLayout>

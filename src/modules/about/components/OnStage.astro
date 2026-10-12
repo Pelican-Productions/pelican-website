@@ -1,0 +1,27 @@
+---
+import CtaRow, { type Cta } from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Props {
+    heading?: string | undefined;
+    lead?: string | undefined;
+    ctas?: Cta[] | undefined;
+}
+
+const { heading, lead, ctas = [] } = Astro.props;
+---
+
+<Section tone="paper">
+    {heading && <Heading text={heading} />}
+    {
+        lead && (
+            <Lead class="text-white">
+                <Fragment set:html={inlineHtml(lead)} />
+            </Lead>
+        )
+    }
+    {ctas.length > 0 && <CtaRow ctas={ctas} />}
+</Section>

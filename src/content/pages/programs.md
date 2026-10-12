@@ -1,35 +1,67 @@
 ---
-title: "Programs"
-description: "Pelican Productions offers academy classes, SMASH workshops, and community singing programs across music theatre, dance, and acting."
+title: 'Kids & Teen Drama, Dance & Singing Classes Adelaide | Pelican'
+description:
+    'Weekly musical theatre, acting, SMASH dance and singing classes for ages 5
+    to 18 at The Nest Studios, Lower Mitcham, Adelaide. See times, ages and
+    fees.'
+ogImage: '/images/share.jpg'
+path: '/programs/'
 hero:
-  title: "Programs"
-  subtitle: "Classes, academies, and workshops designed to build skills and confidence for performers of all ages."
-  image: "/images/programs-collage.png"
-gallery:
-  - src: "/images/programs-academy-banner.png"
-    alt: "Pelican Academy banner"
-  - src: "/images/programs-adult-banner.png"
-    alt: "Adult program banner"
-  - src: "/images/programs-acting.png"
-    alt: "Acting classes"
-  - src: "/images/programs-smash.png"
-    alt: "SMASH program"
+    heading: 'Weekly Classes'
+    text:
+        'Musical theatre, acting, dance and singing at The Nest Studios in
+        Mitcham. Use the class finder or the table below to find the right
+        class.'
+    ctas:
+        - label: 'Enrol now'
+          href: 'https://dancestudio-pro.com/online/pelicanproductions'
+sections:
+    compare:
+        id: 'which'
+        heading: 'Which class is right for me?'
+        lead:
+            'Or compare every weekly class at a glance. Tap a class for details.'
+        list:
+            - 'Class'
+            - 'Who'
+            - 'When'
+            - 'Length'
+            - 'Cost'
+        ctas:
+            - label: 'Find my class'
+              href: '#finder'
+              variant: 'ghost'
+            - label: 'Enrol now'
+              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+    where:
+        id: 'where'
+        heading: 'Find us at ==The Nest Studios=='
+        lead:
+            'All weekly classes are held at The Nest Studios, our heritage stone
+            chapel and studios in Lower Mitcham, with sprung dance floors.'
+        facts:
+            - label: 'Address'
+              value: 'The Nest Studios, 57A Price Avenue, Lower Mitcham SA'
+        ctas:
+            - label: 'Get directions'
+              href: 'https://www.google.com/maps/search/?api=1&query=The+Nest+Studios+57A+Price+Avenue+Lower+Mitcham+SA'
+        image:
+            src: '/images/nest/exterior-front.webp'
+            alt:
+                'The heritage stone building at The Nest Studios, Lower Mitcham'
+    band:
+        image:
+            src: '/images/stage/junior-chorus-blue.webp'
+            alt: 'Young Pelican performers singing together on stage'
+    faq:
+        id: 'faq'
+        heading: 'Parent ==questions=='
+    join:
+        heading: 'Ready to join the flock?'
+        ctas:
+            - label: 'Enrol now'
+              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+            - label: 'Ask a question'
+              href: 'mailto:ahoy@pelicanproductions.com.au?subject=Weekly%20Classes%3A%20Ask%20a%20question'
+              variant: 'ghost'
 ---
-Whether you are building your skills toward a professional career in the performing arts or simply wanting to have fun with friends in an inclusive and inspiring environment, we offer a class that is perfect for you.
-
-All classes are held at **The Nest**, 57A Price Avenue, Lower Mitcham. If you require further information about our programs please email us at [contact@pelicanproductions.com.au](mailto:contact@pelicanproductions.com.au).
-
-### Pelican Academy
-Select Friday and Saturday sessions for young performers aged 10–20 with training in dance, voice, and acting.
-
-### Vocal Academy
-Thursday evening vocal sessions for young performers aged 10–20 who want focused technique and performance development.
-
-### SMASH
-Saturday recreational dance for young performers aged 7–17 with a music theatre focus.
-
-### Acting Classes
-Drama and performance workshops that build confidence, storytelling, and stagecraft skills.
-
-### Sing!Oz Community Choir
-Recreational community singing workshops for adults who love to sing together.

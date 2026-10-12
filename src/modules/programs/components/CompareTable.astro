@@ -1,0 +1,48 @@
+---
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import Table from '@/components/ui/Table.astro';
+import { inlineHtml, plainText } from '@/lib/content-text';
+import type { ContentSection, Offering } from '../types';
+
+interface Props {
+    section: ContentSection;
+    /** Offerings with a `table` row, already sorted. */
+    offerings: Offering[];
+}
+
+const { section, offerings } = Astro.props;
+const rows = offerings.flatMap(o => {
+    const t = o.data.table;
+    return t
+        ? [
+              [
+                  { text: t.name, href: o.data.href },
+                  t.who,
+                  t.when,
+                  t.length,
+                  t.cost,
+              ],
+          ]
+        : [];
+});
+---
+
+<Section id={section.id}>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    <Table
+        columns={section.list ?? []}
+        rows={rows}
+        {...section.heading ? { caption: plainText(section.heading) } : {}}
+    />
+    {section.ctas && <CtaRow ctas={section.ctas} />}
+</Section>

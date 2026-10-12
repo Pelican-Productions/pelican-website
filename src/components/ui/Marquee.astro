@@ -1,0 +1,124 @@
+---
+interface Props {
+    items: string[];
+    /** Accessible name for the scrolling region. */
+    label: string;
+    /** Seconds per loop. */
+    duration?: number | undefined;
+}
+
+const { items, label, duration = 70 } = Astro.props;
+---
+
+<div
+    class="marquee"
+    role="region"
+    aria-label={label}
+    style={{ '--dur': `${duration}s` }}
+>
+    <div class="track">
+        {
+            items.map(item => (
+                <>
+                    <span>{item}</span>
+                    <span
+                        class="star"
+                        aria-hidden="true"
+                    >
+                        &#9733;
+                    </span>
+                </>
+            ))
+        }
+        {
+            items.map(item => (
+                <>
+                    <span
+                        class="dup"
+                        aria-hidden="true"
+                    >
+                        {item}
+                    </span>
+                    <span
+                        class="star dup"
+                        aria-hidden="true"
+                    >
+                        &#9733;
+                    </span>
+                </>
+            ))
+        }
+    </div>
+</div>
+
+<style>
+    .marquee {
+        position: relative;
+        overflow: hidden;
+        padding: 14px 0;
+        background: #000;
+        white-space: nowrap;
+    }
+
+    .marquee::before,
+    .marquee::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 10px;
+        background: radial-gradient(
+                circle,
+                var(--color-lightblue) 0 3px,
+                transparent 4px
+            )
+            0 0 / 20px 10px;
+        animation: var(--animate-bulbs);
+    }
+
+    .marquee::before {
+        top: 4px;
+    }
+
+    .marquee::after {
+        bottom: 4px;
+        animation-delay: 0.6s;
+    }
+
+    .track {
+        display: inline-flex;
+        width: max-content;
+        animation: tick var(--dur, 70s) linear infinite;
+    }
+
+    .marquee:hover .track,
+    .marquee:focus-within .track {
+        animation-play-state: paused;
+    }
+
+    span {
+        padding: 15px 0;
+        margin-right: 26px;
+        font: 700 1.1rem/1 var(--font-mono);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #fff;
+    }
+
+    .star {
+        color: var(--color-lightblue);
+        letter-spacing: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .marquee {
+            overflow-x: auto;
+        }
+        .track {
+            animation: none;
+        }
+        .dup {
+            display: none;
+        }
+    }
+</style>

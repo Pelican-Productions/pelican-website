@@ -1,30 +1,71 @@
 ---
-import Container from '@/components/ui/Container.astro';
-import Heading from '@/components/ui/Heading.astro';
+import type { HTMLAttributes } from 'astro/types';
 import { cn } from '@/lib/cn';
 
-interface Props {
-    title?: string;
-    subtitle?: string;
-    class?: string;
-    id?: string;
+export type Tone =
+    'default' | 'sky' | 'paper' | 'navy' | 'cobalt' | 'pink' | 'ice' | 'white';
+
+interface Props extends Pick<
+    HTMLAttributes<'section'>,
+    'aria-label' | 'aria-labelledby'
+> {
+    /**
+     * default: pale blue (#e6f6ff), dark ink text.   sky: deep blue (#0b1240).
+     * paper: page navy (#070a1f).   navy: indigo (#0e1646).
+     * Extras: cobalt (#2f6bf2), pink (watermelon feature block), ice (#8fdcfd,
+     * inverted mark), white.
+     */
+    tone?: Tone | undefined;
+
+    id?: string | undefined;
+    /** Wrap children in .wrap (default true). */
+    wrap?: boolean | undefined;
+
+    /** Vertical padding: md 80px (v56 .sec), lg 90px (.feat), at every width. */
+    space?: 'md' | 'lg' | 'none' | undefined;
+
+    class?: string | undefined;
+
+    wrapClass?: string | undefined;
+
+    /**
+     * Heading <mark> style. Marks are yellow-on-navy on every tone except ice;
+     * "invert" gives navy-on-yellow (v56 home .lane "performer?" band).
+     */
+    marks?: 'default' | 'invert' | undefined;
 }
 
-const { title, subtitle, class: className, id } = Astro.props;
+const {
+    tone = 'default',
+    id,
+    wrap = true,
+    space = 'md',
+    class: className,
+    wrapClass,
+    marks = 'default',
+    ...rest
+} = Astro.props;
 ---
 
-<section id={id} class={cn('mt-16 md:mt-20', className)}>
-    <Container>
-        {
-            (title || subtitle) && (
-                <div class="mb-8 flex max-w-3xl flex-col gap-4">
-                    {title && <Heading size="section">{title}</Heading>}
-                    {subtitle && (
-                        <p class="text-body-lg m-0 max-w-2xl">{subtitle}</p>
-                    )}
-                </div>
-            )
-        }
-        <slot />
-    </Container>
+<section
+    id={id}
+    data-tone={tone}
+    data-mark={marks === 'invert' ? 'invert' : undefined}
+    class={cn(
+        'relative scroll-mt-16 bg-[var(--tone-bg)] text-[var(--tone-text)]',
+        space === 'md' && 'py-20',
+        space === 'lg' && 'py-[90px]',
+        className,
+    )}
+    {...rest}
+>
+    {
+        wrap ? (
+            <div class={cn('wrap', wrapClass)}>
+                <slot />
+            </div>
+        ) : (
+            <slot />
+        )
+    }
 </section>

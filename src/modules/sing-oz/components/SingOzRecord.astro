@@ -1,0 +1,116 @@
+---
+/**
+ * The "record in a sleeve" graphic (v56 .record): a cobalt sleeve with a
+ * vinyl disc that slides out and spins on hover.
+ */
+interface Props {
+    href: string;
+    kicker?: string | undefined;
+    title: string;
+    text?: string | undefined;
+    /** Text on the disc label. */
+    label?: string | undefined;
+    cta: string;
+}
+
+const { href, kicker, title, text, label, cta } = Astro.props;
+---
+
+<div class="flex py-2.5">
+    <a
+        class="record"
+        href={href}
+    >
+        <span
+            class="disc"
+            aria-hidden="true"
+        >
+            {label && <span class="lab">{label}</span>}
+        </span>
+        <span
+            class="sleeve bg-cobalt-deep border-navy shadow-lift absolute inset-0 z-[2] flex flex-col border-2 px-[26px] py-7 text-white"
+        >
+            {
+                kicker && (
+                    <small class="font-mono text-[0.72rem] tracking-[0.18em] uppercase">
+                        {kicker}
+                    </small>
+                )
+            }
+            <b
+                class="font-condensed mt-auto text-[clamp(3rem,6vw,4.4rem)] leading-[0.9] font-normal"
+            >
+                {title}
+            </b>
+            {text && <em class="mt-1 mb-3.5 not-italic">{text}</em>}
+            <span class="font-ui font-bold">{cta}</span>
+        </span>
+    </a>
+</div>
+
+<style>
+    .record {
+        position: relative;
+        display: block;
+        width: min(330px, 72%);
+        aspect-ratio: 1;
+        margin-right: 28%;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .disc {
+        position: absolute;
+        z-index: 1;
+        top: 5%;
+        left: 5%;
+        width: 90%;
+        height: 90%;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: radial-gradient(circle, #2a2a2a 0 34%, #111 35% 100%);
+        box-shadow: 0 0 0 2px #000;
+        transform: translateX(30%);
+        transition: transform 0.6s ease;
+    }
+
+    .disc::after {
+        content: '';
+        position: absolute;
+        width: 6%;
+        height: 6%;
+        border-radius: 50%;
+        background: #fff;
+    }
+
+    .lab {
+        display: grid;
+        place-items: center;
+        width: 36%;
+        height: 36%;
+        border-radius: 50%;
+        background: var(--color-pink);
+        font-family: var(--font-condensed);
+        font-size: 1.1rem;
+        color: var(--color-navy);
+    }
+
+    .record:hover .disc,
+    .record:focus-visible .disc {
+        transform: translateX(48%) rotate(120deg);
+    }
+
+    @media (max-width: 700px) {
+        .record {
+            width: 70%;
+            margin-right: 30%;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .disc {
+            transition: none;
+        }
+    }
+</style>

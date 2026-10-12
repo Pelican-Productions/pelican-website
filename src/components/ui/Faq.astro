@@ -1,0 +1,37 @@
+---
+import { cn } from '@/lib/cn';
+
+export interface FaqItem {
+    question: string;
+    /** Answer HTML (trusted content: may include links/lists). */
+    answer: string;
+}
+
+interface Props {
+    items: FaqItem[];
+    class?: string | undefined;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<div class={cn('mt-[26px] max-w-[860px]', className)}>
+    {
+        items.map(item => (
+            <details class="group border-navy text-ink mb-3 border-2 bg-white shadow-[5px_5px_0_var(--color-navy)]">
+                <summary class="font-ui text-navy group-open:bg-yellow relative cursor-pointer list-none py-[18px] pr-[54px] pl-5 text-[1.08rem] leading-[1.7] font-extrabold [&::-webkit-details-marker]:hidden">
+                    {item.question}
+                    {/* v56: 1.7rem "+" that becomes a minus sign when open. */}
+                    <span
+                        aria-hidden="true"
+                        class="font-ui absolute top-1/2 right-5 -translate-y-1/2 text-[1.7rem] font-extrabold after:content-['+'] group-open:after:content-['\2212']"
+                    />
+                </summary>
+                <div
+                    class="text-muted [&_a]:text-cobalt px-5 pb-5 [&_a]:font-bold [&_p+p]:mt-3"
+                    set:html={item.answer}
+                />
+            </details>
+        ))
+    }
+</div>

@@ -1,0 +1,103 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Kicker from '@/components/ui/Kicker.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+import { cn } from '@/lib/cn';
+import { inlineHtml } from '@/lib/content-text';
+
+type Image = CollectionEntry<'trips'>['data']['photos'][number];
+type Cta = NonNullable<
+    CollectionEntry<'pages'>['data']['sections'][string]['ctas']
+>[number];
+
+interface Props {
+    tone?: Tone | undefined;
+    kicker?: string | undefined;
+    heading?: string | undefined;
+    lead?: string | undefined;
+    /** Paragraphs. Rendered as leads when `bodyAsLead`. */
+    body?: string[] | undefined;
+    bodyAsLead?: boolean | undefined;
+    ctas?: Cta[] | undefined;
+    image?: Image | undefined;
+    /** Portrait 4/5 figure with caption credit (West End) vs 3/2 pic. */
+    portrait?: boolean | undefined;
+}
+
+const {
+    tone = 'default',
+    kicker,
+    heading,
+    lead,
+    body = [],
+    bodyAsLead = false,
+    ctas,
+    image,
+    portrait = false,
+} = Astro.props;
+---
+
+<Section tone={tone}>
+    <div class="grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr]">
+        <div>
+            {kicker && <Kicker>{kicker}</Kicker>}
+            {heading && <Heading text={heading} />}
+            {
+                lead && (
+                    <Lead>
+                        <Fragment set:html={inlineHtml(lead)} />
+                    </Lead>
+                )
+            }
+            {
+                body.map(p =>
+                    bodyAsLead ? (
+                        <Lead>
+                            <Fragment set:html={inlineHtml(p)} />
+                        </Lead>
+                    ) : (
+                        <p
+                            class="mb-4 text-[var(--tone-body)]"
+                            set:html={inlineHtml(p)}
+                        />
+                    ),
+                )
+            }
+            {ctas && ctas.length > 0 && <CtaRow ctas={ctas} />}
+        </div>
+        {
+            image && (
+                <figure class="m-0">
+                    <img
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width ?? (portrait ? 800 : 900)}
+                        height={image.height ?? (portrait ? 1000 : 600)}
+                        loading="lazy"
+                        decoding="async"
+                        class={cn(
+                            'border-navy shadow-lift block w-full border-[3px] object-cover object-[50%_22%]',
+                            portrait
+                                ? 'aspect-[4/5] max-h-[560px]'
+                                : 'aspect-[3/2]',
+                        )}
+                        style={
+                            image.position
+                                ? { objectPosition: image.position }
+                                : undefined
+                        }
+                    />
+                    {image.caption && (
+                        <figcaption class="pt-2 text-[0.78rem] text-[var(--tone-body)]">
+                            {image.caption}
+                        </figcaption>
+                    )}
+                </figure>
+            )
+        }
+    </div>
+    <slot />
+</Section>

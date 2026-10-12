@@ -1,0 +1,26 @@
+title: "Disney's The Little Mermaid JR"
+year: 2014
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/mermaid-2014/cover.webp'
+        alt: ''
+    colors:
+        - '#0b0d24'
+        - '#ff4d6d'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/mermaid-2014/1.webp'
+      alt: 'Sebastian, a mersister, Scuttle and Flounder mid-jump'
+    - src: '/images/musicals/mermaid-2014/2.webp'
+      alt: 'The mersisters and Flounder react as Scuttle flaps past'
+    - src: '/images/musicals/mermaid-2014/3.webp'
+      alt: 'Ariel and Sebastian'
+    - src: '/images/musicals/mermaid-2014/4.webp'
+      alt: 'Ariel and Prince Eric'
+    - src: '/images/musicals/mermaid-2014/5.webp'
+      alt: 'Scuttle leaping in a feathered costume'
+    - src: '/images/musicals/mermaid-2014/6.webp'
+      alt: 'Three cast members in character portraits'
+order: 18

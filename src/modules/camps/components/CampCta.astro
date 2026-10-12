@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import { inlineHtml } from '@/lib/content-text';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+
+type PageSection = CollectionEntry<'pages'>['data']['sections'][string];
+
+interface Props {
+    section: PageSection;
+    tone?: Tone | undefined;
+}
+
+const { section, tone = 'default' } = Astro.props;
+---
+
+<Section
+    tone={tone}
+    id={section.id}
+    wrapClass="text-center"
+>
+    {
+        section.heading && (
+            <Heading
+                text={section.heading}
+                align="center"
+            />
+        )
+    }
+    {
+        section.lead && (
+            <Lead align="center">
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    {
+        section.ctas && (
+            <CtaRow
+                ctas={section.ctas}
+                align="center"
+            />
+        )
+    }
+</Section>

@@ -1,1 +1,1 @@
-export { default as ContactPage } from './components/ContactPage.astro';
+export { default as ContactForm } from './components/ContactForm.astro';

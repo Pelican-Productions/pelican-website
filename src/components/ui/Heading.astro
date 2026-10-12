@@ -1,57 +1,74 @@
 ---
 import { cn } from '@/lib/cn';
-
-type HeadingTag = 'h1' | 'h2' | 'h3';
-type HeadingSize = 'hero' | 'display' | 'section' | 'card' | 'small';
+import { inlineHtml } from '@/lib/content-text';
 
 interface Props {
-    as?: HeadingTag;
-    size?: HeadingSize;
-    accent?: boolean;
-    text?: string;
-    class?: string;
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | undefined;
+
+    /** Visual size, independent of level. Defaults to match the level. */
+    size?: 'hero' | 'h2' | 'h3' | 'h4' | undefined;
+
+    /**
+     * Content string (see src/lib/content-text.ts): ==word== becomes a <mark>,
+     * e.g. "Follow the ==flock==". Alternatively pass children with <mark>.
+     */
+    text?: string | undefined;
+
+    align?: 'left' | 'center' | undefined;
+
+    id?: string | undefined;
+
+    /**
+     * A custom size (text-[...]) replaces the size token and its line-height;
+     * h1-h3 then fall back to the base 1.02. Pass leading-* to change that.
+     */
+    class?: string | undefined;
 }
 
 const {
     as: Tag = 'h2',
-    size = 'section',
-    accent = false,
+    size,
     text,
+    align = 'left',
+    id,
     class: className,
-}: Props = Astro.props;
+} = Astro.props;
 
-const sizes: Record<HeadingSize, string> = {
-    hero: 'text-[clamp(3rem,12vw,189px)] leading-[0.94]',
-    display: 'text-[clamp(2.5rem,8vw,96px)] leading-[0.95]',
-    section: 'text-[clamp(2rem,6vw,96px)] leading-[0.95]',
-    card: 'text-[clamp(1.75rem,4vw,48px)] leading-none',
-    small: 'text-[clamp(1.5rem,3vw,32px)] leading-none',
+const resolved = size ?? (Tag === 'h1' ? 'hero' : Tag);
+
+const sizes: Record<string, string> = {
+    hero: 'text-hero mb-[0.5em]',
+    h2: 'text-h2 mb-[0.45em] uppercase',
+    h3: 'text-[1.7rem] leading-[1.1] mb-3 uppercase',
+    h4: 'text-[1.25rem] leading-[1.2] mb-2',
 };
 
-function splitAccent(value: string): { lead: string; accent: string } {
-    const trimmed = value.trim();
-    const lastSpace = trimmed.lastIndexOf(' ');
-    if (lastSpace === -1) {
-        return { lead: '', accent: trimmed };
-    }
-    return {
-        lead: trimmed.slice(0, lastSpace + 1),
-        accent: trimmed.slice(lastSpace + 1),
-    };
-}
-
-const parts = accent && text ? splitAccent(text) : null;
+const html = text ? inlineHtml(text) : undefined;
 ---
 
-<Tag class={cn('font-display m-0 text-balance', sizes[size], className)}>
-    {
-        parts ? (
-            <>
-                {parts.lead}
-                <span class="text-cobalt">{parts.accent}</span>
-            </>
-        ) : (
+{
+    html ? (
+        <Tag
+            id={id}
+            class={cn(
+                'font-display tracking-tightish font-extrabold text-[var(--tone-heading)]',
+                sizes[resolved],
+                align === 'center' && 'text-center',
+                className,
+            )}
+            set:html={html}
+        />
+    ) : (
+        <Tag
+            id={id}
+            class={cn(
+                'font-display tracking-tightish font-extrabold text-[var(--tone-heading)]',
+                sizes[resolved],
+                align === 'center' && 'text-center',
+                className,
+            )}
+        >
             <slot />
-        )
-    }
-</Tag>
+        </Tag>
+    )
+}

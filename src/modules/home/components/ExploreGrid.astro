@@ -1,0 +1,85 @@
+---
+import Grid from '@/components/ui/Grid.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+
+interface ExploreItem {
+    tag?: string | undefined;
+    text?: string | undefined;
+    cta?: { label: string; href: string } | undefined;
+    image?:
+        { src: string; alt: string; position?: string | undefined } | undefined;
+}
+
+interface Props {
+    id?: string | undefined;
+    heading?: string | undefined;
+    lead?: string | undefined;
+    items: ExploreItem[];
+}
+
+const { id, heading, lead, items } = Astro.props;
+---
+
+<Section
+    tone="sky"
+    id={id}
+>
+    {heading && <Heading text={heading} />}
+    {lead && <Lead>{lead}</Lead>}
+    <Grid
+        cols={3}
+        class="mt-9"
+    >
+        {
+            items.map(item => (
+                <a
+                    href={item.cta?.href}
+                    class="group rounded-card bg-card text-peri shadow-soft hover:shadow-lift flex flex-col overflow-hidden no-underline transition-[transform,box-shadow] duration-150 hover:-translate-y-1"
+                >
+                    <div class="bg-navy relative aspect-[4/3] overflow-hidden">
+                        {item.image && (
+                            <img
+                                src={item.image.src}
+                                alt={item.image.alt}
+                                width="800"
+                                height="600"
+                                loading="lazy"
+                                decoding="async"
+                                class="size-full object-cover object-[50%_22%] transition-transform duration-500 group-hover:scale-[1.03]"
+                                style={
+                                    item.image.position
+                                        ? {
+                                              objectPosition:
+                                                  item.image.position,
+                                          }
+                                        : undefined
+                                }
+                            />
+                        )}
+                        {item.tag && (
+                            <h3 class="border-yellow bg-navy/80 font-ui absolute bottom-3 left-3 rounded-[2px] border-l-4 px-[11px] pt-1.5 pb-[5px] text-[0.8rem] leading-none font-bold tracking-[0.1em] text-white uppercase">
+                                {item.tag}
+                            </h3>
+                        )}
+                    </div>
+                    <div class="flex flex-1 flex-col px-5 pt-4 pb-5">
+                        {item.text && <p class="mb-3 flex-1">{item.text}</p>}
+                        {item.cta && (
+                            <span class="font-ui text-glow mt-auto text-[0.95rem] font-bold">
+                                {item.cta.label}
+                                <span
+                                    aria-hidden="true"
+                                    class="ml-1 inline-block transition-transform group-hover:translate-x-1"
+                                >
+                                    &rarr;
+                                </span>
+                            </span>
+                        )}
+                    </div>
+                </a>
+            ))
+        }
+    </Grid>
+</Section>

@@ -1,31 +1,104 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Band from '@/components/ui/Band.astro';
+import QuoteRotator from '@/components/ui/QuoteRotator.astro';
+import Ticker from '@/components/ui/Ticker.astro';
 import {
-    HomeAbout,
-    HomeCamps,
+    AgeLanes,
+    CommunityFeature,
+    ExploreGrid,
+    FollowFlock,
     HomeHero,
-    HomePrograms,
-    HomeShows,
-    HomeSingOz,
-    HomeStats,
-    HomeTicker,
-    HomeWhatsOn,
+    Journey,
+    KeyDates,
+    Vouchers,
 } from '@/modules/home';
-import { homeMeta } from '@/data/home';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'home');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections: s } = entry.data;
+
+function byOrder<T extends { data: { order: number } }>(a: T, b: T): number {
+    return a.data.order - b.data.order;
+}
+const news = (await getCollection('announcements'))
+    .sort(byOrder)
+    .map(a => a.data.text);
+const quotes = (
+    await getCollection('testimonials', t => t.data.pages.includes('home'))
+)
+    .sort(byOrder)
+    .map(t => ({
+        text: `“${t.data.quote}”`,
+        cite: t.data.cite,
+    }));
 ---
 
 <BaseLayout
-    title={homeMeta.title}
-    description={homeMeta.description}
-    active=""
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
 >
-    <HomeHero />
-    <HomeTicker />
-    <HomeWhatsOn />
-    <HomeStats />
-    <HomePrograms />
-    <HomeCamps />
-    <HomeShows />
-    <HomeSingOz />
-    <HomeAbout />
+    <HomeHero
+        heading={hero.heading}
+        text={hero.text}
+        ctas={hero.ctas}
+        image={hero.image}
+        sticker={hero.sticker}
+    />
+    <Ticker items={news} />
+    <Journey
+        heading={s.journey?.heading}
+        lead={s.journey?.lead}
+        items={s.journey?.items ?? []}
+    />
+    <AgeLanes
+        heading={s.ages?.heading}
+        lead={s.ages?.lead}
+        items={s.ages?.items ?? []}
+    />
+    {
+        s.band?.image && (
+            <Band
+                src={s.band.image.src}
+                alt={s.band.image.alt}
+                position={s.band.image.position}
+                width={1600}
+                height={761}
+            />
+        )
+    }
+    <ExploreGrid
+        id={s.explore?.id}
+        heading={s.explore?.heading}
+        lead={s.explore?.lead}
+        items={s.explore?.items ?? []}
+    />
+    <KeyDates
+        heading={s.keyDates?.heading}
+        lead={s.keyDates?.lead}
+    />
+    <QuoteRotator
+        quotes={quotes}
+        heading={s.testimonials?.heading}
+        label="What our members say"
+    />
+    <CommunityFeature
+        feature={s.feature}
+        community={s.community}
+    />
+    <Vouchers
+        heading={s.vouchers?.heading}
+        body={s.vouchers?.body}
+        image={s.vouchers?.image}
+        ctas={s.vouchers?.ctas}
+    />
+    <FollowFlock
+        heading={s.social?.heading}
+        lead={s.social?.lead}
+    />
 </BaseLayout>

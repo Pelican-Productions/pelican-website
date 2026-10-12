@@ -1,0 +1,14 @@
+title: 'Frozen JR'
+year: 2023
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/frozen-jr-2023.webp'
+        alt: ''
+    colors:
+        - '#0b0d24'
+        - '#2f6bf2'
+    credit: 'Pelican Productions'
+photos: []
+order: 8

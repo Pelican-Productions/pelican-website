@@ -1,0 +1,15 @@
+title: 'Bring It On (return season)'
+year: 2018
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/bring-it-on-2017/3.webp'
+        alt: ''
+        position: '50% 40%'
+    colors:
+        - '#0b0d24'
+        - '#2f6bf2'
+    credit: 'Pelican Productions'
+photos: []
+order: 14

@@ -1,0 +1,28 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import { ContactForm } from '@/modules/contact';
+import type { HireSection } from '../types';
+
+interface Props {
+    section: HireSection;
+    /** Contact form topic to preselect. */
+    topic: string;
+}
+
+const { section, topic } = Astro.props;
+---
+
+<Section id={section.id ?? 'enquire'}>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.body?.map((p: string) => (
+            <p
+                class="mb-5 max-w-[60ch] text-[var(--tone-lead)] [&_a]:font-bold [&_a]:text-[var(--tone-link)]"
+                set:html={inlineHtml(p)}
+            />
+        ))
+    }
+    <ContactForm topic={topic} />
+</Section>

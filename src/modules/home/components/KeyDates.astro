@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+
+interface Props {
+    heading?: string | undefined;
+    lead?: string | undefined;
+    /** Which keyDates list to show. */
+    list?: 'home' | 'cert-iv-auditions' | 'diploma-auditions' | undefined;
+}
+
+const { heading, lead, list = 'home' } = Astro.props;
+
+const dates = (await getCollection('keyDates'))
+    .filter(d => d.data.lists.includes(list))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(d => d.data);
+---
+
+<Section
+    tone="ice"
+    marks="invert"
+>
+    {heading && <Heading text={heading} />}
+    {lead && <Lead>{lead}</Lead>}
+    <ol class="rounded-card mt-[18px] overflow-hidden bg-white">
+        {
+            dates.map(date => {
+                const Tag = date.href ? 'a' : 'div';
+                return (
+                    <li>
+                        <Tag
+                            href={date.href}
+                            class="text-ink group hover:bg-pale grid grid-cols-[96px_1fr] items-center gap-x-[14px] py-[18px] pr-2.5 no-underline sm:grid-cols-[150px_1fr_30px] sm:gap-x-6"
+                        >
+                            <span class="bg-cobalt block self-center text-white">
+                                <b class="font-condensed block text-[clamp(1.4rem,3vw,2.1rem)] leading-[0.95] font-normal">
+                                    {date.when}
+                                </b>
+                                <small class="font-mono text-[0.78rem] font-bold tracking-[0.12em]">
+                                    {date.sub}
+                                </small>
+                            </span>
+                            <span>
+                                <strong class="block text-[1.15rem] leading-[1.7] font-medium">
+                                    {date.title}
+                                    {date.status && (
+                                        <span class="bg-pink text-ink ml-2 inline-block px-[11px] pt-1.5 pb-[5px] align-middle text-[0.72rem] leading-[1.1] font-bold tracking-[0.02em]">
+                                            {date.status}
+                                        </span>
+                                    )}
+                                </strong>
+                                {date.text && (
+                                    <span class="block">{date.text}</span>
+                                )}
+                            </span>
+                            {date.href && (
+                                <span
+                                    class="hidden text-[1.4rem] transition-transform group-hover:translate-x-1 sm:block"
+                                    aria-hidden="true"
+                                >
+                                    &rarr;
+                                </span>
+                            )}
+                        </Tag>
+                    </li>
+                );
+            })
+        }
+    </ol>
+</Section>

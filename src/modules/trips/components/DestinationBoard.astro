@@ -1,0 +1,54 @@
+---
+interface Props {
+    destinations: string[];
+    /** Accessible name for the region, e.g. "Europe 2028 destinations". */
+    label: string;
+}
+
+const { destinations, label } = Astro.props;
+---
+
+<div
+    class="border-lightblue overflow-hidden border-y-[3px] bg-black whitespace-nowrap"
+    role="region"
+    aria-label={label}
+>
+    <div class="board-track inline-flex w-max items-center">
+        {
+            [false, true].map(hidden =>
+                destinations.map(place => (
+                    <>
+                        <span
+                            class="text-lightblue mr-[26px] py-[15px] font-mono text-[1.1rem] font-bold tracking-[0.2em] uppercase"
+                            aria-hidden={hidden ? 'true' : undefined}
+                        >
+                            {place}
+                        </span>
+                        <span
+                            class="text-pink mr-[26px] py-[15px] font-mono text-[1.1rem]"
+                            aria-hidden="true"
+                        >
+                            &#9992;&#xFE0E;
+                        </span>
+                    </>
+                )),
+            )
+        }
+    </div>
+</div>
+
+<style>
+    .board-track {
+        animation: board-tick 70s linear infinite;
+    }
+    @keyframes board-tick {
+        to {
+            transform: translateX(-50%);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .board-track {
+            animation: none;
+        }
+    }
+</style>

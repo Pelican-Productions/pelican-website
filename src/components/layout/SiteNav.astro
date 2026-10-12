@@ -1,0 +1,259 @@
+---
+import { nav, site } from '@/data/site';
+
+interface Props {
+    /** Top-level nav key to mark as the current section. */
+    active?: string | undefined;
+}
+
+const { active } = Astro.props;
+
+const here = Astro.url.pathname.endsWith('/')
+    ? Astro.url.pathname
+    : `${Astro.url.pathname}/`;
+
+/** aria-current="page" for an exact match, "true" for the current section. */
+function current(
+    href: string,
+    isSection: boolean,
+): 'page' | 'true' | undefined {
+    if (!href.includes('#') && href === here) return 'page';
+    if (isSection) return 'true';
+    return undefined;
+}
+---
+
+<div
+    class="navbar"
+    data-navbar
+>
+    <div class="wrap flex items-center">
+        <nav
+            id="nav"
+            aria-label="Main"
+        >
+            <ul class="top-list">
+                {
+                    nav.map(item => {
+                        const isSection = item.key === active;
+                        return (
+                            <li
+                                class:list={['top-item', item.children && 'dd']}
+                            >
+                                <a
+                                    href={item.href}
+                                    class="top-link"
+                                    aria-current={current(item.href, isSection)}
+                                >
+                                    {item.label}
+                                </a>
+                                {item.children && (
+                                    <ul class="sub">
+                                        {item.children.map(child => (
+                                            <li>
+                                                <a
+                                                    href={child.href}
+                                                    aria-current={current(
+                                                        child.href,
+                                                        false,
+                                                    )}
+                                                >
+                                                    {child.label}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+        </nav>
+        <a
+            class="nav-enrol"
+            href={site.enrolUrl}
+            target="_blank"
+            rel="noopener"
+            >Enrol now</a
+        >
+    </div>
+</div>
+
+<style>
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 80;
+        background: var(--color-navy);
+        border-bottom: 1px solid var(--color-line);
+    }
+
+    .top-list {
+        display: flex;
+        margin: 0 -16px;
+    }
+
+    .top-item {
+        position: relative;
+    }
+
+    a {
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        font-family: var(--font-ui);
+        font-weight: 600;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        letter-spacing: var(--tracking-nav);
+        text-transform: uppercase;
+    }
+
+    .top-link {
+        position: relative;
+        padding: 17px 16px 15px;
+        line-height: 24px;
+        white-space: nowrap;
+    }
+
+    .top-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 6px;
+        background: var(--color-pink);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.15s;
+    }
+
+    .top-link:hover::after,
+    .top-item:focus-within > .top-link::after {
+        transform: scaleY(0.4);
+    }
+
+    .top-link[aria-current]::after {
+        transform: scaleY(1);
+    }
+
+    .sub {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 90;
+        min-width: 260px;
+        flex-direction: column;
+        gap: 2px;
+        padding: 6px;
+        background: var(--color-navy);
+        border: 4px solid var(--color-lightblue);
+        box-shadow: var(--shadow-drop);
+    }
+
+    .sub a {
+        padding: 12px 16px;
+        line-height: 1.7;
+    }
+
+    .sub a:hover,
+    .sub a:focus-visible {
+        background: var(--color-pink);
+    }
+
+    .sub a[aria-current='page'] {
+        border-bottom: 2px solid var(--color-watermelon);
+    }
+
+    .dd:hover > .sub,
+    .dd:focus-within > .sub {
+        display: flex;
+    }
+
+    /* Shown once the header scrolls away; fills the sticky bar like v56. */
+    .nav-enrol {
+        display: none;
+        margin-left: auto;
+        padding: 15px 28px;
+        line-height: 1.7;
+        background: var(--color-hot);
+        white-space: nowrap;
+    }
+
+    :global(html[data-scrolled]) .nav-enrol {
+        display: inline-block;
+    }
+
+    @media (width < 56.25rem) {
+        .navbar {
+            display: none;
+            position: fixed;
+            inset: var(--header-h, 72px) 0 0 0;
+            z-index: 95;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            border: 0;
+        }
+
+        :global(html[data-nav-open]) .navbar {
+            display: block;
+        }
+
+        .top-list {
+            flex-direction: column;
+            margin: 0;
+            padding: 10px 0 120px;
+        }
+
+        .top-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .top-link {
+            padding: 16px 4px 12px;
+            line-height: 1.7;
+        }
+
+        .top-link::after {
+            display: none;
+        }
+
+        .top-link[aria-current] {
+            border-bottom: 2px solid var(--color-watermelon);
+        }
+
+        .sub,
+        .dd:hover > .sub,
+        .dd:focus-within > .sub {
+            display: flex;
+            position: static;
+            min-width: 0;
+            gap: 0;
+            padding: 0 0 12px 14px;
+            border: 0;
+            box-shadow: none;
+            background: none;
+        }
+
+        .sub a {
+            padding: 8px 4px;
+            line-height: 1.7;
+            color: #fff;
+        }
+
+        .sub a:hover,
+        .sub a:focus-visible,
+        .sub a[aria-current='page'] {
+            background: none;
+            color: var(--color-lightblue);
+        }
+
+        .nav-enrol,
+        :global(html[data-scrolled]) .nav-enrol {
+            display: none;
+        }
+    }
+</style>

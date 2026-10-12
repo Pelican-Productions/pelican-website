@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Props {
+    show: CollectionEntry<'productions'>;
+}
+
+const { title, year, heading, lead, anchor, photos } = Astro.props.show.data;
+---
+
+<Section
+    tone="paper"
+    id={anchor}
+>
+    <Heading>
+        <Fragment set:html={inlineHtml(heading ?? title)} />
+        <small class="ml-1 align-middle text-[0.45em] text-[var(--tone-lead)]">
+            {year}
+        </small>
+    </Heading>
+    {
+        lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(lead)} />
+            </Lead>
+        )
+    }
+    <div class="mt-[26px] flex flex-wrap justify-center gap-3.5">
+        {
+            photos.map(photo => (
+                <figure class="border-navy shadow-soft m-0 aspect-[4/5] basis-[calc(50%-7px)] overflow-hidden border-2 min-[561px]:basis-[calc(33.33%-9.4px)] min-[901px]:basis-[calc(25%-10.5px)]">
+                    <img
+                        src={photo.src}
+                        alt={photo.alt}
+                        width={photo.width ?? 640}
+                        height={photo.height ?? 800}
+                        loading="lazy"
+                        decoding="async"
+                        class="block size-full object-cover"
+                        style={
+                            photo.position
+                                ? { objectPosition: photo.position }
+                                : undefined
+                        }
+                    />
+                </figure>
+            ))
+        }
+    </div>
+</Section>

@@ -1,0 +1,39 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Button from '@/components/ui/Button.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+
+interface Props {
+    camp: CollectionEntry<'camps'>;
+    /** Booking button label (from page content). */
+    ctaLabel: string;
+}
+
+const { camp, ctaLabel } = Astro.props;
+const { name, image, bookingUrl } = camp.data;
+const { Content } = await render(camp);
+---
+
+<Section
+    id={camp.id}
+    wrapClass="grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr]"
+>
+    <div>
+        <Heading text={name} />
+        <div class="mb-6 text-[var(--tone-body)] [&_p]:mb-4">
+            <Content />
+        </div>
+        <Button href={bookingUrl}>{ctaLabel}</Button>
+    </div>
+    <img
+        src={image.src}
+        alt={image.alt}
+        width={image.width ?? 900}
+        height={image.height ?? 600}
+        loading="lazy"
+        decoding="async"
+        class="border-navy shadow-lift aspect-[3/2] w-full border-[3px] object-cover object-[50%_22%]"
+        style={image.position ? { objectPosition: image.position } : undefined}
+    />
+</Section>

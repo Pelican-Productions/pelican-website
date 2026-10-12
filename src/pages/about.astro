@@ -1,23 +1,127 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Band from '@/components/ui/Band.astro';
+import PageHero from '@/components/ui/PageHero.astro';
 import {
-    AboutCtas,
-    AboutDirectors,
-    AboutHero,
-    AboutStory,
-    AboutValues,
+    Alumni,
+    DirectorBios,
+    DirectorsIntro,
+    Numbers,
+    OnStage,
+    Stories,
+    Vision,
 } from '@/modules/about';
-import { aboutMeta } from '@/data/about';
+import { site } from '@/data/site';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'about');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections: s } = entry.data;
+
+const directors = (
+    await getCollection(
+        'people',
+        p => p.data.roles.includes('director') && !!p.data.director,
+    )
+).sort((a, b) => a.data.order - b.data.order);
+
+const bios = directors.map(p => ({
+    name: p.data.name,
+    image: p.data.image,
+    kicker: p.data.director?.kicker,
+    quals: p.data.director?.quals,
+    bio: p.data.director?.bio ?? [],
+}));
+
+const jsonLd = directors.map(p => ({
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: p.data.name,
+    jobTitle: p.data.director?.kicker,
+    ...(p.data.image && {
+        image: new URL(p.data.image.src, site.url).href,
+    }),
+    worksFor: { '@type': 'Organization', name: site.name, url: site.url },
+}));
+
+const stats = (s.numbers?.items ?? []).map(i => ({
+    value: i.value ?? '',
+    label: i.label ?? '',
+}));
 ---
 
 <BaseLayout
-    title={aboutMeta.title}
-    description={aboutMeta.description}
-    active="about"
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+    jsonLd={jsonLd}
 >
-    <AboutHero />
-    <AboutStory />
-    <AboutValues />
-    <AboutDirectors />
-    <AboutCtas />
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+    />
+    <DirectorsIntro
+        heading={s.directors?.heading}
+        body={s.directors?.body}
+        image={s.directors?.image}
+    />
+    <DirectorBios people={bios} />
+    {
+        s.band?.image && (
+            <Band
+                src={s.band.image.src}
+                alt={s.band.image.alt}
+                position={s.band.image.position}
+                width={1400}
+                height={781}
+            />
+        )
+    }
+    <Vision
+        kicker={s.vision?.kicker}
+        quote={s.vision?.quote}
+        lead={s.vision?.lead}
+    />
+    <Stories
+        heading={s.beliefs?.heading}
+        items={s.beliefs?.items}
+    />
+    <Numbers
+        heading={s.numbers?.heading}
+        items={stats}
+    />
+    <OnStage
+        heading={s.onStage?.heading}
+        lead={s.onStage?.lead}
+        ctas={s.onStage?.ctas}
+    />
+    <Alumni
+        id={s.alumni?.id}
+        kicker={s.alumni?.kicker}
+        heading={s.alumni?.heading}
+        lead={s.alumni?.lead}
+        items={s.alumni?.items}
+        castIn={s.castIn}
+    />
+    <Stories
+        heading={s.friends?.heading}
+        lead={s.friends?.lead}
+        quote={s.friends?.quote}
+        items={s.friends?.items}
+    />
+    {
+        s.closingBand?.image && (
+            <Band
+                src={s.closingBand.image.src}
+                alt={s.closingBand.image.alt}
+                position={s.closingBand.image.position}
+                width={1600}
+                height={788}
+            />
+        )
+    }
 </BaseLayout>

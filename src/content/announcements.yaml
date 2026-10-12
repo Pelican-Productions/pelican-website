@@ -1,0 +1,20 @@
+- id: 'camps-2027'
+  text: 'Music Theatre Camp & Spotlight 2027 bookings open.'
+  alt: false
+  order: 1
+- id: 'diploma-2027'
+  text: 'Diploma of Musical Theatre launches 2027.'
+  alt: true
+  order: 2
+- id: 'nest-enrolling'
+  text: 'Classes at The Nest Studios now enrolling.'
+  alt: false
+  order: 3
+- id: 'europe-2028'
+  text: 'Europe 2028 tour announced.'
+  alt: true
+  order: 4
+- id: 'sing-oz-waitlist'
+  text: 'Sing!OZ 2027 waitlist open.'
+  alt: false
+  order: 5

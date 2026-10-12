@@ -1,5 +1,7 @@
-export { default as AboutCtas } from './components/AboutCtas.astro';
-export { default as AboutDirectors } from './components/AboutDirectors.astro';
-export { default as AboutHero } from './components/AboutHero.astro';
-export { default as AboutStory } from './components/AboutStory.astro';
-export { default as AboutValues } from './components/AboutValues.astro';
+export { default as Alumni } from './components/Alumni.astro';
+export { default as DirectorBios } from './components/DirectorBios.astro';
+export { default as DirectorsIntro } from './components/DirectorsIntro.astro';
+export { default as Numbers } from './components/Numbers.astro';
+export { default as OnStage } from './components/OnStage.astro';
+export { default as Stories } from './components/Stories.astro';
+export { default as Vision } from './components/Vision.astro';

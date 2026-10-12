@@ -1,23 +1,90 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Band from '@/components/ui/Band.astro';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Gallery from '@/components/ui/Gallery.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Marquee from '@/components/ui/Marquee.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
 import {
-    MusicalsCredits,
-    MusicalsCta,
-    MusicalsGallery,
-    MusicalsHero,
-    MusicalsShows,
+    ComingStage,
+    MusicalPrograms,
+    PastProductions,
 } from '@/modules/musicals';
-import { musicalsMeta } from '@/data/musicals';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'musicals');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const { marquee, jump, coming, programs, band, stage, past } = sections;
+
+const stageGallery = stage?.gallery ? await getEntry(stage.gallery) : null;
+const productions = (
+    await getCollection('productions', p => p.data.company === 'pelican')
+).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout
-    title={musicalsMeta.title}
-    description={musicalsMeta.description}
-    active="musicals"
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
 >
-    <MusicalsHero />
-    <MusicalsGallery />
-    <MusicalsShows />
-    <MusicalsCredits />
-    <MusicalsCta />
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+    />
+    {
+        marquee?.list && (
+            <Marquee
+                items={marquee.list}
+                label={marquee.heading ?? title}
+            />
+        )
+    }
+    {
+        jump?.ctas && (
+            <Section class="pb-0 md:pb-0">
+                <CtaRow
+                    ctas={jump.ctas}
+                    class="mt-0"
+                />
+            </Section>
+        )
+    }
+    {coming && <ComingStage section={coming} />}
+    {programs && <MusicalPrograms section={programs} />}
+    {
+        band?.image && (
+            <Band
+                src={band.image.src}
+                alt={band.image.alt}
+            />
+        )
+    }
+    {
+        stage && stageGallery && (
+            <Section id={stage.id}>
+                {stage.heading && <Heading text={stage.heading} />}
+                {stage.lead && (
+                    <Lead>
+                        <Fragment set:html={inlineHtml(stage.lead)} />
+                    </Lead>
+                )}
+                <Gallery images={stageGallery.data.images} />
+            </Section>
+        )
+    }
+    <PastProductions
+        id={past?.id ?? 'past'}
+        heading={past?.heading}
+        note={past?.note}
+        productions={productions}
+    />
 </BaseLayout>

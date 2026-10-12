@@ -1,0 +1,114 @@
+---
+import { cn } from '@/lib/cn';
+
+export interface TableCell {
+    text: string;
+    href?: string | undefined;
+}
+
+interface Props {
+    /** Column headings; also used as the stacked-card labels on mobile. */
+    columns: string[];
+    /** Each row is an array of cells (string or {text, href}), in column order. */
+    rows: (string | TableCell)[][];
+    caption?: string | undefined;
+
+    class?: string | undefined;
+}
+
+const { columns, rows, caption, class: className } = Astro.props;
+
+function toCell(cell: string | TableCell): TableCell {
+    return typeof cell === 'string' ? { text: cell } : cell;
+}
+---
+
+<div class={cn('tblw mt-6 border-[3px] border-navy', className)}>
+    <table class="text-ink w-full border-collapse bg-white text-left">
+        {caption && <caption class="sr-only">{caption}</caption>}
+        <thead>
+            <tr>
+                {
+                    columns.map(column => (
+                        <th
+                            scope="col"
+                            class="bg-cobalt px-4 py-3.5 font-mono text-[0.78rem] leading-[1.7] font-bold tracking-[0.12em] text-white uppercase"
+                        >
+                            {column}
+                        </th>
+                    ))
+                }
+            </tr>
+        </thead>
+        <tbody>
+            {
+                rows.map(row => (
+                    <tr class="even:bg-zebra">
+                        {row.map((raw, i) => {
+                            const cell = toCell(raw);
+                            return (
+                                <td
+                                    data-l={columns[i]}
+                                    class="border-pale-line border-t-2 px-4 py-3.5 align-top"
+                                >
+                                    {cell.href ? (
+                                        <a
+                                            href={cell.href}
+                                            class="border-watermelon text-cobalt hover:text-navy border-b-[3px] font-bold no-underline"
+                                        >
+                                            {cell.text}
+                                        </a>
+                                    ) : (
+                                        cell.text
+                                    )}
+                                </td>
+                            );
+                        })}
+                    </tr>
+                ))
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    @media (max-width: 760px) {
+        .tblw table,
+        .tblw tbody,
+        .tblw tr,
+        .tblw td {
+            display: block;
+        }
+
+        .tblw thead {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+        }
+
+        .tblw tr {
+            padding: 12px 0;
+        }
+
+        .tblw tr + tr {
+            border-top: 3px solid var(--color-navy);
+        }
+
+        .tblw td {
+            border: 0;
+            padding: 4px 16px 8px;
+            font-size: 1.1rem;
+        }
+
+        .tblw td:first-child {
+            font-size: 1.2rem;
+        }
+
+        .tblw td:not(:first-child)[data-l]::before {
+            content: attr(data-l) ': ';
+            font-weight: 700;
+        }
+    }
+</style>

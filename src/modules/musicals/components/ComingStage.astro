@@ -1,0 +1,138 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Facts from '@/components/ui/Facts.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+type PageSection = CollectionEntry<'pages'>['data']['sections'][string];
+
+interface Props {
+    section: PageSection;
+}
+
+const { section } = Astro.props;
+const card = section.items?.[0];
+const facts = (section.facts ?? []).map(f => ({
+    term: f.label,
+    detail: inlineHtml(f.value),
+}));
+---
+
+<Section
+    id={section.id}
+    wrapClass="grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr]"
+>
+    <div>
+        {section.heading && <Heading text={section.heading} />}
+        {
+            section.lead && (
+                <Lead>
+                    <Fragment set:html={inlineHtml(section.lead)} />
+                </Lead>
+            )
+        }
+        {facts.length > 0 && <Facts items={facts} />}
+    </div>
+    {
+        card && (
+            <div class="stage border-navy bg-navy relative aspect-[4/3] overflow-hidden border-2 text-white shadow-[0_11px_24px_rgba(10,14,42,0.16)]">
+                <span
+                    class="curtain curtain-l"
+                    aria-hidden="true"
+                />
+                <span
+                    class="curtain curtain-r"
+                    aria-hidden="true"
+                />
+                <span
+                    class="beam"
+                    aria-hidden="true"
+                />
+                <div class="absolute inset-x-0 bottom-[9%] z-[4] flex flex-col items-center gap-1 px-[20%] text-center">
+                    {card.kicker && (
+                        <small class="text-ice font-mono text-[0.72rem] tracking-[0.18em] uppercase">
+                            {card.kicker}
+                        </small>
+                    )}
+                    {card.title && (
+                        <b class="font-condensed text-[clamp(1.7rem,3.2vw,2.5rem)] leading-none font-normal uppercase">
+                            {card.title}
+                        </b>
+                    )}
+                    {card.text && (
+                        <em class="text-yellow not-italic">{card.text}</em>
+                    )}
+                    {card.cta && (
+                        <a
+                            href={card.cta.href}
+                            class="font-ui bg-yellow text-navy mt-2 inline-block px-3.5 py-2 font-extrabold no-underline hover:bg-white"
+                        >
+                            {card.cta.label}
+                        </a>
+                    )}
+                </div>
+            </div>
+        )
+    }
+</Section>
+
+<style>
+    .stage {
+        background:
+            radial-gradient(
+                ellipse 70% 30% at 50% 100%,
+                rgb(255 255 255 / 0.08),
+                transparent 70%
+            ),
+            var(--color-navy);
+    }
+    .curtain {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 2;
+        width: 17%;
+        background: linear-gradient(90deg, #c92f6b, var(--color-watermelon));
+        transition: transform 0.5s ease;
+    }
+    .curtain-l {
+        left: 0;
+    }
+    .curtain-r {
+        right: 0;
+        transform: scaleX(-1);
+    }
+    .stage:hover .curtain-l,
+    .stage:focus-within .curtain-l {
+        transform: translateX(-60%);
+    }
+    .stage:hover .curtain-r,
+    .stage:focus-within .curtain-r {
+        transform: translateX(60%) scaleX(-1);
+    }
+    .beam {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 70%;
+        height: 100%;
+        transform: translateX(-50%);
+        background: linear-gradient(
+            rgb(91 216 253 / 0.35),
+            rgb(91 216 253 / 0) 85%
+        );
+        clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+        opacity: 0.7;
+        transition: opacity 0.4s;
+    }
+    .stage:hover .beam {
+        opacity: 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .curtain {
+            transition: none;
+        }
+    }
+</style>

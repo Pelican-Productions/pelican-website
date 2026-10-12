@@ -1,0 +1,74 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import type { ContentSection, Person } from '../types';
+
+interface Props {
+    section: ContentSection;
+    teachers: Person[];
+}
+
+const { section, teachers } = Astro.props;
+function linkText(name: string): string {
+    return (section.note ?? '{first}').replace(
+        '{first}',
+        name.split(' ')[0] ?? name,
+    );
+}
+---
+
+<Section id={section.id ?? 'teachers'}>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    <ul class="mt-8 grid gap-x-[30px] gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+        {
+            teachers.map(t => (
+                <li>
+                    <a
+                        href={`/programs/singing-lessons/${t.id}/`}
+                        class="group border-t-cobalt text-navy shadow-soft flex h-full flex-col border-t-4 bg-white no-underline"
+                    >
+                        <figure class="relative m-0">
+                            <img
+                                src={t.data.image.src}
+                                alt=""
+                                width="600"
+                                height="600"
+                                loading="lazy"
+                                decoding="async"
+                                class="block aspect-square w-full object-cover"
+                                style={{
+                                    objectPosition:
+                                        t.data.image.position ?? '50% 22%',
+                                }}
+                            />
+                            <figcaption class="font-ui bg-navy/85 absolute bottom-0 left-0 px-3 pt-[7px] pb-1.5 text-[0.68rem] font-extrabold tracking-[0.12em] text-white uppercase">
+                                {t.data.name}
+                            </figcaption>
+                        </figure>
+                        <div class="flex flex-1 flex-col px-5 pt-4 pb-5">
+                            <p class="text-muted font-mono text-[1.02rem] tracking-[0.02em]">
+                                {t.data.teacher?.quals}
+                            </p>
+                            <p class="text-muted text-[1.02rem]">
+                                {t.data.teacher?.lead}
+                            </p>
+                            <span class="font-ui text-muted group-hover:text-cobalt mt-auto inline-block pt-[38px] text-[0.95rem] font-bold">
+                                {linkText(t.data.name)}
+                                <span aria-hidden="true"> &rarr;</span>
+                            </span>
+                        </div>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</Section>

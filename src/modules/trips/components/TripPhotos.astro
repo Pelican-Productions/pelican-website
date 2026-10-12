@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { cn } from '@/lib/cn';
+
+type Image = CollectionEntry<'trips'>['data']['photos'][number];
+
+interface Props {
+    photos: Image[];
+    /** Light border/caption colours for dark tones. */
+    dark?: boolean | undefined;
+    /** Extra classes for each image (e.g. a border override). */
+    imageClass?: string | undefined;
+}
+
+const { photos, dark = false, imageClass } = Astro.props;
+---
+
+<div
+    class={cn(
+        'mt-[30px] grid grid-cols-1 gap-[22px]',
+        photos.length >= 3
+            ? 'min-[801px]:grid-cols-3'
+            : 'min-[801px]:grid-cols-2',
+    )}
+>
+    {
+        photos.map(photo => (
+            <figure class="m-0">
+                <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={photo.width ?? 800}
+                    height={photo.height ?? 600}
+                    loading="lazy"
+                    decoding="async"
+                    class={cn(
+                        'block aspect-[4/3] w-full border-2 object-cover object-[50%_35%] shadow-[0_9px_18px_rgba(10,14,42,0.16)]',
+                        dark ? 'border-white' : 'border-navy',
+                        imageClass,
+                    )}
+                    style={
+                        photo.position
+                            ? { objectPosition: photo.position }
+                            : undefined
+                    }
+                />
+                {photo.caption && (
+                    <figcaption
+                        class={cn(
+                            'pt-2.5 text-[0.92rem] font-semibold',
+                            dark ? 'text-[#b4c0f5]' : 'text-muted',
+                        )}
+                    >
+                        {photo.caption}
+                    </figcaption>
+                )}
+            </figure>
+        ))
+    }
+</div>

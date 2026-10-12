@@ -1,105 +1,103 @@
 ---
-import { footerMenu, quickLinks, siteInfo, socialLinks } from '@/data/site';
-import BrandLockup from '@/components/layout/BrandLockup.astro';
-import Button from '@/components/ui/Button.astro';
-import Heading from '@/components/ui/Heading.astro';
-import Input from '@/components/ui/Input.astro';
+import Logo from '@/components/ui/Logo.astro';
+import { footer, site, socials } from '@/data/site';
 
-const facebookLink = socialLinks.find(link => link.label === 'Facebook');
+const colHeading =
+    'mb-3 font-mono text-[0.78rem] font-bold tracking-[0.16em] text-glow uppercase';
+// v56: column copy is periwinkle, links white with a pink hover.
+const link = 'text-white no-underline hover:text-pink';
 ---
 
 <footer
-    class="bg-ink mt-16 mb-8 flex w-full flex-col gap-12 rounded-[40px] px-6 py-10 text-white sm:px-10 md:mt-20"
+    class="border-line-soft bg-navy text-link max-nav:pb-24 border-t pt-14 pb-7 text-base leading-[1.6]"
 >
-    <div class="grid items-center gap-10 md:grid-cols-2">
-        <Heading
-            as="h2"
-            size="display"
-            class="text-[clamp(2rem,8vw,80px)] leading-[1.1] text-white"
+    <div class="wrap">
+        <div
+            class="grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.3fr_1fr]"
         >
-            Become a VIP Pelican
-        </Heading>
-        <div class="flex flex-col gap-4">
-            <p class="text-body m-0">
-                Production news, pre-sale access and camp bookings before anyone
-                else.
-            </p>
-            <form
-                class="flex flex-col gap-3 sm:flex-row sm:items-center"
-                action="#"
-                method="get"
-            >
-                <Input
-                    type="email"
-                    name="email"
-                    placeholder="you@email.com"
-                    variant="dark"
-                    class="flex-1"
-                    required
-                    autocomplete="email"
-                />
-                <Button
-                    type="submit"
-                    variant="primary"
-                    class="hover:text-ink shrink-0 hover:bg-white"
+            <Logo
+                size="footer"
+                class="self-start sm:col-span-2 lg:col-span-1"
+            />
+            <div>
+                <h2 class={colHeading}>{footer.visit.heading}</h2>
+                <p>
+                    {
+                        footer.visit.lines.map((line, i) => (
+                            <>
+                                {i > 0 && <br />}
+                                {line}
+                            </>
+                        ))
+                    }
+                </p>
+            </div>
+            <div>
+                <h2 class={colHeading}>{footer.contact.heading}</h2>
+                <ul class="space-y-1.5">
+                    {
+                        footer.contact.items.map(item => (
+                            <li class="break-words">
+                                {item.href ? (
+                                    <a
+                                        class={link}
+                                        href={item.href}
+                                        {...(item.external
+                                            ? {
+                                                  target: '_blank',
+                                                  rel: 'noopener',
+                                              }
+                                            : {})}
+                                    >
+                                        {item.label}
+                                    </a>
+                                ) : (
+                                    item.label
+                                )}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+            <div>
+                <h2 class={colHeading}>{footer.follow.heading}</h2>
+                <ul class="space-y-1.5">
+                    {
+                        socials.map(social => (
+                            <li>
+                                <a
+                                    class={link}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    {social.name}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+        <div
+            class="mt-10 flex flex-wrap justify-between gap-x-7 gap-y-3 border-t border-white/[0.18] pt-[18px] text-[0.82rem] opacity-85"
+        >
+            <p>
+                &copy; {site.name} &middot; <a
+                    class="underline hover:text-white"
+                    href="/"
+                    >Back to home</a
                 >
-                    Subscribe
-                </Button>
-            </form>
+            </p>
+            <p>{footer.credits}</p>
         </div>
     </div>
-
-    <div
-        class="border-white-dotted flex flex-wrap items-center justify-between gap-4 border-t-[1.5px] pt-8"
-    >
-        <BrandLockup
-            inverted
-            class="hover:text-white"
-            markClass="h-10 w-auto sm:h-10"
-        />
-
-        <nav
-            class="flex flex-wrap gap-2"
-            aria-label="Footer"
-        >
-            {
-                footerMenu.map(item => (
-                    <a
-                        href={item.href}
-                        class="hover:text-cobalt px-3 text-base text-white"
-                    >
-                        {item.label}
-                    </a>
-                ))
-            }
-            {
-                facebookLink && (
-                    <a
-                        href={facebookLink.href}
-                        class="hover:text-cobalt px-3 text-base text-white"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Facebook
-                    </a>
-                )
-            }
-            {
-                quickLinks
-                    .filter(item => item.label === 'Privacy')
-                    .map(item => (
-                        <a
-                            href={item.href}
-                            class="hover:text-cobalt px-3 text-base text-white"
-                        >
-                            {item.label}
-                        </a>
-                    ))
-            }
-        </nav>
-
-        <p class="m-0 w-full text-xs font-normal sm:w-auto sm:text-right">
-            {siteInfo.nestAddress} · {siteInfo.photoCredit}
-        </p>
-    </div>
 </footer>
+
+<a
+    class="rounded-btn bg-hot font-ui shadow-hard nav:hidden fixed right-[18px] bottom-[18px] left-3 z-[99] block p-3.5 text-center text-[1.1rem] font-bold text-white no-underline"
+    href={site.enrolUrl}
+    target="_blank"
+    rel="noopener"
+    >Enrol now</a
+>
