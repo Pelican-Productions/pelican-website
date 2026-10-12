@@ -13,7 +13,10 @@ interface Props {
 const { size = 'header', href = '/', class: className } = Astro.props;
 const footer = size === 'footer';
 
-/** Back to front. All share one viewBox so they stack in the same box. */
+/**
+ * Back to front. All share one viewBox so they stack in the same box. The
+ * header drops the backing circle.
+ */
 const layers = [
     '/images/brand/circle.svg',
     '/images/brand/wing-pale.svg',
@@ -24,7 +27,7 @@ const layers = [
     '/images/brand/tail.svg',
     '/images/brand/beak.svg',
     '/images/brand/eye.svg',
-];
+].filter(src => footer || !src.endsWith('/circle.svg'));
 
 const productions = [...'PRODUCTIONS'];
 ---
