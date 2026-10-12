@@ -16,28 +16,28 @@
     "dependencies": {
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/typography": "^0.5.20",
-        "astro": "^7.2.10",
+        "astro": "^7.3.8",
         "clsx": "^2.1.1",
         "resend": "4.0.0",
-        "tailwind-merge": "^3.6.0",
+        "tailwind-merge": "^3.7.0",
         "tailwindcss": "^4.3.3",
-        "zod": "^4.5.4"
+        "zod": "^4.6.5"
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.10",
-        "@astrojs/cloudflare": "^14.2.6",
-        "@playwright/test": "^1.62.1",
+        "@astrojs/cloudflare": "^14.3.4",
+        "@playwright/test": "^1.64.0",
         "@tailwindcss/vite": "^4.3.3",
-        "@types/node": "^26.4.1",
-        "oxlint": "^1.81.0",
-        "oxlint-tsgolint": "^7.0.2001",
-        "prettier": "^3.9.6",
+        "@types/node": "^26.6.5",
+        "oxlint": "^1.87.0",
+        "oxlint-tsgolint": "^7.0.2004",
+        "prettier": "^3.9.10",
         "prettier-plugin-astro": "^0.14.1",
         "prettier-plugin-tailwindcss": "^0.8.1",
-        "sharp": "^0.35.4",
-        "tsx": "^4.23.13",
+        "sharp": "^0.35.5",
+        "tsx": "^4.23.15",
         "typescript": "^6.0.3",
-        "wrangler": "^4.128.0"
+        "wrangler": "^4.149.0"
     },
-    "packageManager": "pnpm@11.24.0"
+    "packageManager": "pnpm@12.10.1."
 }
