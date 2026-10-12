@@ -8,7 +8,6 @@ const UPLOADS =
     'https://www.pelicanproductions.com.au/uploads/3/9/5/6/39560363';
 
 export const homeImages = {
-    logo: '/images/pelican.png',
     nestBanner: `${UPLOADS}/thenest-banner_orig.jpg`,
     mtcPerformance: `${UPLOADS}/mtc-2023_orig.jpg`,
     mtcCast: `${UPLOADS}/mtc-2023-2_orig.jpg`,
