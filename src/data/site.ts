@@ -62,7 +62,6 @@ export const socials: SocialLink[] = [
 ];
 
 export const nav: NavItem[] = [
-    { key: 'home', label: 'Home', href: '/' },
     {
         key: 'classes',
         label: 'Classes',
@@ -74,9 +73,9 @@ export const nav: NavItem[] = [
             { label: 'Acting', href: '/programs/acting/' },
             { label: 'Dance', href: '/programs/dance/' },
             { label: 'Singing Lessons', href: '/programs/singing-lessons/' },
-            { label: 'Pelican Pro', href: '/pelican-pro/' },
         ],
     },
+    { key: 'courses', label: 'Courses', href: '/courses/' },
     {
         key: 'camps',
         label: 'Camps & Trips',
@@ -128,9 +127,7 @@ export type NavKey = (typeof nav)[number]['key'];
 /** Work out which top-level nav item a path belongs to. */
 export function navKeyForPath(pathname: string): string | undefined {
     const path = pathname.endsWith('/') ? pathname : `${pathname}/`;
-    if (path === '/') return 'home';
     const extra: Record<string, string> = {
-        '/pelican-pro/': 'classes',
         '/find-my-class/': 'classes',
         '/trips/': 'camps',
         '/professional/': 'shows',

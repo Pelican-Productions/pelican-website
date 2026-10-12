@@ -1,13 +1,15 @@
 ---
-title: 'Certificate IV & Diploma of Musical Theatre Adelaide | Pelican Pro'
+title:
+    'Musical Theatre Courses Adelaide: Certificate IV & Diploma | Pelican
+    Productions'
 description:
     'Nationally recognised Certificate IV and Diploma of Musical Theatre in
     Adelaide, delivered at The Nest Studios with Empowerdance RTO 40397.
     Auditions open for 2027.'
 ogImage: '/images/share.jpg'
-path: '/pelican-pro/'
+path: '/courses/'
 hero:
-    heading: 'Pelican Pro'
+    heading: 'Courses'
     text:
         'Professional pathways in musical theatre for South Australian
         performers, presented in partnership with Empowerdance RTO 40397.'
@@ -15,13 +17,13 @@ hero:
         - label: 'Read the prospectus'
           href: '#prospectus'
         - label: 'Register your interest'
-          href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Pro%3A%20register%20my%20interest'
+          href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Courses%3A%20register%20my%20interest'
           variant: 'ghost'
 sections:
     journey:
         heading: 'From first class to ==professional stage=='
         lead:
-            'Pelican Pro is the top of a pathway that starts in our weekly
+            'Our courses are the top of a pathway that starts in our weekly
             classes.'
     band:
         image:
@@ -33,8 +35,8 @@ sections:
     pathways:
         heading: 'Two ==pathways=='
         lead:
-            'Led by Course Directors Jen Frith and Kylie Green, Pelican Pro
-            offers nationally recognised training at The Nest Studios, with a
+            'Led by Course Directors Jen Frith and Kylie Green, Pelican Courses
+            offer nationally recognised training at The Nest Studios, with a
             faculty of working industry professionals.'
         items:
             - id: 'cert4'
@@ -79,7 +81,7 @@ sections:
     training:
         heading: 'A professional ==pathway=='
         lead:
-            'Pelican Pro is a professional pathway into a career in musical
+            'Our courses are a professional pathway into a career in musical
             theatre. Training reflects the standards of the industry, so
             students build the technique, repertoire and professional habits to
             take their next step with confidence.'
@@ -94,7 +96,7 @@ sections:
             - 'Fitness, wellbeing and resilience for a career on stage'
         image:
             src: '/images/people/pro-group.webp'
-            alt: 'Pelican Pro students at The Nest Studios'
+            alt: 'Pelican course students at The Nest Studios'
     auditions:
         heading: 'Audition ==dates=='
         lead:
@@ -111,7 +113,7 @@ sections:
             instructions are in the prospectus.'
         ctas:
             - label: 'Ask about auditions'
-              href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Pro%3A%20auditions'
+              href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Courses%3A%20auditions'
             - label: 'Submit Cert IV audition'
               href: 'https://docs.google.com/forms/d/e/1FAIpQLSftdAtOMtMvsUuC_F7o2-mYhiTKfQcz_1PGO3I8FIChmMiVLw/viewform?usp=header'
               variant: 'ghost'
@@ -134,6 +136,6 @@ sections:
             - label: 'Download the prospectus'
               href: '/downloads/pelican-pro-2027-prospectus.pdf'
             - label: 'Register your interest'
-              href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Pro%3A%20register%20my%20interest'
+              href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Courses%3A%20register%20my%20interest'
               variant: 'ghost'
 ---

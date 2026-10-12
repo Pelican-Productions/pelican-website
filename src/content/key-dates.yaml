@@ -41,7 +41,7 @@
   sub: '2026'
   title: 'Diploma audition submissions close'
   text: 'Video auditions for the 2027 Diploma of Musical Theatre.'
-  href: '/pelican-pro/'
+  href: '/courses/'
   lists:
       - 'home'
   order: 5
@@ -66,9 +66,9 @@
 - id: 'pelican-pro-begins-2027'
   when: '27 Jan'
   sub: '2027'
-  title: 'Pelican Pro begins'
+  title: 'Pelican Courses begin'
   text: 'Certificate IV and Diploma of Musical Theatre start.'
-  href: '/pelican-pro/'
+  href: '/courses/'
   lists:
       - 'home'
   order: 8

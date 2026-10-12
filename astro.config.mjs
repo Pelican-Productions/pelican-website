@@ -69,7 +69,7 @@ export default defineConfig({
     trailingSlash: 'ignore',
     redirects: {
         // Old Weebly URLs
-        '/cert4.html': '/pelican-pro/',
+        '/cert4.html': '/courses/',
         '/contact.html': '/contact/',
         '/contact-us.html': '/contact/',
         '/about.html': '/about/',
@@ -90,7 +90,8 @@ export default defineConfig({
         '/bring-it-on---the-musical.html': '/musicals/#past',
         '/grease.html': '/musicals/#past',
         // Previous Astro site routes
-        '/cert4': '/pelican-pro/',
+        '/cert4': '/courses/',
+        '/pelican-pro': '/courses/',
         '/contact-us': '/contact/',
         '/about-us': '/about/',
         '/the-team': '/about/',

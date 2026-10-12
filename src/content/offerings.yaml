@@ -139,18 +139,18 @@
   price: '$690 + GST'
   order: 9
 - id: 'cert-iv'
-  name: 'Pelican Pro: Certificate IV in Musical Theatre'
+  name: 'Pelican Courses: Certificate IV in Musical Theatre'
   kind: 'pro'
-  href: '/pelican-pro/'
+  href: '/courses/'
   summary:
       'For serious pre-professional performers in Years 10–13, including
       students up to age 20'
   price: 'See the prospectus'
   order: 10
 - id: 'diploma'
-  name: 'Pelican Pro: Diploma of Musical Theatre'
+  name: 'Pelican Courses: Diploma of Musical Theatre'
   kind: 'pro'
-  href: '/pelican-pro/'
+  href: '/courses/'
   summary: 'Post-school, pre-professional. New for 2027'
   price: 'See the prospectus'
   order: 11

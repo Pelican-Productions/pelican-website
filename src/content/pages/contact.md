@@ -8,8 +8,8 @@ path: '/contact/'
 hero:
     heading: 'Contact Pelican'
     text:
-        'Questions about classes, camps, shows, Pelican Pro or hire? Email us
-        and we’ll get back to you.'
+        'Questions about classes, camps, shows, courses or hire? Email us and
+        we’ll get back to you.'
     ctas:
         - label: 'ahoy@pelicanproductions.com.au'
           href: 'mailto:ahoy@pelicanproductions.com.au?subject=Enquiry'
@@ -35,7 +35,7 @@ sections:
             - 'Visit us at The Nest Studios, 57A Price Avenue, Mitcham SA.'
         list:
             - 'General enquiry'
-            - 'Pelican Pro interest'
+            - 'Course interest'
             - 'Sing!OZ waitlist'
             - 'Musicals and auditions'
             - 'Studio hire'

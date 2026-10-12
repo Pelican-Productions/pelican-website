@@ -33,7 +33,7 @@ const jsonLd = (pathways?.items ?? []).map(item => ({
     courseCode: item.kicker?.split(' ')[0],
     description: item.text,
     provider,
-    url: new URL(`/pelican-pro/#${item.id}`, site.url).href,
+    url: new URL(`/courses/#${item.id}`, site.url).href,
 }));
 ---
 

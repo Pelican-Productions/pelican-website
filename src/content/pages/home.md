@@ -54,13 +54,13 @@ sections:
               text:
                   'Nationally recognised musical theatre training for Years
                   10–13, with students up to age 20.'
-              href: '/pelican-pro/#cert4'
+              href: '/courses/#cert4'
               pro: true
             - number: '5'
               kicker: 'Specialise'
               title: 'Diploma'
               text: 'Post-school, pre-professional training. New for 2027.'
-              href: '/pelican-pro/#diploma'
+              href: '/courses/#diploma'
               pro: true
             - number: '6'
               kicker: 'Perform'
@@ -121,7 +121,7 @@ sections:
                     href: '/camps/'
                   - label: 'Certificate IV'
                     note: 'Years 10–13, to age 20'
-                    href: '/pelican-pro/'
+                    href: '/courses/'
                   - label: 'Singing lessons'
                     note: '7+'
                     href: '/programs/singing-lessons/'
@@ -141,10 +141,10 @@ sections:
                     href: '/programs/singing-lessons/'
                   - label: 'Certificate IV in Musical Theatre'
                     note: 'Years 10–13, to age 20'
-                    href: '/pelican-pro/'
+                    href: '/courses/'
                   - label: 'Diploma of Musical Theatre'
                     note: '2027'
-                    href: '/pelican-pro/#diploma'
+                    href: '/courses/#diploma'
     band:
         image:
             src: '/images/stage/home-banner.webp'
@@ -176,13 +176,13 @@ sections:
               image:
                   src: '/images/stage/camps-card.webp'
                   alt: 'A huge Pelican camp company on stage'
-            - tag: 'Pelican Pro'
+            - tag: 'Courses'
               text:
                   'Professional training: Certificate IV and Diploma of Musical
                   Theatre.'
               cta:
-                  label: 'View Pelican Pro'
-                  href: '/pelican-pro/'
+                  label: 'View courses'
+                  href: '/courses/'
               image:
                   src: '/images/people/pro-group.webp'
                   alt: ''

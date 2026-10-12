@@ -28,7 +28,7 @@ sections:
               iTheatrics in New York. The company has been widely recognised,
               with nominations for the Women in Innovation Awards, a Children’s
               Week Award and several Adelaide Theatre Guide Awards.'
-            - 'Today they are the Course Directors of Pelican Pro, Pelican’s
+            - 'Today they are the Course Directors of Pelican Courses, Pelican’s
               Certificate IV and Diploma of Musical Theatre.'
         image:
             src: '/images/people/kylie-and-jen.webp'

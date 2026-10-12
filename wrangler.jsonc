@@ -18,7 +18,7 @@
         "directory": "./dist",
     },
     "vars": {
-        "CONTACT_FROM_EMAIL": "website@pelicanproductions.com.au",
+        "CONTACT_FROM_EMAIL": "website@send.pelicanproductions.com.au",
         "CONTACT_TO_EMAIL": "ahoy@pelicanproductions.com.au",
     },
     // Cloudflare Email Service: contact + newsletter form notifications.

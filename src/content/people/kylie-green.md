@@ -41,4 +41,4 @@ order: 1
 - Her approach considers every part of the person that can affect the voice,
   including physical health, stress, energy and lived experience.
 - Co-founder of Pelican Productions and The Nest Studios, and Course Director of
-  Pelican Pro.
+  Pelican Courses.
