@@ -2,9 +2,8 @@
 import CtaRow, { type Cta } from '@/components/ui/CtaRow.astro';
 import Heading from '@/components/ui/Heading.astro';
 import Kicker from '@/components/ui/Kicker.astro';
+import { pelicanLayers } from '@/data/site';
 import { cn } from '@/lib/cn';
-
-type Variant = 'default' | 'classes' | 'camps' | 'singoz';
 
 interface Props {
     /** h1 text; wrap words in ==equals== for a yellow <mark>. Or use the "heading" slot. */
@@ -18,12 +17,9 @@ interface Props {
     ctas?: Cta[] | undefined;
 
     /**
-     * Artwork on the right. default: flat line Pelican (white, blue wing, pink beak).
-     * classes / camps / singoz: the matching sub-brand logo (v56 .cls/.cmp/.sgz).
+     * Replace the artwork on the right (decorative, so alt is empty). Defaults
+     * to the flat Pelican mark from the header, the same on every page.
      */
-    variant?: Variant | undefined;
-
-    /** Replace the artwork with any image (decorative, so alt is empty). */
     image?: { src: string; width: number; height: number } | undefined;
     /** Hide the dotted flight-path squiggle. */
     flight?: boolean | undefined;
@@ -36,29 +32,14 @@ const {
     intro,
     kicker,
     ctas = [],
-    variant = 'default',
     image,
     flight = true,
     class: className,
 } = Astro.props;
-
-const art: Record<Variant, { src: string; width: number; height: number }> = {
-    default: { src: '/images/logo-light.svg', width: 240, height: 239 },
-    classes: {
-        src: '/images/pelican-logo-classes.png',
-        width: 364,
-        height: 232,
-    },
-    camps: { src: '/images/pelican-logo-camps.png', width: 364, height: 224 },
-    singoz: { src: '/images/pelican-logo-singoz.png', width: 364, height: 228 },
-};
-
-const artwork = image ?? art[variant];
-const line = !image && variant === 'default';
 ---
 
 <section
-    class={cn('hero-sub', !line && 'is-brand', className)}
+    class={cn('hero-sub', className)}
     data-tone="paper"
 >
     {
@@ -73,15 +54,34 @@ const line = !image && variant === 'default';
             </svg>
         )
     }
-    <img
-        class="art"
-        src={artwork.src}
-        width={artwork.width}
-        height={artwork.height}
-        alt=""
-        aria-hidden="true"
-        decoding="async"
-    />
+    {
+        image ? (
+            <img
+                class="art"
+                src={image.src}
+                width={image.width}
+                height={image.height}
+                alt=""
+                aria-hidden="true"
+                decoding="async"
+            />
+        ) : (
+            <span
+                class="art mark"
+                aria-hidden="true"
+            >
+                {pelicanLayers.map(src => (
+                    <img
+                        src={src}
+                        alt=""
+                        width="260"
+                        height="244"
+                        decoding="async"
+                    />
+                ))}
+            </span>
+        )
+    }
     <div class="wrap">
         {kicker && <Kicker>{kicker}</Kicker>}
         {
@@ -153,11 +153,6 @@ const line = !image && variant === 'default';
         pointer-events: none;
     }
 
-    .is-brand .flight {
-        right: 236px;
-        transform: translateY(-47%);
-    }
-
     .flight path {
         stroke: var(--color-ice);
         stroke-width: 3;
@@ -173,29 +168,21 @@ const line = !image && variant === 'default';
         z-index: 0;
         top: 50%;
         right: 70px;
-        width: 240px;
+        width: 280px;
         height: auto;
-        transform: translateY(-50%) rotate(-4deg);
-        filter: drop-shadow(0 0 2px #fff)
-            drop-shadow(0 0 8px rgba(73, 196, 242, 0.6))
-            drop-shadow(0 0 5px rgba(255, 111, 159, 0.35));
+        transform: translateY(-50%);
         pointer-events: none;
     }
 
-    .is-brand .art {
-        width: 364px;
-        transform: translateY(-50%);
-        filter: none;
+    .mark {
+        display: grid;
+        aspect-ratio: 260 / 244;
     }
 
-    @media (max-width: 1200px) {
-        .is-brand .art {
-            width: 300px;
-        }
-
-        .is-brand .flight {
-            right: 212px;
-        }
+    .mark img {
+        grid-area: 1 / 1;
+        width: 100%;
+        height: 100%;
     }
 
     @media (max-width: 900px) {
@@ -207,14 +194,8 @@ const line = !image && variant === 'default';
             top: 20px;
             right: 14px;
             width: 92px;
-            transform: rotate(-4deg);
-            opacity: 0.55;
-        }
-
-        .is-brand .art {
-            width: 140px;
             transform: none;
-            opacity: 0.6;
+            opacity: 0.55;
         }
 
         .flight {

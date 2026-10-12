@@ -1,4 +1,5 @@
 ---
+import { pelicanLayers } from '@/data/site';
 import { cn } from '@/lib/cn';
 
 interface Props {
@@ -13,21 +14,10 @@ interface Props {
 const { size = 'header', href = '/', class: className } = Astro.props;
 const footer = size === 'footer';
 
-/**
- * Back to front. All share one viewBox so they stack in the same box. The
- * header drops the backing circle.
- */
-const layers = [
-    '/images/brand/circle.svg',
-    '/images/brand/wing-pale.svg',
-    '/images/brand/wing-pale-beak.svg',
-    '/images/brand/wing-red.svg',
-    '/images/brand/wing-blue.svg',
-    '/images/brand/body.svg',
-    '/images/brand/tail.svg',
-    '/images/brand/beak.svg',
-    '/images/brand/eye.svg',
-].filter(src => footer || !src.endsWith('/circle.svg'));
+/** The footer sits the mark on a backing circle; the header doesn't. */
+const layers = footer
+    ? ['/images/brand/circle.svg', ...pelicanLayers]
+    : pelicanLayers;
 
 const productions = [...'PRODUCTIONS'];
 ---

@@ -43,6 +43,21 @@ export const site = {
     },
 } as const;
 
+/**
+ * The flat Pelican mark, back to front. All share one 260x244 viewBox so they
+ * stack in the same box (Logo, PageHero).
+ */
+export const pelicanLayers = [
+    '/images/brand/wing-pale.svg',
+    '/images/brand/wing-pale-beak.svg',
+    '/images/brand/wing-red.svg',
+    '/images/brand/wing-blue.svg',
+    '/images/brand/body.svg',
+    '/images/brand/tail.svg',
+    '/images/brand/beak.svg',
+    '/images/brand/eye.svg',
+];
+
 export const socials: SocialLink[] = [
     {
         name: 'Facebook',

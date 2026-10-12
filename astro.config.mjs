@@ -32,7 +32,7 @@ export default defineConfig({
             provider: fontProviders.google(),
             name: 'Caveat',
             cssVariable: '--font-caveat',
-            weights: [500, 600],
+            weights: [600],
             styles: ['normal'],
             subsets: ['latin'],
             fallbacks: ['cursive'],
