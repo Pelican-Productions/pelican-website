@@ -1,0 +1,67 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Section from '@/components/ui/Section.astro';
+import { cn } from '@/lib/cn';
+import { inlineHtml } from '@/lib/content-text';
+import type { ContentCta, Offering } from '../types';
+
+interface Props {
+    offerings: Offering[];
+    /** Button on each card (the hero's primary CTA). */
+    cta?: ContentCta | undefined;
+}
+
+const { offerings, cta } = Astro.props;
+const groups = offerings.filter(o => o.data.group);
+---
+
+{
+    groups.length > 0 && (
+        <Section
+            tone="paper"
+            space="none"
+            class="py-9"
+        >
+            <div class="grid gap-6 md:grid-cols-2">
+                {groups.map((o, i) => {
+                    const g = o.data.group!;
+                    return (
+                        <article
+                            class={cn(
+                                'bg-pale text-navy border border-t-4 border-[#bfe3f7] p-7',
+                                i % 2
+                                    ? 'border-t-watermelon'
+                                    : 'border-t-cobalt',
+                            )}
+                        >
+                            <p class="font-display text-cobalt text-[clamp(2.4rem,5vw,3.4rem)] leading-none font-extrabold">
+                                {g.ages}
+                                <span class="text-muted font-ui ml-1 text-base font-bold">
+                                    years
+                                </span>
+                            </p>
+                            <h3 class="font-display tracking-tightish mt-3 text-[1.5rem] leading-[1.1] font-extrabold uppercase">
+                                {g.name}
+                            </h3>
+                            <p class="text-muted mt-1 font-semibold">
+                                {g.duration}
+                            </p>
+                            <p
+                                class="mt-3"
+                                set:html={inlineHtml(g.schedule)}
+                            />
+                            {cta && (
+                                <Button
+                                    href={cta.href}
+                                    class="mt-5"
+                                >
+                                    {cta.label}
+                                </Button>
+                            )}
+                        </article>
+                    );
+                })}
+            </div>
+        </Section>
+    )
+}

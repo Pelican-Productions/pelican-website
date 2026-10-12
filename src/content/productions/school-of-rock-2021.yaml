@@ -1,0 +1,26 @@
+title: 'School of Rock'
+year: 2021
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/school-of-rock-2021/cover.webp'
+        alt: ''
+    colors:
+        - '#e83a5c'
+        - '#5bd8fd'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/school-of-rock-2021/1.webp'
+      alt: 'The full company rocking out under red and gold lights'
+    - src: '/images/musicals/school-of-rock-2021/2.webp'
+      alt: 'Dewey and the class celebrating'
+    - src: '/images/musicals/school-of-rock-2021/3.webp'
+      alt: 'The band performing in front of the whole school'
+    - src: '/images/musicals/school-of-rock-2021/4.webp'
+      alt: 'The band jamming on bass, drums and guitar'
+    - src: '/images/musicals/school-of-rock-2021/5.webp'
+      alt: 'A young guitarist mid-solo'
+    - src: '/images/musicals/school-of-rock-2021/6.webp'
+      alt: 'Dewey singing with the lead guitarist'
+order: 10

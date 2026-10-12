@@ -1,0 +1,125 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import {
+    BoardingPass,
+    DestinationBoard,
+    TripFeature,
+    TripPhotos,
+    TripStops,
+    TripStories,
+} from '@/modules/trips';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'trips');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const { openAll, westEnd, stops, been } = sections;
+
+const trips = (await getCollection('trips')).sort(
+    (a, b) => a.data.order - b.data.order,
+);
+const next = trips.find(t => t.data.status === 'upcoming');
+const lastTime = trips.find(
+    t => t.data.status === 'past' && t.data.photos.length,
+);
+const jtf = trips.find(t => t.data.status === 'planned');
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+>
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+    />
+    {
+        next?.data.destinations && (
+            <DestinationBoard
+                destinations={next.data.destinations}
+                label={`${next.data.title} destinations`}
+            />
+        )
+    }
+    {next && <BoardingPass trip={next} />}
+    {
+        openAll && (
+            <TripFeature
+                tone="navy"
+                heading={openAll.heading}
+                lead={openAll.lead}
+                ctas={openAll.ctas}
+                image={openAll.image}
+            />
+        )
+    }
+    {
+        next?.data.stops && (
+            <TripStops
+                heading={stops?.heading}
+                stops={next.data.stops}
+                note={next.data.stopsNote}
+            />
+        )
+    }
+    {
+        lastTime && (
+            <Section tone="paper">
+                {lastTime.data.heading && (
+                    <Heading text={lastTime.data.heading} />
+                )}
+                {lastTime.data.lead && (
+                    <Lead>
+                        <Fragment set:html={inlineHtml(lastTime.data.lead)} />
+                    </Lead>
+                )}
+                <TripPhotos
+                    photos={lastTime.data.photos}
+                    dark
+                    imageClass="border-navy"
+                />
+            </Section>
+        )
+    }
+    {
+        westEnd && (
+            <TripFeature
+                heading={westEnd.heading}
+                body={westEnd.body}
+                image={westEnd.image}
+                portrait
+            />
+        )
+    }
+    {
+        jtf && (
+            <TripFeature
+                tone="navy"
+                kicker={jtf.data.kicker}
+                heading={jtf.data.heading}
+                body={jtf.data.body}
+                bodyAsLead
+                image={jtf.data.image}
+            >
+                <TripPhotos
+                    photos={jtf.data.photos}
+                    dark
+                />
+            </TripFeature>
+        )
+    }
+    <TripStories
+        heading={been?.heading}
+        trips={trips.filter(t => t.data.status !== 'upcoming')}
+    />
+</BaseLayout>

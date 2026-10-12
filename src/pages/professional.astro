@@ -1,0 +1,55 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import { Journey } from '@/modules/home';
+import { Agency, Events, RoyalShow, ShowPhotos } from '@/modules/professional';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'professional');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const { journey, royalShow, agency, events } = sections;
+
+// The pathway steps are shared with the home page.
+const home = await getEntry('pages', 'home');
+const steps = home?.data.sections.journey?.items ?? [];
+
+const shows = (
+    await getCollection('productions', p => p.data.company === 'professional')
+).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+>
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+    />
+    {
+        journey && (
+            <Journey
+                heading={journey.heading}
+                lead={journey.lead}
+                items={steps}
+            />
+        )
+    }
+    {
+        royalShow && (
+            <RoyalShow
+                section={royalShow}
+                shows={shows}
+            />
+        )
+    }
+    {shows.map(show => <ShowPhotos show={show} />)}
+    {agency && <Agency section={agency} />}
+    {events && <Events section={events} />}
+</BaseLayout>

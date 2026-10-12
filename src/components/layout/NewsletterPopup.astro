@@ -1,0 +1,242 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { newsletter } from '@/data/site';
+
+/**
+ * Site-wide "Join our mailing list" modal (v56 `<dialog id="pop">`).
+ * Opens once after 15s, then stays quiet for 7 days (localStorage `pp_pop`).
+ * Submitting silences it for good. BaseLayout leaves it off /thanks/ and 404.
+ */
+const { popup } = newsletter;
+---
+
+<dialog
+    id="pop"
+    class="pop"
+    aria-labelledby="pop-title"
+    aria-describedby="pop-desc"
+    data-newsletter-pop
+>
+    <div
+        class="bg-lightblue h-3"
+        aria-hidden="true"
+    >
+    </div>
+    <div class="relative px-[26px] pt-[30px] pb-[26px]">
+        <button
+            class="x"
+            type="button"
+            aria-label="Close"
+            data-pop-close
+            >&times;</button
+        >
+        <h2
+            id="pop-title"
+            class="font-display tracking-tightish text-navy mb-[0.3em] pr-10 text-[clamp(2.2rem,8vw,3rem)] leading-[1.02] font-extrabold uppercase"
+        >
+            {popup.heading}
+        </h2>
+        <p
+            id="pop-desc"
+            class="text-muted mb-4"
+        >
+            {popup.text}
+        </p>
+        <form
+            name="newsletter"
+            method="POST"
+            action={newsletter.action}
+            class="grid gap-3"
+        >
+            <p hidden>
+                <label
+                    >Leave blank <input
+                        name="bot"
+                        tabindex="-1"
+                        autocomplete="off"
+                    /></label
+                >
+            </p>
+            <label class="grid gap-1 font-semibold">
+                First name
+                <input
+                    name="name"
+                    autocomplete="given-name"
+                    class="field"
+                />
+            </label>
+            <label class="grid gap-1 font-semibold">
+                Email
+                <input
+                    type="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                    class="field"
+                />
+            </label>
+            <Button
+                type="submit"
+                shadow="navy"
+                class="mr-1.5 block"
+                >{popup.button}</Button
+            >
+        </form>
+    </div>
+</dialog>
+
+<style>
+    .pop {
+        width: calc(100% - 32px);
+        max-width: 440px;
+        max-height: calc(100dvh - 32px);
+        margin: auto;
+        padding: 0;
+        overflow: auto;
+        border: 3px solid var(--color-navy);
+        border-radius: 0;
+        background: #fff;
+        color: var(--color-ink);
+        box-shadow: 0 19px 48px rgba(10, 14, 42, 0.16);
+        line-height: 1.7;
+    }
+
+    .pop::backdrop {
+        background: rgba(11, 13, 36, 0.6);
+    }
+
+    .pop[open] {
+        animation: pop-in 0.25s ease-out;
+    }
+
+    .pop[open]::backdrop {
+        animation: pop-fade 0.25s ease-out;
+    }
+
+    @keyframes pop-in {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+    }
+
+    @keyframes pop-fade {
+        from {
+            opacity: 0;
+        }
+    }
+
+    .x {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        padding: 6px;
+        border: 0;
+        border-radius: 8px;
+        background: none;
+        color: var(--color-navy);
+        font: 400 1.8rem/1 var(--font-ui);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .x:hover {
+        transform: rotate(90deg);
+    }
+
+    .x:focus-visible {
+        outline: 3px solid var(--color-focus);
+        outline-offset: 0;
+    }
+
+    .field {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        border: 2px solid var(--color-navy);
+        border-radius: 0;
+        background: #fff;
+        color: var(--color-ink);
+        font-weight: 400;
+    }
+
+    .field:focus-visible {
+        outline: 3px solid var(--color-focus);
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .pop[open],
+        .pop[open]::backdrop {
+            animation: none;
+        }
+
+        .x {
+            transition: none;
+        }
+
+        .x:hover {
+            transform: none;
+        }
+    }
+</style>
+
+<script>
+    const KEY = 'pp_pop';
+    const DELAY = 15_000;
+    const QUIET = 7 * 864e5;
+    /** Far-future timestamp: never show again once someone signs up. */
+    const SIGNED_UP = '9999999999999';
+
+    let timer: number | undefined;
+
+    function read(): number {
+        try {
+            return Number(localStorage.getItem(KEY)) || 0;
+        } catch {
+            return 0;
+        }
+    }
+
+    function write(value: string) {
+        try {
+            localStorage.setItem(KEY, value);
+        } catch {
+            // Storage blocked (private mode): the popup just shows again later.
+        }
+    }
+
+    function setup() {
+        window.clearTimeout(timer);
+        const dialog = document.querySelector<HTMLDialogElement>(
+            '[data-newsletter-pop]',
+        );
+        if (!dialog || typeof dialog.showModal !== 'function') return;
+
+        dialog
+            .querySelector('[data-pop-close]')
+            ?.addEventListener('click', () => dialog.close());
+        // Click on the backdrop (the dialog box itself, outside its content).
+        dialog.addEventListener('click', event => {
+            if (event.target === dialog) dialog.close();
+        });
+        dialog
+            .querySelector('form')
+            ?.addEventListener('submit', () => write(SIGNED_UP));
+
+        if (Date.now() - read() < QUIET) return;
+
+        timer = window.setTimeout(() => {
+            // Don't stack on another modal or the open mobile menu.
+            if (document.querySelector('dialog[open]')) return;
+            if (document.documentElement.hasAttribute('data-nav-open')) return;
+            dialog.showModal();
+            write(String(Date.now()));
+        }, DELAY);
+    }
+
+    document.addEventListener('astro:page-load', setup);
+    document.addEventListener('astro:before-swap', () =>
+        window.clearTimeout(timer),
+    );
+</script>

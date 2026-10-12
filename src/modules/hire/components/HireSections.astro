@@ -1,0 +1,49 @@
+---
+/**
+ * Renders a hire entry's named sections in content order. The section key
+ * picks the component and tone, matching the v56 hire pages.
+ */
+import type { Tone } from '@/components/ui/Section.astro';
+import type { HireSection } from '../types';
+import HireCards from './HireCards.astro';
+import HireEnquire from './HireEnquire.astro';
+import HireGallery from './HireGallery.astro';
+import HirePanel from './HirePanel.astro';
+
+interface Props {
+    sections: Record<string, HireSection>;
+    enquiryTopic: string;
+}
+
+const { sections, enquiryTopic } = Astro.props;
+
+const galleryTones: Record<string, Tone> = {
+    look: 'sky',
+    outside: 'paper',
+    chitty: 'paper',
+};
+const featureGalleries = new Set(['chitty']);
+---
+
+{
+    Object.entries(sections).map(([key, section]) => {
+        if (key === 'panel') return <HirePanel section={section} />;
+        if (key === 'enquire')
+            return (
+                <HireEnquire
+                    section={section}
+                    topic={enquiryTopic}
+                />
+            );
+        if (section.gallery || section.images)
+            return (
+                <HireGallery
+                    section={section}
+                    tone={galleryTones[key] ?? 'sky'}
+                    layout={featureGalleries.has(key) ? 'feature' : 'auto'}
+                />
+            );
+        if (section.items) return <HireCards section={section} />;
+        return null;
+    })
+}

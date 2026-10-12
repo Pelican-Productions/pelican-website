@@ -1,0 +1,108 @@
+---
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Facts from '@/components/ui/Facts.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import { cn } from '@/lib/cn';
+import type { ContentSection } from '../types';
+
+interface Props {
+    section: ContentSection;
+    tone?: Tone | undefined;
+
+    /** Image on the left (desktop). */
+    reverse?: boolean | undefined;
+
+    id?: string | undefined;
+}
+
+const { section, tone = 'default', reverse = false, id } = Astro.props;
+const { heading, lead, body = [], list, facts, note, ctas, image } = section;
+---
+
+<Section
+    tone={tone}
+    id={id ?? section.id}
+>
+    <div
+        class={cn(
+            'grid items-center gap-9',
+            image &&
+                (reverse
+                    ? 'md:grid-cols-[0.9fr_1.1fr]'
+                    : 'md:grid-cols-[1.1fr_0.9fr]'),
+        )}
+    >
+        <div>
+            {heading && <Heading text={heading} />}
+            {
+                lead && (
+                    <Lead>
+                        <Fragment set:html={inlineHtml(lead)} />
+                    </Lead>
+                )
+            }
+            {
+                body.map(paragraph => (
+                    <p
+                        class="mb-4 text-[var(--tone-body)]"
+                        set:html={inlineHtml(paragraph)}
+                    />
+                ))
+            }
+            {
+                list && (
+                    <ul class="my-3.5">
+                        {list.map(item => (
+                            <li
+                                class="border-b-2 border-[var(--tone-rule)] py-2.5 text-[var(--tone-body)] first:border-t-2"
+                                set:html={inlineHtml(item)}
+                            />
+                        ))}
+                    </ul>
+                )
+            }
+            {
+                facts && (
+                    <Facts
+                        items={facts.map(f => ({
+                            term: f.label,
+                            detail: inlineHtml(f.value),
+                        }))}
+                    />
+                )
+            }
+            {
+                note && (
+                    <p
+                        class="mt-4 text-[var(--tone-body)]"
+                        set:html={inlineHtml(note)}
+                    />
+                )
+            }
+            {ctas && <CtaRow ctas={ctas} />}
+        </div>
+        {
+            image && (
+                <figure class={cn('m-0', reverse && 'order-first')}>
+                    <img
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width ?? 800}
+                        height={image.height ?? 600}
+                        loading="lazy"
+                        decoding="async"
+                        class="border-navy shadow-soft block aspect-[4/3] w-full border-[3px] object-cover"
+                        style={
+                            image.position
+                                ? { objectPosition: image.position }
+                                : undefined
+                        }
+                    />
+                </figure>
+            )
+        }
+    </div>
+</Section>

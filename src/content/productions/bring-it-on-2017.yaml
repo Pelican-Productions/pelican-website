@@ -1,0 +1,22 @@
+title: 'Bring It On'
+year: 2017
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/bring-it-on-2017/cover.webp'
+        alt: ''
+    colors:
+        - '#2f6bf2'
+        - '#5b7cff'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/bring-it-on-2017/1.webp'
+      alt: 'The Jackson cheer squad with a flyer high above the stage'
+    - src: '/images/musicals/bring-it-on-2017/2.webp'
+      alt: 'The Truman squad launches a flyer under red and gold lights'
+    - src: '/images/musicals/bring-it-on-2017/3.webp'
+      alt: 'The cast in black, mid-number under purple lights'
+    - src: '/images/musicals/bring-it-on-2017/4.webp'
+      alt: 'The cast in silhouette against the stage lights'
+order: 15

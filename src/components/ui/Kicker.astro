@@ -1,0 +1,35 @@
+---
+import { cn } from '@/lib/cn';
+
+interface Props {
+    /** Override the tone colour (pink on light, light blue on dark). */
+    color?:
+        'tone' | 'pink' | 'lightblue' | 'glow' | 'navy' | 'yellow' | undefined;
+
+    size?: 'md' | 'sm' | undefined;
+
+    class?: string | undefined;
+}
+
+const { color = 'tone', size = 'md', class: className } = Astro.props;
+
+const colors = {
+    tone: 'text-[var(--tone-kicker)]',
+    pink: 'text-pink',
+    lightblue: 'text-lightblue',
+    glow: 'text-glow',
+    navy: 'text-navy',
+    yellow: 'text-yellow',
+} as const;
+---
+
+<p
+    class={cn(
+        'mb-3.5 font-mono leading-[1.7] font-bold tracking-kicker uppercase',
+        size === 'md' ? 'text-[0.85rem]' : 'text-[0.72rem]',
+        colors[color],
+        className,
+    )}
+>
+    <slot />
+</p>

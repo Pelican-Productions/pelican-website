@@ -1,0 +1,13 @@
+title: 'Hire the Chitty Chitty Bang Bang car'
+images:
+    - src: '/images/hire/chitty-flying.webp'
+      alt: 'The Chitty car flying on stage in Pelican’s 2015 production'
+      caption: 'Flying high in Pelican’s 2015 production'
+    - src: '/images/hire/chitty-front.webp'
+      position: '50% 22%'
+      alt: 'The Chitty car, front view'
+      caption: 'Front view: polished bonnet, brass lamps and red spoked wheels'
+    - src: '/images/hire/chitty-stage.webp'
+      position: '50% 22%'
+      alt: 'The Chitty car on a theatre stage facing the seating'
+      caption: 'On stage, ready for its next show'

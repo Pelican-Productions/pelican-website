@@ -1,0 +1,35 @@
+---
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import type { ContentSection } from '../types';
+
+interface Props {
+    section: ContentSection;
+}
+
+const facts = Astro.props.section.facts ?? [];
+---
+
+<Section
+    tone="paper"
+    space="none"
+    class="py-7"
+>
+    <dl
+        class="grid [grid-template-columns:repeat(auto-fit,minmax(190px,1fr))] gap-x-[30px] gap-y-0"
+    >
+        {
+            facts.map(f => (
+                <div class="pt-3.5 pb-[18px]">
+                    <dt class="font-ui text-pink mb-1.5 text-[0.95rem] font-semibold">
+                        {f.label}
+                    </dt>
+                    <dd
+                        class="mt-0.5 text-white"
+                        set:html={inlineHtml(f.value)}
+                    />
+                </div>
+            ))
+        }
+    </dl>
+</Section>

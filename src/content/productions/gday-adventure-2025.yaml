@@ -1,0 +1,47 @@
+title: 'G’day Adventure: A South Aussie Road Trip'
+year: 2025
+company: 'professional'
+status: 'past'
+summary:
+    'A tour of the regions of South Australia, with gorgeous graphics and iconic
+    songs to match.'
+heading: 'G’day Adventure ==Road Trip=='
+lead:
+    'A South Aussie road trip through the regions of South Australia, with
+    gorgeous graphics and iconic songs to match.'
+anchor: 'road-trip'
+photos:
+    - src: '/images/pro/rt-1.jpg'
+      alt: 'The road-trip van and WEST signs on a colourful stage'
+      shape: 'wide'
+    - src: '/images/pro/rt-2.jpg'
+      alt: 'Performers in sequins and bold prints beside the road-trip van'
+      shape: 'tall'
+    - src: '/images/pro/rt-3.jpg'
+      alt: 'Three singers in gowns against a red-rock cave backdrop'
+      shape: 'wide'
+    - src: '/images/pro/rt-4.jpg'
+      alt: 'A vocal group in earthy tones against a red-rock screen'
+      shape: 'wide'
+    - src: '/images/pro/rt-5.jpg'
+      alt: 'A dancer and singer in a burgundy gown in front of vineyards'
+      shape: 'tall'
+    - src: '/images/pro/rt-6.jpg'
+      alt: 'A soloist in a long red gown against autumn forest'
+      shape: 'wide'
+    - src: '/images/pro/rt-7.webp'
+      alt: 'A dancer mid-kick in silver fringe'
+      shape: 'tall'
+    - src: '/images/pro/rt-8.webp'
+      alt: 'Two dancers in purple and silver feathers'
+      shape: 'tall'
+    - src: '/images/pro/rt-9.jpg'
+      alt: 'Three performers in front of a lake and autumn trees'
+      shape: 'tall'
+    - src: '/images/pro/rt-12.webp'
+      alt: 'A singer on stage in front of ocean cliffs'
+      shape: 'wide'
+    - src: '/images/pro/rt-13.jpg'
+      alt: "The G'day Adventure cast gathered backstage in bright costumes"
+      shape: 'wide'
+order: 101

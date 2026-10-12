@@ -1,0 +1,183 @@
+- id: 'mt-foundations'
+  name: 'Musical Theatre: Foundations'
+  kind: 'class'
+  href: '/programs/musical-theatre/'
+  summary: 'Saturdays 1.00–2.30pm, 5–10 years'
+  price: '$320 per 10-week term'
+  group:
+      ages: '5–10'
+      name: 'Foundations'
+      duration: '90 minutes per week'
+      schedule: "Saturdays 1.00–2.30pm\n5–10 years"
+  table:
+      name: 'Musical Theatre: Foundations'
+      who: '5–10 years'
+      when: 'Saturdays 1.00–2.30pm'
+      length: '90 min'
+      cost: '$320 per term'
+  order: 1
+- id: 'mt-academy'
+  name: 'Musical Theatre: Academy'
+  kind: 'class'
+  href: '/programs/musical-theatre/'
+  summary:
+      'Sing, act and dance in one session. Fridays 4.30–8.00pm or Saturdays
+      9.30am–12.30pm, 8 to 18 years'
+  price: '$475 per 10-week term'
+  group:
+      ages: '8–18'
+      name: 'Academy'
+      duration: 'Weekly, 3–3.5 hours'
+      schedule:
+          "Fridays 4.30–8.00pm, including a dinner break, or Saturdays
+          9.30am–12.30pm\nBoth days: Juniors (Years 3–5), Intermediates (Years
+          6–7) and Seniors (Year 8 to 18 years)"
+  table:
+      name: 'Musical Theatre: Academy'
+      who: '8–18 years'
+      when: 'Fridays 4.30–8.00pm or Saturdays 9.30am–12.30pm'
+      length: '3–3.5 hrs'
+      cost: '$475 per term'
+  order: 2
+- id: 'acting-junior'
+  name: 'Acting: Junior (7–11)'
+  kind: 'class'
+  href: '/programs/acting/'
+  summary: 'Tuesdays 4.30–5.15pm'
+  price: '$200–$250 per 10-week term'
+  group:
+      ages: '7–11'
+      name: 'Junior'
+      duration: '1 hour per week'
+      schedule: 'Tuesdays 4.30–5.15pm'
+  table:
+      name: 'Acting: Junior'
+      who: '7–11 years'
+      when: 'Tuesdays 4.30–5.15pm'
+      length: '1 hr'
+      cost: '$200–$250 per term'
+  order: 3
+- id: 'acting-senior'
+  name: 'Acting: Senior (12–17)'
+  kind: 'class'
+  href: '/programs/acting/'
+  summary: 'Tuesdays 5.15–6.15pm'
+  price: '$200–$250 per 10-week term'
+  group:
+      ages: '12–17'
+      name: 'Senior'
+      duration: '1 hour per week'
+      schedule: 'Tuesdays 5.15–6.15pm'
+  table:
+      name: 'Acting: Senior'
+      who: '12–17 years'
+      when: 'Tuesdays 5.15–6.15pm'
+      length: '1 hr'
+      cost: '$200–$250 per term'
+  order: 4
+- id: 'dance-junior'
+  name: 'SMASH Dance: Junior (7–11)'
+  kind: 'class'
+  href: '/programs/dance/'
+  summary: 'Tuesdays 5.15–6.00pm'
+  price: '$200–$250 per 10-week term'
+  group:
+      ages: '7–11'
+      name: 'Junior (Level 1)'
+      duration: '45 minutes per week'
+      schedule: 'Tuesdays 5.15–6.00pm'
+  table:
+      name: 'Dance: Junior'
+      who: '7–11 years'
+      when: 'Tuesdays 5.15–6.00pm'
+      length: '45 min'
+      cost: '$200–$250 per term'
+  order: 5
+- id: 'dance-senior'
+  name: 'SMASH Dance: Senior (12–17)'
+  kind: 'class'
+  href: '/programs/dance/'
+  summary: 'Tuesdays 4.15–5.15pm'
+  price: '$200–$250 per 10-week term'
+  group:
+      ages: '12–17'
+      name: 'Senior (Level 2)'
+      duration: '1 hour per week'
+      schedule: 'Tuesdays 4.15–5.15pm'
+  table:
+      name: 'Dance: Senior'
+      who: '12–17 years'
+      when: 'Tuesdays 4.15–5.15pm'
+      length: '1 hr'
+      cost: '$200–$250 per term'
+  order: 6
+- id: 'singing-lessons'
+  name: 'Individual singing lessons'
+  kind: 'class'
+  href: '/programs/singing-lessons/'
+  summary: 'Private 30-minute lessons, ages 7+'
+  price: '$450 per 10-week term'
+  table:
+      name: 'Singing lessons'
+      who: '7+ years'
+      when: 'Monday, Tuesday, Wednesday, Thursday and Saturday'
+      length: '30 min, private'
+      cost: '$450 per term'
+  order: 7
+- id: 'spotlight'
+  name: 'Spotlight camp'
+  kind: 'camp'
+  href: '/camps/'
+  summary: '4–9 Jan 2027, ages 8–16, in the January school holidays'
+  price: '$490 + GST'
+  order: 8
+- id: 'music-theatre-camp'
+  name: 'Music Theatre Camp'
+  kind: 'camp'
+  href: '/camps/'
+  summary: '4–17 Jan 2027, ages 8–19'
+  price: '$690 + GST'
+  order: 9
+- id: 'cert-iv'
+  name: 'Pelican Courses: Certificate IV in Musical Theatre'
+  kind: 'pro'
+  href: '/courses/'
+  summary:
+      'For serious pre-professional performers in Years 10–13, including
+      students up to age 20'
+  price: 'See the prospectus'
+  order: 10
+- id: 'diploma'
+  name: 'Pelican Courses: Diploma of Musical Theatre'
+  kind: 'pro'
+  href: '/courses/'
+  summary: 'Post-school, pre-professional. New for 2027'
+  price: 'See the prospectus'
+  order: 11
+- id: 'junior-musical'
+  name: 'Junior Musical'
+  kind: 'musical'
+  href: '/musicals/#programs'
+  summary:
+      'Ages 8–14, or up to 18 depending on the show. Rehearsals May–July
+      (Saturdays from 4pm and Sunday daytime), performing early August at The
+      Arts Theatre'
+  price: 'Auditions announced in the newsletter and on socials'
+  order: 12
+- id: 'senior-musical'
+  name: 'Senior Musical'
+  kind: 'musical'
+  href: '/musicals/#programs'
+  summary:
+      'Ages 16–27. Rehearsals May–July (Saturday and Sunday evenings from 5pm),
+      performing early August at The Arts Theatre'
+  price: 'Auditions announced in the newsletter and on socials'
+  order: 13
+- id: 'sing-oz'
+  name: 'Sing!OZ adult choir'
+  kind: 'choir'
+  href: '/sing-oz/'
+  summary:
+      'No audition or experience needed. 2026 is full, so ask about the waitlist'
+  price: '$330 per 10-week term'
+  order: 14

@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+type PageSection = CollectionEntry<'pages'>['data']['sections'][string];
+
+interface Props {
+    section: PageSection;
+}
+
+const { id, heading, lead, ctas } = Astro.props.section;
+---
+
+<Section
+    tone="sky"
+    id={id}
+>
+    {heading && <Heading text={heading} />}
+    {
+        lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(lead)} />
+            </Lead>
+        )
+    }
+    {ctas && <CtaRow ctas={ctas} />}
+</Section>

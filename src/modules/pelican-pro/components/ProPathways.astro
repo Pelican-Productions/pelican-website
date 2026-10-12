@@ -1,0 +1,51 @@
+---
+import Facts from '@/components/ui/Facts.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import PathCard from '@/components/ui/PathCard.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import type { ContentSection } from '@/modules/programs';
+
+interface Props {
+    section: ContentSection;
+}
+
+const { section } = Astro.props;
+---
+
+<Section id={section.id}>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    <div class="mt-9 grid gap-x-10 gap-y-12 md:grid-cols-2">
+        {
+            section.items?.map(item => (
+                <div
+                    id={item.id}
+                    class="scroll-mt-24"
+                >
+                    <PathCard
+                        title={item.title ?? ''}
+                        {...(item.kicker ? { kicker: item.kicker } : {})}
+                    >
+                        {item.text && <p set:html={inlineHtml(item.text)} />}
+                        {item.facts && (
+                            <Facts
+                                items={item.facts.map(f => ({
+                                    term: f.label,
+                                    detail: inlineHtml(f.value),
+                                }))}
+                            />
+                        )}
+                    </PathCard>
+                </div>
+            ))
+        }
+    </div>
+</Section>

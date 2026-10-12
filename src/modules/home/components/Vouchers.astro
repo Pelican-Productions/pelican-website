@@ -1,0 +1,44 @@
+---
+import CtaRow, { type Cta } from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Props {
+    heading?: string | undefined;
+    body?: string[] | undefined;
+    image?: { src: string; alt: string } | undefined;
+    ctas?: Cta[] | undefined;
+}
+
+const { heading, body = [], image, ctas = [] } = Astro.props;
+---
+
+<Section
+    tone="default"
+    class="border-navy border-t-[6px]"
+>
+    {heading && <Heading text={heading} />}
+    {
+        image && (
+            <img
+                src={image.src}
+                alt={image.alt}
+                width="1920"
+                height="400"
+                loading="lazy"
+                decoding="async"
+                class="border-navy shadow-drop mb-[18px] w-full border-[3px]"
+            />
+        )
+    }
+    {
+        body.map(p => (
+            <p
+                class="text-ink"
+                set:html={inlineHtml(p)}
+            />
+        ))
+    }
+    {ctas.length > 0 && <CtaRow ctas={ctas} />}
+</Section>

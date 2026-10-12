@@ -1,0 +1,31 @@
+---
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import type { ContentSection } from '../types';
+
+interface Props {
+    section: ContentSection;
+}
+
+const { section } = Astro.props;
+---
+
+<Section class="text-center">
+    {
+        section.heading && (
+            <Heading
+                text={section.heading}
+                align="center"
+            />
+        )
+    }
+    {
+        section.ctas && (
+            <CtaRow
+                ctas={section.ctas}
+                align="center"
+            />
+        )
+    }
+</Section>

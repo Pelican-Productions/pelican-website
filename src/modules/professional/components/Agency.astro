@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+type PageSection = CollectionEntry<'pages'>['data']['sections'][string];
+
+interface Props {
+    section: PageSection;
+}
+
+const { id, heading, lead, body = [], ctas, image } = Astro.props.section;
+---
+
+<Section
+    tone="navy"
+    id={id}
+    wrapClass="grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr]"
+>
+    <div>
+        {heading && <Heading text={heading} />}
+        {
+            lead && (
+                <Lead>
+                    <Fragment set:html={inlineHtml(lead)} />
+                </Lead>
+            )
+        }
+        {
+            body.map(p => (
+                <p
+                    class="mb-4 text-[var(--tone-body)]"
+                    set:html={inlineHtml(p)}
+                />
+            ))
+        }
+        {ctas && <CtaRow ctas={ctas} />}
+    </div>
+    {
+        image && (
+            <img
+                src={image.src}
+                alt={image.alt}
+                width={image.width ?? 900}
+                height={image.height ?? 600}
+                loading="lazy"
+                decoding="async"
+                class="border-navy shadow-lift block aspect-[3/2] w-full border-[3px] object-cover object-[50%_22%]"
+            />
+        )
+    }
+</Section>

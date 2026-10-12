@@ -1,0 +1,35 @@
+---
+import type { Offering } from '../types';
+
+interface Props {
+    offering: Offering;
+    /** Link text at the bottom of the card. */
+    cta: string;
+}
+
+const { offering, cta } = Astro.props;
+const { name, href, summary, price } = offering.data;
+---
+
+<a
+    href={href}
+    class="group border-navy text-navy hover:border-pink block border-2 bg-white p-5 no-underline transition-colors"
+>
+    <h3
+        class="font-display tracking-tightish mb-2 text-[1.2rem] leading-[1.15] font-extrabold uppercase"
+    >
+        {name}
+    </h3>
+    <p class="text-muted text-[0.95rem]">{summary}</p>
+    <p class="mt-2.5 font-bold">{price}</p>
+    <span
+        class="font-ui text-cobalt mt-3 inline-block text-[0.95rem] font-bold"
+    >
+        {cta}
+        <span
+            aria-hidden="true"
+            class="ml-1 inline-block transition-transform group-hover:translate-x-1"
+            >&rarr;</span
+        >
+    </span>
+</a>

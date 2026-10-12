@@ -1,0 +1,12 @@
+export { default as AgeGroups } from './components/AgeGroups.astro';
+export { default as ClassFinder } from './components/ClassFinder.astro';
+export { default as CompareTable } from './components/CompareTable.astro';
+export { default as FactsPanel } from './components/FactsPanel.astro';
+export { default as JoinCta } from './components/JoinCta.astro';
+export { default as OfferingCard } from './components/OfferingCard.astro';
+export { default as ProgramFaq } from './components/ProgramFaq.astro';
+export { default as ProgramSections } from './components/ProgramSections.astro';
+export { default as SplitSection } from './components/SplitSection.astro';
+export { default as TeacherCards } from './components/TeacherCards.astro';
+export { default as TeacherProfile } from './components/TeacherProfile.astro';
+export type { ContentSection, Offering, Person } from './types';

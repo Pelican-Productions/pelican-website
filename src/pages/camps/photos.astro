@@ -1,0 +1,40 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import Section from '@/components/ui/Section.astro';
+import { ShapeMosaic } from '@/modules/camps';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'camp-photos');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+
+const gallery = sections.photos?.gallery
+    ? await getEntry(sections.photos.gallery)
+    : undefined;
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+>
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+    />
+    {
+        gallery && (
+            <Section tone="paper">
+                <ShapeMosaic
+                    images={gallery.data.images}
+                    class="mt-0"
+                />
+            </Section>
+        )
+    }
+</BaseLayout>

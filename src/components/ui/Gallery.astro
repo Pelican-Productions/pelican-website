@@ -1,0 +1,77 @@
+---
+import { cn } from '@/lib/cn';
+
+export interface GalleryImage {
+    src: string;
+    alt: string;
+    width?: number | undefined;
+
+    height?: number | undefined;
+
+    /** CSS object-position override. */
+    position?: string | undefined;
+
+    caption?: string | undefined;
+}
+
+interface Props {
+    images: GalleryImage[];
+    /**
+     * grid: even 3-up stage gallery (.stagegal), 4:3 crops.
+     * mosaic: 4-col dense mosaic (.mosaic); every 3rd image (0, 3, 6...) is a
+     *   tall 1-col tile, the rest are wide 2-col tiles. Works best with 6, 9...
+     */
+    layout?: 'grid' | 'mosaic' | undefined;
+
+    class?: string | undefined;
+}
+
+const { images, layout = 'grid', class: className } = Astro.props;
+---
+
+<div
+    class={cn(
+        'mt-5 grid',
+        layout === 'grid' && 'grid-cols-2 gap-3.5 md:grid-cols-3 md:gap-[22px]',
+        layout === 'mosaic' &&
+            'grid-flow-dense auto-rows-[160px] grid-cols-2 gap-3.5 md:auto-rows-[220px] md:grid-cols-4',
+        className,
+    )}
+>
+    {
+        images.map((image, i) => (
+            <figure
+                class={cn(
+                    'm-0 flex min-w-0 flex-col',
+                    layout === 'mosaic' && 'md:col-span-2',
+                    layout === 'mosaic' &&
+                        i % 3 === 0 &&
+                        'row-span-2 md:col-span-1',
+                )}
+            >
+                <img
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width ?? 800}
+                    height={image.height ?? 600}
+                    loading="lazy"
+                    decoding="async"
+                    class={cn(
+                        'border-navy bg-navy shadow-soft w-full border-2 object-cover',
+                        layout === 'grid' ? 'aspect-[4/3]' : 'min-h-0 flex-1',
+                    )}
+                    style={
+                        image.position
+                            ? { objectPosition: image.position }
+                            : undefined
+                    }
+                />
+                {image.caption && (
+                    <figcaption class="pt-1.5 text-[0.9rem] text-[var(--tone-text,#fff)]">
+                        {image.caption}
+                    </figcaption>
+                )}
+            </figure>
+        ))
+    }
+</div>

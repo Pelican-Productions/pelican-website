@@ -1,0 +1,75 @@
+---
+import { render } from 'astro:content';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import type { ContentSection, Person } from '../types';
+
+interface Props {
+    person: Person;
+    /** programs/singing-lessons `teacherPage` section. */
+    section: ContentSection | undefined;
+}
+
+const { person, section } = Astro.props;
+const { Content } = await render(person);
+const name = person.data.name;
+const ctas = (section?.ctas ?? []).map(c => ({
+    ...c,
+    href: c.href.replaceAll('{name}', encodeURIComponent(name)),
+}));
+---
+
+<Section space="lg">
+    <div class="grid items-center gap-9 md:grid-cols-[11fr_9fr]">
+        <div>
+            {
+                section?.kicker && (
+                    <p class="my-4">
+                        <a
+                            href="/programs/singing-lessons/#teachers"
+                            class="text-cobalt underline"
+                        >
+                            {section.kicker}
+                        </a>
+                    </p>
+                )
+            }
+            <Heading
+                as="h1"
+                size="hero"
+                text={name}
+                class="text-[clamp(2.8rem,7vw,5.4rem)] leading-[1.02] uppercase"
+            />
+            {
+                person.data.teacher && (
+                    <>
+                        <Lead>{person.data.teacher.lead}</Lead>
+                        <p class="text-muted mt-0 mb-2.5 font-mono text-[0.85rem] font-bold">
+                            {person.data.teacher.quals}
+                        </p>
+                    </>
+                )
+            }
+            <div
+                class="credits text-muted mt-6 [&_li]:border-b-2 [&_li]:border-[var(--tone-rule)] [&_li]:py-2.5 [&_li:first-child]:border-t-2 [&_ul]:m-0 [&_ul]:list-none [&_ul]:p-0"
+            >
+                <Content />
+            </div>
+            <CtaRow ctas={ctas} />
+        </div>
+        <figure class="border-navy m-0 w-full max-w-[340px] border-[3px]">
+            <img
+                src={person.data.image.src}
+                alt={person.data.image.alt}
+                width="680"
+                height="850"
+                class="block aspect-[4/5] w-full object-cover"
+                style={{
+                    objectPosition: person.data.image.position ?? '50% 22%',
+                }}
+            />
+        </figure>
+    </div>
+</Section>

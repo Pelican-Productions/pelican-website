@@ -1,0 +1,120 @@
+---
+import { cn } from '@/lib/cn';
+
+interface Props {
+    /** header (compact) or footer (slightly larger). */
+    size?: 'header' | 'footer' | undefined;
+
+    href?: string | undefined;
+
+    class?: string | undefined;
+}
+
+const { size = 'header', href = '/', class: className } = Astro.props;
+const footer = size === 'footer';
+
+/**
+ * Back to front. All share one viewBox so they stack in the same box. The
+ * header drops the backing circle.
+ */
+const layers = [
+    '/images/brand/circle.svg',
+    '/images/brand/wing-pale.svg',
+    '/images/brand/wing-pale-beak.svg',
+    '/images/brand/wing-red.svg',
+    '/images/brand/wing-blue.svg',
+    '/images/brand/body.svg',
+    '/images/brand/tail.svg',
+    '/images/brand/beak.svg',
+    '/images/brand/eye.svg',
+].filter(src => footer || !src.endsWith('/circle.svg'));
+
+const productions = [...'PRODUCTIONS'];
+---
+
+<a
+    href={href}
+    aria-label="Pelican Productions"
+    class={cn('lockup', footer && 'is-footer', className)}
+>
+    <span
+        class="mark"
+        aria-hidden="true"
+    >
+        {
+            layers.map(src => (
+                <img
+                    src={src}
+                    alt=""
+                    width="260"
+                    height="244"
+                />
+            ))
+        }
+    </span>
+    <span
+        class="word"
+        aria-hidden="true"
+    >
+        <span class="name">PELICAN</span>
+        <span class="sub">
+            {productions.map(letter => <span>{letter}</span>)}
+        </span>
+    </span>
+</a>
+
+<style>
+    .lockup {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        gap: 0.42em;
+        color: #fff;
+        font-size: 1.35rem;
+        text-decoration: none;
+    }
+
+    .lockup.is-footer {
+        font-size: 1.7rem;
+    }
+
+    @media (width >= 56.25rem) {
+        .lockup:not(.is-footer) {
+            font-size: 1.85rem;
+        }
+    }
+
+    .mark {
+        display: grid;
+        height: 2.15em;
+        aspect-ratio: 260 / 244;
+    }
+
+    .mark img {
+        grid-area: 1 / 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    .word {
+        display: flex;
+        flex-direction: column;
+        gap: 0.14em;
+        font-family: var(--font-brand);
+    }
+
+    .name {
+        font-size: 1em;
+        font-weight: 800;
+        line-height: 0.8;
+        letter-spacing: -0.035em;
+    }
+
+    .sub {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.34em;
+        font-weight: 500;
+        line-height: 1;
+    }
+</style>

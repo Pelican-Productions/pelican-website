@@ -1,0 +1,43 @@
+---
+import { getEntry } from 'astro:content';
+import Gallery from '@/components/ui/Gallery.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+import { cn } from '@/lib/cn';
+import type { HireSection } from '../types';
+
+interface Props {
+    section: HireSection;
+    tone?: Tone | undefined;
+
+    /**
+     * auto: 3-up for 3n images, otherwise 2-up.
+     * feature: first image spans the full width (16:9), rest 2-up.
+     */
+    layout?: 'auto' | 'feature' | undefined;
+}
+
+const { section, tone = 'sky', layout = 'auto' } = Astro.props;
+const gallery = section.gallery ? await getEntry(section.gallery) : undefined;
+const images = gallery?.data.images ?? section.images ?? [];
+const threeUp = layout === 'auto' && images.length % 3 === 0;
+---
+
+<Section
+    id={section.id}
+    tone={tone}
+>
+    {section.heading && <Heading text={section.heading} />}
+    {section.lead && <Lead>{section.lead}</Lead>}
+    <Gallery
+        images={images}
+        class={cn(
+            'mt-[30px] grid-cols-1',
+            threeUp ? 'md:grid-cols-3' : 'md:grid-cols-2',
+            // v56 .gal: 3px frames, only the lead photo is lifted.
+            layout === 'feature' &&
+                '[&_img]:border-[3px] [&_img]:shadow-none [&>figure:first-child]:col-span-full [&>figure:first-child_img]:aspect-video [&>figure:first-child_img]:object-[50%_15%] [&>figure:first-child_img]:shadow-[0_13px_30px_rgba(10,14,42,0.16)]',
+        )}
+    />
+</Section>

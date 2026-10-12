@@ -1,0 +1,30 @@
+---
+import Grid from '@/components/ui/Grid.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section, { type Tone } from '@/components/ui/Section.astro';
+import type { HireSection } from '../types';
+import HireCard from './HireCard.astro';
+
+interface Props {
+    section: HireSection;
+    tone?: Tone | undefined;
+}
+
+const { section, tone = 'default' } = Astro.props;
+const items = section.items ?? [];
+---
+
+<Section
+    id={section.id}
+    tone={tone}
+>
+    {section.heading && <Heading text={section.heading} />}
+    {section.lead && <Lead>{section.lead}</Lead>}
+    <Grid
+        cols={items.length % 3 === 0 ? 3 : 2}
+        class={section.heading ? '' : 'mt-0'}
+    >
+        {items.map(item => <HireCard item={item} />)}
+    </Grid>
+</Section>

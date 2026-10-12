@@ -1,0 +1,18 @@
+---
+import Faq, { type FaqItem } from '@/components/ui/Faq.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import type { ContentSection } from '../types';
+
+interface Props {
+    section: ContentSection;
+    items: FaqItem[];
+}
+
+const { section, items } = Astro.props;
+---
+
+<Section id={section.id}>
+    {section.heading && <Heading text={section.heading} />}
+    <Faq items={items} />
+</Section>

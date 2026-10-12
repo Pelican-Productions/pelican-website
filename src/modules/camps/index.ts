@@ -1,5 +1,6 @@
-export { default as CampCard } from './components/CampCard.astro';
-export { default as CampsHero } from './components/CampsHero.astro';
-export { default as CampsKeyDates } from './components/CampsKeyDates.astro';
-export { default as CampsPast } from './components/CampsPast.astro';
-export { default as CampsTwoCamps } from './components/CampsTwoCamps.astro';
+export { default as CampPanel } from './components/CampPanel.astro';
+export { default as CampFeature } from './components/CampFeature.astro';
+export { default as CampDay } from './components/CampDay.astro';
+export { default as CampCta } from './components/CampCta.astro';
+export { default as ShapeMosaic } from './components/ShapeMosaic.astro';
+export { campEvents } from './json-ld';

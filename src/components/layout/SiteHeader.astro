@@ -1,118 +1,168 @@
 ---
-import { navigation, portalUrl, type NavId } from '@/data/site';
-import BrandLockup from '@/components/layout/BrandLockup.astro';
-import Button from '@/components/ui/Button.astro';
-import { cn } from '@/lib/cn';
+import SiteNav from '@/components/layout/SiteNav.astro';
+import Logo from '@/components/ui/Logo.astro';
+import { site } from '@/data/site';
 
 interface Props {
-    active?: NavId | '';
+    /** Top-level nav key to mark as the current section. */
+    active?: string | undefined;
 }
 
-const { active = '' } = Astro.props;
-const navId = 'site-nav';
+const { active } = Astro.props;
 ---
 
 <header
-    class="bg-paper sticky top-0 z-50 -mx-4 px-4 py-3 sm:-mx-8 sm:px-8 lg:relative lg:top-auto lg:mx-0 lg:bg-transparent lg:px-0 lg:py-0"
+    class="top border-line bg-navy relative z-[96] border-b"
+    data-site-header
 >
-    <div class="relative flex items-center justify-between gap-3">
-        <BrandLockup />
-
-        <nav
-            id={navId}
-            class="bg-cream hidden items-center gap-2 rounded-[800px] px-3 py-2 lg:flex"
-            aria-label="Main"
+    <div class="wrap flex min-h-24 items-center gap-4 py-[13px]">
+        <Logo />
+        <button
+            type="button"
+            class="menubtn"
+            aria-expanded="false"
+            aria-controls="nav"
+            data-menu-toggle
         >
-            {
-                navigation.map(item => (
-                    <a
-                        href={item.href}
-                        class={cn(
-                            'rounded-[800px] px-3 py-2 text-base whitespace-nowrap transition-colors',
-                            item.id === active
-                                ? 'bg-ink text-white hover:text-white'
-                                : 'text-ink hover:bg-paper hover:text-ink',
-                        )}
-                        aria-current={item.id === active ? 'page' : undefined}
-                    >
-                        {item.label}
-                    </a>
-                ))
-            }
-        </nav>
-
-        <div class="hidden items-center gap-3 lg:flex">
-            <Button
-                href={portalUrl}
-                variant="secondary"
-                target="_blank"
-                rel="noreferrer"
-            >
-                Student portal
-            </Button>
-            <Button
-                href={portalUrl}
-                variant="primary"
-                target="_blank"
-                rel="noreferrer"
-            >
-                Enrol for Term 3
-            </Button>
-        </div>
-
-        <details class="group shrink-0 lg:hidden">
-            <summary
-                class="focus-ring bg-cream text-ink border-ink inline-flex cursor-pointer list-none items-center rounded-[40px] border-[1.5px] px-3 py-2 text-base font-medium [&::-webkit-details-marker]:hidden"
-                aria-label="Open menu"
-            >
-                <span class="group-open:hidden">Menu</span>
-                <span class="hidden group-open:inline">Close</span>
-            </summary>
-            <nav
-                class="bg-cream border-ink absolute inset-x-0 top-full z-50 mt-3 flex flex-col gap-1 rounded-[40px] border-[1.5px] p-4 shadow-lg"
-                aria-label="Mobile"
-            >
-                {
-                    navigation.map(item => (
-                        <a
-                            href={item.href}
-                            class={cn(
-                                'rounded-[800px] px-4 py-3 text-base transition-colors',
-                                item.id === active
-                                    ? 'bg-ink text-white hover:text-white'
-                                    : 'text-ink hover:bg-paper',
-                            )}
-                            aria-current={
-                                item.id === active ? 'page' : undefined
-                            }
-                        >
-                            {item.label}
-                        </a>
-                    ))
-                }
-                <div
-                    class="border-ink/20 mt-2 flex flex-col gap-2 border-t pt-3"
-                >
-                    <Button
-                        href={portalUrl}
-                        variant="secondary"
-                        class="w-full justify-center"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Student portal
-                    </Button>
-                    <Button
-                        href={portalUrl}
-                        variant="primary"
-                        class="w-full justify-center"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Enrol for Term 3
-                    </Button>
-                </div>
-            </nav>
-        </details>
+            <span
+                class="bars"
+                aria-hidden="true"
+            ></span>
+            <span data-menu-label>Menu</span>
+        </button>
+        <a
+            class="rounded-btn bg-hot font-ui shadow-hard-glow nav:inline-block ml-auto hidden px-7 py-[15px] text-[0.95rem] leading-none font-bold text-white no-underline transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5"
+            href={site.enrolUrl}
+            target="_blank"
+            rel="noopener"
+            >Enrol now</a
+        >
     </div>
 </header>
+<SiteNav active={active} />
+
+<style>
+    .menubtn {
+        display: none;
+    }
+
+    @media (width < 56.25rem) {
+        .menubtn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+            padding: 10px 14px;
+            border: 3px solid #fff;
+            background: none;
+            color: #fff;
+            font: 700 1rem/1 var(--font-ui);
+            cursor: pointer;
+        }
+    }
+
+    .bars,
+    .bars::before,
+    .bars::after {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: currentColor;
+        transition:
+            transform 0.2s,
+            background 0.2s;
+    }
+
+    .bars {
+        position: relative;
+    }
+
+    .bars::before,
+    .bars::after {
+        content: '';
+        position: absolute;
+        left: 0;
+    }
+
+    .bars::before {
+        top: -6px;
+    }
+
+    .bars::after {
+        top: 6px;
+    }
+
+    .menubtn[aria-expanded='true'] .bars {
+        background: transparent;
+    }
+
+    .menubtn[aria-expanded='true'] .bars::before {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .menubtn[aria-expanded='true'] .bars::after {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+</style>
+
+<script>
+    const root = document.documentElement;
+
+    function setScrolled() {
+        root.toggleAttribute('data-scrolled', window.scrollY > 200);
+    }
+
+    function closeMenu() {
+        root.removeAttribute('data-nav-open');
+        const button =
+            document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+        if (!button) return;
+        button.setAttribute('aria-expanded', 'false');
+        const label = button.querySelector('[data-menu-label]');
+        if (label) label.textContent = 'Menu';
+    }
+
+    // Window-level listeners: register once per full page load.
+    window.addEventListener('scroll', setScrolled, { passive: true });
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        if (root.hasAttribute('data-nav-open')) {
+            closeMenu();
+            document
+                .querySelector<HTMLButtonElement>('[data-menu-toggle]')
+                ?.focus();
+            return;
+        }
+        // Collapse an open desktop dropdown by moving focus to its parent link.
+        const active = document.activeElement;
+        const dd = active?.closest('.dd');
+        if (dd && active !== dd.firstElementChild) {
+            (dd.firstElementChild as HTMLElement | null)?.focus();
+        }
+    });
+    document.addEventListener('astro:before-swap', closeMenu);
+
+    // Element-level setup: body is swapped by ClientRouter, so re-bind per page.
+    document.addEventListener('astro:page-load', () => {
+        setScrolled();
+        const button =
+            document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+        const header =
+            document.querySelector<HTMLElement>('[data-site-header]');
+        if (!button || !header) return;
+
+        button.addEventListener('click', () => {
+            const open = !root.hasAttribute('data-nav-open');
+            if (open) {
+                root.style.setProperty(
+                    '--header-h',
+                    `${header.getBoundingClientRect().bottom}px`,
+                );
+            }
+            root.toggleAttribute('data-nav-open', open);
+            button.setAttribute('aria-expanded', String(open));
+            const label = button.querySelector('[data-menu-label]');
+            if (label) label.textContent = open ? 'Close' : 'Menu';
+        });
+    });
+</script>

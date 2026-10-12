@@ -1,0 +1,72 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Lane {
+    title?: string | undefined;
+    links?:
+        | { label: string; href: string; note?: string | undefined }[]
+        | undefined;
+}
+
+interface Props {
+    heading?: string | undefined;
+    lead?: string | undefined;
+    items: Lane[];
+}
+
+const { heading, lead, items } = Astro.props;
+
+// Top rule and age label colour per lane (cobalt, light blue, watermelon).
+const accents = [
+    'border-cobalt [&_.age]:text-cobalt',
+    'border-lightblue [&_.age]:text-[#1a8fc4]',
+    'border-watermelon [&_.age]:text-watermelon',
+];
+---
+
+<Section
+    tone="default"
+    marks="invert"
+>
+    {heading && <Heading text={heading} />}
+    {
+        lead && (
+            <Lead class="[&_a]:underline [&_a]:underline-offset-2">
+                <Fragment set:html={inlineHtml(lead)} />
+            </Lead>
+        )
+    }
+    <div class="mt-9 grid gap-x-11 gap-y-6 md:grid-cols-3">
+        {
+            items.map((lane, i) => (
+                <div
+                    class={`rounded-card border-t-4 border-b border-b-[#bfe3f7] bg-white px-0.5 pt-7 shadow-[0_10px_30px_rgba(47,107,242,0.08)] ${accents[i % accents.length]}`}
+                >
+                    <h3 class="age font-condensed mb-3.5 px-0.5 text-[2rem] leading-none font-bold tracking-[-0.03em] uppercase">
+                        {lane.title}
+                    </h3>
+                    <ul class="flex flex-col gap-1">
+                        {lane.links?.map(link => (
+                            <li class="border-pale-line border-b-2">
+                                <a
+                                    href={link.href}
+                                    class="text-ink hover:bg-pale flex items-baseline justify-between gap-2.5 px-1 py-[15px] text-[1.1rem] leading-[1.7] font-medium tracking-[-0.005em] no-underline"
+                                >
+                                    {link.label}
+                                    {link.note && (
+                                        <span class="shrink-0 text-right text-[0.85rem] text-[#5b6aa8]">
+                                            {link.note}
+                                        </span>
+                                    )}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))
+        }
+    </div>
+</Section>

@@ -1,0 +1,26 @@
+title: 'Legally Blonde'
+year: 2023
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/legally-blonde-2023/cover.webp'
+        alt: ''
+    colors:
+        - '#ff4d6d'
+        - '#ff8fa3'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/legally-blonde-2023/1.jpg'
+      alt: 'Elle and the cheer squad in front of the Harvard gates'
+    - src: '/images/musicals/legally-blonde-2023/2.webp'
+      alt: 'The sorority sisters gasp in the opening number'
+    - src: '/images/musicals/legally-blonde-2023/3.webp'
+      alt: 'Elle in pink, mid-kick in knee-high boots'
+    - src: '/images/musicals/legally-blonde-2023/4.webp'
+      alt: 'Elle holding her little white dog'
+    - src: '/images/musicals/legally-blonde-2023/5.webp'
+      alt: 'Elle in her pink jacket with sunglasses in hand'
+    - src: '/images/musicals/legally-blonde-2023/6.webp'
+      alt: 'Elle with her heart notebook and pom-pom pen'
+order: 7

@@ -1,0 +1,126 @@
+- id: 'europe-2028-bookings'
+  when: 'Now'
+  sub: 'Book'
+  title: 'Europe 2028 tour bookings open'
+  status: 'Closing soon'
+  text:
+      'Closing soon. Paris, Disneyland Paris, London and a Mediterranean cruise.'
+  href: '/trips/'
+  lists:
+      - 'home'
+  order: 1
+- id: 'camp-auditions-2026'
+  when: '9–18 Oct'
+  sub: '2026'
+  title: 'Music Theatre Camp & Spotlight auditions'
+  text: 'Optional: you don’t need to audition to take part.'
+  href: '/camps/'
+  lists:
+      - 'home'
+  order: 2
+- id: 'sing-oz-concert-2026'
+  when: 'Sat 24 Oct'
+  sub: '2026'
+  title: 'Sing!OZ in concert'
+  text: 'Norwood Concert Hall, with a live band.'
+  href: '/sing-oz/'
+  lists:
+      - 'home'
+  order: 3
+- id: 'academy-showcase-2026'
+  when: 'Sat 5 Dec'
+  sub: '2026'
+  title: 'Music Theatre Academy Showcase'
+  text: 'Our Academy students take the stage to finish the year.'
+  href: '/programs/musical-theatre/'
+  lists:
+      - 'home'
+  order: 4
+- id: 'diploma-submissions-close'
+  when: '6 Dec'
+  sub: '2026'
+  title: 'Diploma audition submissions close'
+  text: 'Video auditions for the 2027 Diploma of Musical Theatre.'
+  href: '/courses/'
+  lists:
+      - 'home'
+  order: 5
+- id: 'spotlight-2027'
+  when: '4–9 Jan'
+  sub: '2027'
+  title: 'Spotlight'
+  text: 'One-week summer camp for ages 8–16.'
+  href: '/camps/'
+  lists:
+      - 'home'
+  order: 6
+- id: 'mtc-2027'
+  when: '4–17 Jan'
+  sub: '2027'
+  title: 'Music Theatre Camp'
+  text: 'Two-week summer camp for ages 8–19.'
+  href: '/camps/'
+  lists:
+      - 'home'
+  order: 7
+- id: 'pelican-pro-begins-2027'
+  when: '27 Jan'
+  sub: '2027'
+  title: 'Pelican Courses begin'
+  text: 'Certificate IV and Diploma of Musical Theatre start.'
+  href: '/courses/'
+  lists:
+      - 'home'
+  order: 8
+- id: 'sing-oz-returns-2027'
+  when: 'Apr'
+  sub: '2027'
+  title: 'Sing!OZ returns'
+  text: 'Two school terms, April to October. Join the waitlist now.'
+  href: '/sing-oz/'
+  lists:
+      - 'home'
+  order: 9
+- id: 'cert-iv-auditions-open'
+  when: '15 Jun'
+  sub: '2026'
+  title: 'Video auditions opened'
+  lists:
+      - 'cert-iv-auditions'
+  order: 10
+- id: 'cert-iv-final-submissions'
+  when: '30 Sep'
+  sub: '2026'
+  title: 'Final submissions (closing date)'
+  text: 'Submissions are still being accepted, so get in touch to apply.'
+  lists:
+      - 'cert-iv-auditions'
+  order: 11
+- id: 'diploma-auditions-open'
+  when: '25 Sep'
+  sub: '2026'
+  title: 'Video auditions open'
+  lists:
+      - 'diploma-auditions'
+  order: 12
+- id: 'diploma-final-submissions'
+  when: '6 Dec'
+  sub: '2026'
+  title: 'Final submissions close'
+  lists:
+      - 'diploma-auditions'
+  order: 13
+- id: 'diploma-callbacks'
+  when: '7 Dec'
+  sub: '2026'
+  title: 'Callback auditions'
+  lists:
+      - 'diploma-auditions'
+  order: 14
+- id: 'diploma-notified'
+  when: '8 Dec'
+  sub: '2026'
+  title: 'Successful applicants notified'
+  lists:
+      - 'diploma-auditions'
+  order: 15

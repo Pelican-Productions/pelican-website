@@ -1,27 +1,71 @@
 ---
 interface Props {
+    /** Short news items. Every second item is shown white-on-cobalt, as in v56. */
     items: string[];
+    label?: string | undefined;
+
+    /** Seconds per loop. */
+    duration?: number | undefined;
 }
 
-const { items } = Astro.props;
-const doubled = [...items, ...items];
+const { items, label = 'Latest news', duration = 40 } = Astro.props;
 ---
 
 <div
-    class="border-ink-dotted mt-12 overflow-hidden border-t border-b py-4 md:mt-16"
-    aria-hidden="true"
+    class="ticker"
+    role="region"
+    aria-label={label}
+    style={{ '--dur': `${duration}s` }}
 >
-    <div class="animate-marquee motion-reduce:transform-none inline-flex">
+    <div class="track">
+        {items.map(item => <span>{item}</span>)}
         {
-            doubled.map(item => (
-                <span class="font-display inline-flex items-center gap-6 pr-6 text-[32px] leading-none whitespace-nowrap">
+            items.map(item => (
+                <span
+                    class="dup"
+                    aria-hidden="true"
+                >
                     {item}
-                    <span
-                        class="bg-watermelon inline-block h-2.5 w-2.5 shrink-0 rounded-[800px]"
-                        aria-hidden="true"
-                    />
                 </span>
             ))
         }
     </div>
 </div>
+
+<style>
+    .ticker {
+        overflow: hidden;
+        background: var(--color-cobalt);
+        white-space: nowrap;
+    }
+
+    .track {
+        display: inline-flex;
+        width: max-content;
+        animation: tick var(--dur, 40s) linear infinite;
+    }
+
+    .ticker:hover .track,
+    .ticker:focus-within .track {
+        animation-play-state: paused;
+    }
+
+    span {
+        padding: 10px 0 8px;
+        margin-right: 46px;
+        font: 600 1rem/1.5 var(--font-sans);
+        color: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ticker {
+            overflow-x: auto;
+        }
+        .track {
+            animation: none;
+        }
+        .dup {
+            display: none;
+        }
+    }
+</style>

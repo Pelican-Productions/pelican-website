@@ -1,0 +1,24 @@
+title: 'We Will Rock You'
+year: 2025
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/wwry-2025/cover.webp'
+        alt: ''
+    colors:
+        - '#2f6bf2'
+        - '#5b7cff'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/wwry-2025/1.webp'
+      alt: 'Cast members crowd-lift a castmate, rock horns raised'
+    - src: '/images/musicals/wwry-2025/2.webp'
+      alt: 'The full We Will Rock You company in costume'
+    - src: '/images/musicals/wwry-2025/3.webp'
+      alt: 'The principal cast all smiles in costume'
+    - src: '/images/musicals/wwry-2025/4.webp'
+      alt: 'Six Bohemians throwing rock horns'
+    - src: '/images/musicals/wwry-2025/5.webp'
+      alt: 'A mid-air lift in the promo shoot'
+order: 3

@@ -1,0 +1,15 @@
+title: "Disney's The Little Mermaid JR"
+year: 2026
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/disney-s-the-little-mermaid-jr-2026.jpg'
+        alt: ''
+        position: '62% 75%'
+    colors:
+        - '#0b0d24'
+        - '#2f6bf2'
+    credit: 'Pelican Productions'
+photos: []
+order: 2

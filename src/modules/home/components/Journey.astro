@@ -1,0 +1,95 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { cn } from '@/lib/cn';
+
+interface Step {
+    number?: string | undefined;
+    kicker?: string | undefined;
+    title?: string | undefined;
+    text?: string | undefined;
+    href?: string | undefined;
+    pro?: boolean | undefined;
+}
+
+interface Props {
+    heading?: string | undefined;
+    lead?: string | undefined;
+    items: Step[];
+}
+
+const { heading, lead, items } = Astro.props;
+const last = items.length - 1;
+---
+
+<Section
+    tone="paper"
+    aria-label="The Pelican journey"
+>
+    {heading && <Heading text={heading} />}
+    {lead && <Lead>{lead}</Lead>}
+    <ol
+        class="jline relative mt-[34px] grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-6 min-[901px]:gap-0"
+    >
+        {
+            items.map((step, i) => (
+                <li class="relative min-[901px]:px-2.5">
+                    <a
+                        href={step.href}
+                        class="group grid grid-cols-[46px_1fr] gap-x-4 no-underline min-[901px]:block"
+                    >
+                        <span
+                            class={cn(
+                                'font-ui relative z-1 row-span-3 grid size-[46px] place-items-center self-start rounded-full border-[1.5px] text-[1.1rem] font-bold transition-transform group-hover:scale-110',
+                                i === last
+                                    ? 'border-watermelon bg-watermelon text-white'
+                                    : step.pro
+                                      ? 'border-cobalt bg-cobalt text-white'
+                                      : 'border-glow bg-navy text-glow',
+                            )}
+                        >
+                            {step.number ?? i + 1}
+                        </span>
+                        {step.kicker && (
+                            <span class="text-glow block font-mono text-[0.72rem] font-bold tracking-[0.14em] uppercase min-[901px]:mt-3.5 min-[901px]:mb-0.5">
+                                {step.kicker}
+                            </span>
+                        )}
+                        <strong class="font-display tracking-tightish group-hover:decoration-pink block text-[1.1rem] leading-[1.02] font-extrabold text-white uppercase group-hover:underline">
+                            {step.title}
+                        </strong>
+                        {step.text && (
+                            <span class="text-peri mt-1.5 block text-[0.88rem] leading-[1.45]">
+                                {step.text}
+                            </span>
+                        )}
+                    </a>
+                </li>
+            ))
+        }
+    </ol>
+</Section>
+
+<style>
+    .jline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 70px;
+        left: 22px;
+        width: 3px;
+        background: var(--color-line-soft);
+    }
+
+    @media (min-width: 901px) {
+        .jline::before {
+            top: 22px;
+            bottom: auto;
+            left: 46px;
+            right: 46px;
+            width: auto;
+            height: 1px;
+        }
+    }
+</style>

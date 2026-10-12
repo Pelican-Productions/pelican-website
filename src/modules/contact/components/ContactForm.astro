@@ -1,0 +1,134 @@
+---
+import { getEntry } from 'astro:content';
+import Button from '@/components/ui/Button.astro';
+import Heading from '@/components/ui/Heading.astro';
+import { cn } from '@/lib/cn';
+
+interface Props {
+    /** Preselected topic, e.g. a hire entry's `enquiryTopic`. */
+    topic?: string | undefined;
+    /** Optional h2/h3 above the form (content string, ==mark== allowed). */
+    heading?: string | undefined;
+    headingAs?: 'h2' | 'h3' | undefined;
+
+    class?: string | undefined;
+}
+
+const { topic, heading, headingAs = 'h2', class: className } = Astro.props;
+
+const entry = await getEntry('pages', 'contact');
+if (!entry) throw new Error('Missing pages entry: contact');
+const form = entry.data.sections.form;
+
+// Topic options and field labels live in pages/contact (sections.form).
+const topics = form?.list ?? [];
+const options = topic && !topics.includes(topic) ? [topic, ...topics] : topics;
+const selected = topic ?? options[0];
+
+const labels = Object.fromEntries(
+    (form?.items ?? []).map(item => [item.id, item.label]),
+);
+function label(id: string): string {
+    return labels[id] ?? id;
+}
+const submit = form?.ctas?.[0];
+const action = submit?.href ?? '/api/contact';
+
+const uid = `cf-${Math.random().toString(36).slice(2, 8)}`;
+const field =
+    'block w-full rounded-btn border border-[#9fcbe6] bg-white px-3.5 py-3.5 font-sans font-light text-ink transition-[border-color,box-shadow] focus:border-cobalt focus:shadow-[0_0_0_4px_rgba(47,107,242,0.2)] focus:outline-none';
+const labelClass = 'grid gap-1.5 font-semibold text-[var(--tone-heading)]';
+---
+
+<div class={cn('max-w-[560px]', className)}>
+    {
+        heading && (
+            <Heading
+                as={headingAs}
+                size="h3"
+                text={heading}
+            />
+        )
+    }
+    <form
+        name="contact"
+        method="POST"
+        action={action}
+        class="grid gap-3.5"
+    >
+        <p
+            class="sr-only"
+            aria-hidden="true"
+        >
+            <label
+                >Leave blank <input
+                    name="bot"
+                    tabindex="-1"
+                    autocomplete="off"
+                /></label
+            >
+        </p>
+        <label
+            class={labelClass}
+            for={`${uid}-topic`}
+        >
+            {label('topic')}
+            <select
+                id={`${uid}-topic`}
+                name="topic"
+                class={field}
+            >
+                {
+                    options.map((option: string) => (
+                        <option selected={option === selected}>{option}</option>
+                    ))
+                }
+            </select>
+        </label>
+        <label
+            class={labelClass}
+            for={`${uid}-name`}
+        >
+            {label('name')}
+            <input
+                id={`${uid}-name`}
+                name="name"
+                required
+                autocomplete="name"
+                class={field}
+            />
+        </label>
+        <label
+            class={labelClass}
+            for={`${uid}-email`}
+        >
+            {label('email')}
+            <input
+                id={`${uid}-email`}
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                class={field}
+            />
+        </label>
+        <label
+            class={labelClass}
+            for={`${uid}-message`}
+        >
+            {label('message')}
+            <textarea
+                id={`${uid}-message`}
+                name="message"
+                rows="5"
+                class={field}
+            ></textarea>
+        </label>
+        <Button
+            type="submit"
+            class="w-full text-center"
+        >
+            {submit?.label ?? 'Send enquiry'}
+        </Button>
+    </form>
+</div>

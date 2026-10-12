@@ -1,0 +1,37 @@
+---
+/** Key facts strip under the hero (v56 dl.panel on the page navy). */
+import { inlineHtml } from '@/lib/content-text';
+import type { HireSection } from '../types';
+
+interface Props {
+    section: HireSection;
+}
+
+const { section } = Astro.props;
+const facts = section.facts ?? [];
+---
+
+<div
+    class="bg-navy"
+    data-tone="paper"
+>
+    <div class="wrap">
+        <dl
+            class="m-0 my-7 grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-x-[30px]"
+        >
+            {
+                facts.map(fact => (
+                    <div class="border-navy border-t-[3px] pt-3.5 pb-[18px]">
+                        <dt class="font-ui text-pink mb-1.5 text-[0.95rem] font-semibold">
+                            {fact.label}
+                        </dt>
+                        <dd
+                            class="mt-0.5 text-white"
+                            set:html={inlineHtml(fact.value)}
+                        />
+                    </div>
+                ))
+            }
+        </dl>
+    </div>
+</div>

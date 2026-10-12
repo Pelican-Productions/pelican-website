@@ -2,29 +2,78 @@
 import { cn } from '@/lib/cn';
 
 interface Props {
-    variant?: 'cream' | 'ink' | 'teal' | 'violet' | 'sun';
-    padding?: boolean;
-    class?: string;
+    href: string;
+    title: string;
+    image: { src: string; alt?: string; width?: number; height?: number };
+    /** Label pinned to the bottom-left of the image (yellow left rule). */
+    tag?: string | undefined;
+
+    /** Link text at the bottom, followed by an arrow. */
+    cta?: string | undefined;
+
+    /** poster: adds the cobalt top rule used on show/trip cards. */
+    variant?: 'default' | 'poster' | undefined;
+
+    /** Heading level for the title. */
+    as?: 'h2' | 'h3' | 'h4' | undefined;
+
+    class?: string | undefined;
 }
 
-const { variant = 'cream', padding = true, class: className } = Astro.props;
-
-const variants = {
-    cream: 'bg-cream text-ink',
-    ink: 'bg-ink text-white',
-    teal: 'bg-teal text-ink',
-    violet: 'bg-violet text-white',
-    sun: 'bg-sun text-ink',
-};
+const {
+    href,
+    title,
+    image,
+    tag,
+    cta = 'Find out more',
+    variant = 'default',
+    as: Title = 'h3',
+    class: className,
+} = Astro.props;
 ---
 
-<div
+<a
+    href={href}
     class={cn(
-        'rounded-[40px]',
-        variants[variant],
-        padding && 'p-6 sm:p-10',
+        'group flex flex-col overflow-hidden rounded-card bg-card text-peri no-underline shadow-soft transition-[transform,box-shadow] duration-150 hover:-translate-y-1 hover:shadow-lift',
+        variant === 'poster' && 'border-t-4 border-cobalt',
         className,
     )}
 >
-    <slot />
-</div>
+    <div class="bg-navy relative aspect-[4/3] overflow-hidden">
+        <img
+            src={image.src}
+            alt={image.alt ?? ''}
+            width={image.width ?? 800}
+            height={image.height ?? 600}
+            loading="lazy"
+            decoding="async"
+            class="size-full object-cover object-[50%_22%] transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+        {
+            tag && (
+                <span class="border-yellow bg-navy/80 font-ui absolute bottom-3 left-3 rounded-[2px] border-l-4 px-[11px] pt-1.5 pb-[5px] text-[0.8rem] leading-none font-bold tracking-[0.1em] text-white uppercase">
+                    {tag}
+                </span>
+            )
+        }
+    </div>
+    <div class="flex flex-1 flex-col px-5 pt-4 pb-5">
+        <Title
+            class="font-display tracking-tightish mb-1.5 text-[1.35rem] leading-[1.15] font-extrabold text-white uppercase"
+        >
+            {title}
+        </Title>
+        <div class="flex-1 [&_p]:mb-3">
+            <slot />
+        </div>
+        <span class="font-ui text-glow mt-auto text-[0.95rem] font-bold">
+            {cta}
+            <span
+                aria-hidden="true"
+                class="ml-1 inline-block transition-transform group-hover:translate-x-1"
+                >&rarr;</span
+            >
+        </span>
+    </div>
+</a>

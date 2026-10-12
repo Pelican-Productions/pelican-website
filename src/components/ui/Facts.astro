@@ -1,0 +1,32 @@
+---
+import { cn } from '@/lib/cn';
+
+export interface Fact {
+    term: string;
+    /** Plain text; may contain simple inline HTML from trusted content (links, <br>). */
+    detail: string;
+}
+
+interface Props {
+    items: Fact[];
+    class?: string | undefined;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<dl class={cn('mt-[22px] grid', className)}>
+    {
+        items.map(item => (
+            <div class="border-navy grid gap-x-4 gap-y-0.5 border-t-2 py-[13px] last:border-b-2 sm:grid-cols-[150px_1fr]">
+                <dt class="font-ui font-bold text-[var(--tone-fact-term)]">
+                    {item.term}
+                </dt>
+                <dd
+                    class="font-medium text-[var(--tone-fact-text)] [&_a]:font-bold [&_a]:text-[var(--tone-link)]"
+                    set:html={item.detail}
+                />
+            </div>
+        ))
+    }
+</dl>

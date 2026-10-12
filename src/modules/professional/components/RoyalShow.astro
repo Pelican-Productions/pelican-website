@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Grid from '@/components/ui/Grid.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import PathCard from '@/components/ui/PathCard.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+type PageSection = CollectionEntry<'pages'>['data']['sections'][string];
+
+interface Props {
+    section: PageSection;
+    shows: CollectionEntry<'productions'>[];
+}
+
+const { section, shows } = Astro.props;
+---
+
+<Section id={section.id}>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    <Grid cols={2}>
+        {
+            shows.map(show => (
+                <PathCard
+                    title={show.data.title}
+                    kicker={String(show.data.year)}
+                    href={show.data.anchor ? `#${show.data.anchor}` : undefined}
+                >
+                    {show.data.summary && (
+                        <p set:html={inlineHtml(show.data.summary)} />
+                    )}
+                </PathCard>
+            ))
+        }
+    </Grid>
+</Section>

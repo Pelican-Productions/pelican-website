@@ -1,0 +1,38 @@
+---
+import type { HTMLTag } from 'astro/types';
+import { cn } from '@/lib/cn';
+
+interface Props {
+    as?: HTMLTag | undefined;
+
+    /** Two-column grid (about 1.1fr / 0.9fr) that stacks below 760px. */
+    two?: boolean | undefined;
+
+    /** Narrow column for reading-width content. */
+    narrow?: boolean | undefined;
+
+    class?: string | undefined;
+
+    id?: string | undefined;
+}
+
+const {
+    as: Tag = 'div',
+    two = false,
+    narrow = false,
+    class: className,
+    id,
+} = Astro.props;
+---
+
+<Tag
+    id={id}
+    class={cn(
+        'wrap',
+        two && 'grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr]',
+        narrow && 'max-w-[900px]',
+        className,
+    )}
+>
+    <slot />
+</Tag>

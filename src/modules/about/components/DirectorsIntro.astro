@@ -1,0 +1,46 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import Wrap from '@/components/ui/Wrap.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Props {
+    heading?: string | undefined;
+    body?: string[] | undefined;
+    image?: { src: string; alt: string } | undefined;
+}
+
+const { heading, body = [], image } = Astro.props;
+---
+
+<Section
+    tone="default"
+    wrap={false}
+>
+    <Wrap two>
+        <div>
+            {heading && <Heading text={heading} />}
+            {
+                body.map(p => (
+                    <p
+                        class="mb-4 text-[var(--tone-lead)]"
+                        set:html={inlineHtml(p)}
+                    />
+                ))
+            }
+        </div>
+        {
+            image && (
+                <img
+                    src={image.src}
+                    alt={image.alt}
+                    width="1000"
+                    height="796"
+                    loading="lazy"
+                    decoding="async"
+                    class="border-navy shadow-soft aspect-[1000/796] w-full border-[3px] object-cover object-[50%_22%]"
+                />
+            )
+        }
+    </Wrap>
+</Section>

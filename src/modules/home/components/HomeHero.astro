@@ -1,84 +1,213 @@
 ---
-import Badge from '@/components/ui/Badge.astro';
-import Button from '@/components/ui/Button.astro';
-import Container from '@/components/ui/Container.astro';
-import Heading from '@/components/ui/Heading.astro';
+import CtaRow, { type Cta } from '@/components/ui/CtaRow.astro';
+import { inlineHtml, splitHighlight } from '@/lib/content-text';
+
+interface Props {
+    /** "Perform.\nCreate.\n==Belong.==": the ==marked== word gets the squiggle. */
+    heading: string;
+    text?: string | undefined;
+    ctas?: Cta[] | undefined;
+
+    image?:
+        { src: string; alt: string; position?: string | undefined } | undefined;
+
+    sticker?: { label: string; value: string } | undefined;
+}
+
+const { heading, text, ctas = [], image, sticker } = Astro.props;
+
+// The highlighted word renders as the hand-drawn squiggle, not a <mark>.
+const headingHtml = splitHighlight(heading)
+    .map(part =>
+        part.mark
+            ? `<span class="squig">${inlineHtml(part.text)}</span>`
+            : inlineHtml(part.text),
+    )
+    .join('');
 ---
 
 <section
-    id="top"
-    class="mt-12"
+    class="home-hero"
+    data-tone="paper"
 >
-    <Container>
-        <div
-            class="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-8"
-        >
-            <div class="flex flex-col justify-between gap-10">
-                <div>
-                    <div class="mb-6 flex flex-wrap gap-2">
-                        <Badge>Adelaide youth theatre</Badge>
-                        <Badge tone="cream">Est. 2004</Badge>
-                    </div>
-                    <Heading
-                        as="h1"
-                        size="hero"
-                        class="text-6xl sm:text-8xl lg:text-[clamp(4rem,12vw,11.8rem)]"
-                    >
-                        Perform.<br />Create.<br /><span class="text-cobalt"
-                            >Belong.</span
-                        >
-                    </Heading>
+    <div class="wrap">
+        {
+            image && (
+                <div class="collage">
+                    <figure class="frame">
+                        <img
+                            src={image.src}
+                            alt={image.alt}
+                            width="1400"
+                            height="933"
+                            fetchpriority="high"
+                            decoding="async"
+                            style={
+                                image.position
+                                    ? { objectPosition: image.position }
+                                    : undefined
+                            }
+                        />
+                    </figure>
+                    {sticker && (
+                        <span class="sticker">
+                            {sticker.label}
+                            <b>{sticker.value}</b>
+                        </span>
+                    )}
                 </div>
-                <div class="flex max-w-[520px] flex-col gap-6">
-                    <p class="text-body-lg m-0">
-                        Classes, camps and full-scale musicals for young
-                        performers across South Australia. Professional tutors,
-                        a proper stage, and a flock that cheers loudest for each
-                        other.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <Button
-                            href="/the-nest"
-                            size="lg"
-                            >Find your class</Button
-                        >
-                        <Button
-                            href="/summer-camps"
-                            variant="secondary"
-                            size="lg"
-                            >Summer camp 2027</Button
-                        >
-                    </div>
-                </div>
-            </div>
-
-            <div
-                class="relative min-h-[360px] overflow-hidden rounded-[40px] sm:min-h-[480px] lg:min-h-[560px]"
-                style="background: linear-gradient(135deg, var(--color-cobalt) 0%, var(--color-cobalt) 42%, var(--color-teal) 100%)"
-            >
-                <div
-                    class="absolute inset-0 bg-[radial-gradient(var(--color-teal)_36%,transparent_38%)] [mask-image:linear-gradient(225deg,rgba(0,0,0,1)_20%,rgba(0,0,0,0.55)_55%,rgba(0,0,0,0.12)_100%)] [background-size:18px_18px]"
-                    aria-hidden="true"
-                >
-                </div>
-                <div
-                    class="absolute inset-0 bg-[radial-gradient(var(--color-watermelon)_30%,transparent_32%)] [mask-image:linear-gradient(45deg,rgba(0,0,0,0.7)_0%,transparent_55%)] [background-size:10px_10px]"
-                    aria-hidden="true"
-                >
-                </div>
-                <div
-                    class="absolute right-8 bottom-8 left-8 flex items-end justify-between text-white"
-                >
-                    <div
-                        class="font-display text-[clamp(2rem,5vw,48px)] leading-none"
-                    >
-                        Pelican<br />Productions
-                    </div>
-                    <p class="m-0 text-right text-sm leading-snug">
-                        The Nest<br />57A Price Ave, Mitcham
-                    </p>
-                </div>
-            </div>
-        </div>
-    </Container>
+            )
+        }
+        <h1
+            class="title"
+            set:html={headingHtml}
+        />
+        {text && <p class="intro">{text}</p>}
+        {ctas.length > 0 && <CtaRow ctas={ctas} />}
+    </div>
 </section>
+
+<style>
+    .home-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        background:
+            radial-gradient(
+                at 80% 85%,
+                rgba(47, 107, 242, 0.55),
+                transparent 55%
+            ),
+            var(--color-navy);
+        color: #fff;
+    }
+
+    .wrap {
+        min-height: 480px;
+    }
+
+    .title {
+        max-width: 56%;
+        margin: 0 0 0.5em;
+        font-size: clamp(3.2rem, 8.6vw, 6.88rem);
+        line-height: 0.95;
+        font-weight: 800;
+        letter-spacing: -0.015em;
+        color: #fff;
+    }
+
+    .title :global(.squig) {
+        position: relative;
+        display: inline-block;
+        margin-top: 0.1em;
+        font-family: var(--font-brush);
+        font-size: 1.08em;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: var(--color-yellow);
+        transform: rotate(-2deg);
+    }
+
+    .title :global(.squig)::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -0.14em;
+        height: 0.3em;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 26' preserveAspectRatio='none'%3E%3Cpath d='M3 18 C 50 9,125 5,197 6' fill='none' stroke='%23ff4d6d' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M22 24 C 75 18,130 15,170 15' fill='none' stroke='%23ff4d6d' stroke-width='3.6' stroke-linecap='round'/%3E%3C/svg%3E")
+            no-repeat center / 100% 100%;
+    }
+
+    .intro {
+        margin: 18px 46% 18px 0;
+        font-size: 1.15rem;
+        line-height: 1.7;
+        color: var(--color-peri);
+    }
+
+    .collage {
+        position: absolute;
+        z-index: 1;
+        top: -20px;
+        right: 0;
+        width: 44%;
+        height: 500px;
+    }
+
+    .frame {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        border: 3px solid #fff;
+        background: var(--color-midnight);
+        box-shadow: 14px 14px 0 var(--color-yellow);
+    }
+
+    .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .sticker {
+        position: absolute;
+        z-index: 3;
+        left: -26px;
+        bottom: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 104px;
+        height: 104px;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        background: var(--color-hot);
+        font: 800 0.78rem/1 var(--font-mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #fff;
+        transform: rotate(-10deg);
+    }
+
+    .sticker b {
+        display: block;
+        margin-top: 3px;
+        font: 800 1.5rem/1 var(--font-sans);
+        letter-spacing: 0;
+    }
+
+    @media (max-width: 800px) {
+        .home-hero {
+            padding: 90px 0 70px;
+        }
+
+        .wrap {
+            min-height: 0;
+        }
+
+        .collage {
+            position: relative;
+            top: auto;
+            right: auto;
+            width: 100%;
+            height: 380px;
+            margin-bottom: 44px;
+        }
+
+        .sticker {
+            left: auto;
+            right: -4px;
+            bottom: -14px;
+        }
+
+        .title {
+            max-width: none;
+        }
+
+        .intro {
+            margin-right: 0;
+        }
+    }
+</style>

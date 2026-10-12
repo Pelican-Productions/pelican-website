@@ -1,0 +1,69 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Band from '@/components/ui/Band.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import QuoteRotator from '@/components/ui/QuoteRotator.astro';
+import { SingOzGallery, SingOzJoin, SingOzSteps } from '@/modules/sing-oz';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'sing-oz');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+
+const quotes = (
+    await getCollection('testimonials', t => t.data.pages.includes('sing-oz'))
+)
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(t => ({
+        text: `“${t.data.quote}”`,
+        cite: t.data.cite,
+    }));
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+>
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+        variant="singoz"
+    />
+    {
+        sections.band?.image && (
+            <Band
+                src={sections.band.image.src}
+                alt={sections.band.image.alt}
+                width={sections.band.image.width}
+                height={sections.band.image.height}
+                position="50% 78%"
+                class="[&_img]:h-[clamp(240px,46vw,640px)]"
+            />
+        )
+    }
+    {sections.join && <SingOzJoin section={sections.join} />}
+    {sections.doing && <SingOzSteps section={sections.doing} />}
+    {sections.stage && <SingOzGallery section={sections.stage} />}
+    {
+        sections.solstice && (
+            <SingOzGallery
+                section={sections.solstice}
+                tone="sky"
+                layout="portrait"
+            />
+        )
+    }
+    {
+        quotes.length > 0 && (
+            <QuoteRotator
+                quotes={quotes}
+                label="A Sing!OZ member says"
+            />
+        )
+    }
+</BaseLayout>

@@ -1,0 +1,105 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Band from '@/components/ui/Band.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import QuoteRotator from '@/components/ui/QuoteRotator.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import {
+    ClassFinder,
+    CompareTable,
+    JoinCta,
+    ProgramFaq,
+    SplitSection,
+} from '@/modules/programs';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'programs');
+const finder = await getEntry('finder', 'classes');
+if (!entry || !finder)
+    throw new Error('Missing content for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+
+const tableOfferings = (
+    await getCollection('offerings', o => !!o.data.table)
+).sort((a, b) => a.data.order - b.data.order);
+const faqs = (
+    await getCollection('faqs', f => f.data.topic === 'classes')
+).sort((a, b) => a.data.order - b.data.order);
+const faqItems = faqs.map(f => ({
+    question: f.data.question,
+    answer: f.rendered?.html ?? '',
+}));
+const quotes = (
+    await getCollection('testimonials', t => t.data.pages.includes('programs'))
+).sort((a, b) => a.data.order - b.data.order);
+
+const jsonLd = [
+    {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map(f => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: f.answer.replace(/<[^>]+>/g, '').trim(),
+            },
+        })),
+    },
+];
+const { compare, where, band, faq, join } = sections;
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+    jsonLd={jsonLd}
+>
+    <PageHero
+        heading={hero.heading}
+        {...hero.text ? { intro: hero.text } : {}}
+        ctas={hero.ctas}
+        variant="classes"
+    />
+    <ClassFinder finder={finder} />
+    {
+        compare && (
+            <CompareTable
+                section={compare}
+                offerings={tableOfferings}
+            />
+        )
+    }
+    {where && <SplitSection section={where} />}
+    {
+        band?.image && (
+            <Band
+                src={band.image.src}
+                alt={band.image.alt}
+                position={band.image.position ?? '50% 22%'}
+            />
+        )
+    }
+    {
+        quotes.length > 0 && (
+            <QuoteRotator
+                quotes={quotes.map(q => ({
+                    text: q.data.quote,
+                    cite: q.data.cite,
+                }))}
+            />
+        )
+    }
+    {
+        faq && (
+            <ProgramFaq
+                section={faq}
+                items={faqItems}
+            />
+        )
+    }
+    {join && <JoinCta section={join} />}
+</BaseLayout>

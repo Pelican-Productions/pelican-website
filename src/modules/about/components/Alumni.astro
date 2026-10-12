@@ -1,0 +1,84 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Kicker from '@/components/ui/Kicker.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Props {
+    id?: string | undefined;
+    kicker?: string | undefined;
+    heading?: string | undefined;
+    lead?: string | undefined;
+    items?:
+        { title?: string | undefined; text?: string | undefined }[] | undefined;
+
+    /** "Pelican alumni have been cast in" show tags. */
+    castIn?:
+        | {
+              heading?: string | undefined;
+              list?: string[] | undefined;
+              note?: string | undefined;
+          }
+        | undefined;
+}
+
+const { id, kicker, heading, lead, items = [], castIn } = Astro.props;
+---
+
+<Section
+    tone="paper"
+    id={id}
+>
+    {kicker && <Kicker color="pink">{kicker}</Kicker>}
+    {heading && <Heading text={heading} />}
+    {
+        lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(lead)} />
+            </Lead>
+        )
+    }
+    <ol
+        class="mt-[26px] grid gap-2.5 sm:grid-cols-2 sm:gap-x-[22px] sm:gap-y-3.5 lg:grid-cols-3"
+    >
+        {
+            items.map(item => (
+                <li class="border-yellow border-t-4 bg-white/[0.07] px-[15px] py-[13px] transition-colors hover:bg-white/[0.12] sm:px-[18px] sm:py-4">
+                    <span class="mb-[5px] block text-[1.25rem] font-bold text-white">
+                        {item.title}
+                    </span>
+                    {item.text && (
+                        <span
+                            class="block text-[0.95rem] leading-[1.45] text-[#b4c0f5]"
+                            set:html={inlineHtml(item.text)}
+                        />
+                    )}
+                </li>
+            ))
+        }
+    </ol>
+    {
+        castIn?.heading && (
+            <h3 class="mt-[42px] mb-1.5 text-[1.35rem] font-bold text-white">
+                {castIn.heading}
+            </h3>
+        )
+    }
+    {
+        castIn?.list && (
+            <ul class="mt-3.5 flex flex-wrap gap-2.5">
+                {castIn.list.map(show => (
+                    <li class="border-navy text-navy hover:bg-navy border-2 bg-white px-3.5 py-2 text-[0.95rem] font-semibold transition-colors hover:text-white">
+                        {show}
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+    {
+        castIn?.note && (
+            <p class="text-lavender mt-10 text-[0.95rem]">{castIn.note}</p>
+        )
+    }
+</Section>

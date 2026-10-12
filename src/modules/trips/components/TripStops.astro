@@ -1,0 +1,66 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import { cn } from '@/lib/cn';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Stop {
+    when?: string | undefined;
+    title?: string | undefined;
+    text?: string | undefined;
+}
+
+interface Props {
+    heading?: string | undefined;
+    stops: Stop[];
+    note?: string | undefined;
+}
+
+const { heading, stops, note } = Astro.props;
+---
+
+<Section tone="sky">
+    {heading && <Heading text={heading} />}
+    <ol
+        class="mt-2.5 grid list-none grid-cols-1 gap-x-[30px] gap-y-9 p-0 min-[561px]:grid-cols-2 min-[901px]:grid-cols-3"
+    >
+        {
+            stops.map((stop, i) => (
+                <li class="border-navy hover:shadow-lift border-2 bg-white px-[22px] py-6 transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5">
+                    {stop.when && (
+                        <span class="text-muted font-mono text-[0.78rem] tracking-[0.14em] uppercase">
+                            {stop.when}
+                        </span>
+                    )}
+                    {stop.title && (
+                        <h3
+                            class={cn(
+                                'text-navy relative mt-[0.3em] mb-[0.25em] pb-2 text-[1.6rem] leading-[1.1] font-extrabold tracking-[-0.01em] uppercase',
+                                'after:absolute after:bottom-0 after:left-0 after:h-1 after:w-11',
+                                i % 2 === 1
+                                    ? 'after:bg-yellow after:outline-navy after:outline after:outline-1'
+                                    : 'after:bg-cobalt',
+                            )}
+                        >
+                            {stop.title}
+                        </h3>
+                    )}
+                    {stop.text && (
+                        <p
+                            class="text-muted m-0"
+                            set:html={inlineHtml(stop.text)}
+                        />
+                    )}
+                </li>
+            ))
+        }
+    </ol>
+    {
+        note && (
+            <p
+                class="mt-[34px] text-[0.95rem] text-[var(--tone-body)]"
+                set:html={inlineHtml(note)}
+            />
+        )
+    }
+</Section>

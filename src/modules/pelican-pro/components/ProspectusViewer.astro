@@ -1,0 +1,146 @@
+---
+import { getEntry } from 'astro:content';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import type { ContentSection } from '@/modules/programs';
+
+interface Props {
+    section: ContentSection;
+}
+
+const { section } = Astro.props;
+const gallery = section.gallery ? await getEntry(section.gallery) : undefined;
+const pages = gallery?.data.images ?? [];
+const template = section.note ?? '{n} / {total}';
+function counter(n: number): string {
+    return template
+        .replace('{n}', String(n))
+        .replace('{total}', String(pages.length));
+}
+---
+
+<Section
+    tone="sky"
+    id={section.id}
+>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    {
+        pages.length > 0 && (
+            <div
+                class="mt-8"
+                data-prospectus
+                data-template={template}
+            >
+                <div class="flex items-center gap-3">
+                    <button
+                        type="button"
+                        class="bg-navy hidden size-12 shrink-0 cursor-pointer border-[3px] border-white text-[1.3rem] text-white shadow-[0_3px_10px_rgba(10,14,42,0.25)] sm:block"
+                        aria-label="Previous page"
+                        data-dir="-1"
+                    >
+                        <span aria-hidden="true">&larr;</span>
+                    </button>
+                    <div
+                        class="flex min-w-0 flex-1 snap-x snap-mandatory gap-4 overflow-x-auto px-1 pt-1.5 pb-3.5"
+                        data-track
+                        tabindex="0"
+                        role="region"
+                        aria-label={gallery?.data.title ?? 'Prospectus'}
+                    >
+                        {pages.map((p, i) => (
+                            <figure class="m-0 w-[min(420px,80vw)] shrink-0 snap-start">
+                                <img
+                                    src={p.src}
+                                    alt={p.alt}
+                                    width={p.width ?? 792}
+                                    height={p.height ?? 1122}
+                                    loading={i < 3 ? 'eager' : 'lazy'}
+                                    decoding="async"
+                                    class="shadow-soft border-navy block h-auto w-full border-2 bg-white"
+                                />
+                            </figure>
+                        ))}
+                    </div>
+                    <button
+                        type="button"
+                        class="bg-navy hidden size-12 shrink-0 cursor-pointer border-[3px] border-white text-[1.3rem] text-white shadow-[0_3px_10px_rgba(10,14,42,0.25)] sm:block"
+                        aria-label="Next page"
+                        data-dir="1"
+                    >
+                        <span aria-hidden="true">&rarr;</span>
+                    </button>
+                </div>
+                <p
+                    class="font-ui text-peri mt-2.5 font-semibold"
+                    aria-live="polite"
+                    data-count
+                >
+                    {counter(1)}
+                </p>
+            </div>
+        )
+    }
+    {section.ctas && <CtaRow ctas={section.ctas} />}
+</Section>
+
+<script>
+    function init() {
+        for (const root of document.querySelectorAll<HTMLElement>(
+            '[data-prospectus]',
+        )) {
+            if (root.dataset.ready) continue;
+            root.dataset.ready = '1';
+            const track = root.querySelector<HTMLElement>('[data-track]')!;
+            const count = root.querySelector<HTMLElement>('[data-count]')!;
+            const template = root.dataset.template ?? '{n} / {total}';
+            const total = track.children.length;
+            function step(): number {
+                return (
+                    ((track.firstElementChild as HTMLElement | null)
+                        ?.offsetWidth ?? 300) + 16
+                );
+            }
+
+            for (const btn of root.querySelectorAll<HTMLElement>(
+                '[data-dir]',
+            )) {
+                btn.addEventListener('click', () => {
+                    track.scrollBy({
+                        left: Number(btn.dataset.dir) * step(),
+                        behavior: 'smooth',
+                    });
+                });
+            }
+
+            let frame = 0;
+            track.addEventListener(
+                'scroll',
+                () => {
+                    cancelAnimationFrame(frame);
+                    frame = requestAnimationFrame(() => {
+                        const n = Math.min(
+                            total,
+                            Math.round(track.scrollLeft / step()) + 1,
+                        );
+                        count.textContent = template
+                            .replace('{n}', String(n))
+                            .replace('{total}', String(total));
+                    });
+                },
+                { passive: true },
+            );
+        }
+    }
+
+    document.addEventListener('astro:page-load', init);
+</script>

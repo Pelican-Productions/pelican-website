@@ -1,0 +1,26 @@
+title: 'Grease'
+year: 2026
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/grease-2026/cover.webp'
+        alt: ''
+    colors:
+        - '#ff4d6d'
+        - '#ff8fa3'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/grease-2026/1.webp'
+      alt: 'The Grease cast in pink jackets and leather'
+    - src: '/images/musicals/grease-2026/2.webp'
+      alt: 'The T-Birds and Pink Ladies gather round'
+    - src: '/images/musicals/grease-2026/3.webp'
+      alt: 'The T-Birds in leather jackets'
+    - src: '/images/musicals/grease-2026/4.webp'
+      alt: 'The Pink Ladies with Sandy in yellow'
+    - src: '/images/musicals/grease-2026/5.webp'
+      alt: 'The Pink Ladies with Sandy at the centre'
+    - src: '/images/musicals/grease-2026/6.webp'
+      alt: 'Sandy and Danny in the promo shoot'
+order: 1

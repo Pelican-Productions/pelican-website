@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+
+interface Props {
+    heading?: string | undefined;
+    trips: CollectionEntry<'trips'>[];
+}
+
+const { heading, trips } = Astro.props;
+const stories = trips.flatMap(t => (t.data.story ? [t.data.story] : []));
+---
+
+<Section>
+    {heading && <Heading text={heading} />}
+    <ul class="mt-[26px] grid list-none grid-cols-1 gap-4 p-0 md:grid-cols-2">
+        {
+            stories.map(story => (
+                <li class="bg-midnight px-6 py-[22px] leading-normal text-white">
+                    <strong class="text-yellow mb-1.5 block text-[1.1rem] font-bold">
+                        {story.title}
+                    </strong>
+                    {story.text}
+                </li>
+            ))
+        }
+    </ul>
+</Section>

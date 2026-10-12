@@ -17,7 +17,17 @@
         "binding": "ASSETS",
         "directory": "./dist",
     },
-    "vars": {},
+    "vars": {
+        "CONTACT_FROM_EMAIL": "website@send.pelicanproductions.com.au",
+        "CONTACT_TO_EMAIL": "ahoy@pelicanproductions.com.au",
+    },
+    // Cloudflare Email Service: contact + newsletter form notifications.
+    // The sender domain must be onboarded in Email Routing/Sending.
+    "send_email": [
+        {
+            "name": "EMAIL",
+        },
+    ],
     "kv_namespaces": [
         {
             "binding": "SESSION",

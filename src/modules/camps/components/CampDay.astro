@@ -1,0 +1,81 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { cn } from '@/lib/cn';
+import { inlineHtml } from '@/lib/content-text';
+
+type PageSection = CollectionEntry<'pages'>['data']['sections'][string];
+type Image = CollectionEntry<'galleries'>['data']['images'][number];
+
+interface Props {
+    section: PageSection;
+    images: Image[];
+}
+
+const { section, images } = Astro.props;
+const stat = section.items?.[0];
+---
+
+<Section
+    tone="sky"
+    id={section.id}
+>
+    {section.heading && <Heading text={section.heading} />}
+    {
+        section.lead && (
+            <Lead>
+                <Fragment set:html={inlineHtml(section.lead)} />
+            </Lead>
+        )
+    }
+    {
+        stat && (
+            <p class="mt-1.5 mb-[26px] flex flex-wrap items-center gap-[18px]">
+                <strong class="border-navy bg-yellow text-navy border-2 px-4 py-0.5 text-[clamp(2.6rem,7vw,4.2rem)] leading-[1.05] font-black tracking-[-0.02em] shadow-[5px_5px_0_var(--color-navy)]">
+                    {stat.value}
+                </strong>
+                <span class="text-pale max-w-[320px] text-[1.05rem] font-bold">
+                    {stat.label}
+                </span>
+            </p>
+        )
+    }
+    <div class="grid grid-cols-2 gap-2.5 md:grid-cols-6 md:gap-4">
+        {
+            images.map((image, i) => {
+                const portrait = image.shape === 'portrait';
+                const lastWide = !portrait && i === images.length - 1;
+                return (
+                    <figure
+                        class={cn(
+                            'm-0',
+                            portrait ? 'md:col-span-2' : 'md:col-span-3',
+                            lastWide && 'max-md:col-span-2',
+                        )}
+                    >
+                        <img
+                            src={image.src}
+                            alt={image.alt}
+                            width={portrait ? 640 : 900}
+                            height={portrait ? 800 : 600}
+                            loading="lazy"
+                            decoding="async"
+                            class={cn(
+                                'border-navy shadow-soft block w-full border-2 object-cover',
+                                portrait ? 'aspect-[4/5]' : 'aspect-[3/2]',
+                                lastWide && 'max-md:aspect-video',
+                            )}
+                            style={
+                                image.position
+                                    ? { objectPosition: image.position }
+                                    : undefined
+                            }
+                        />
+                    </figure>
+                );
+            })
+        }
+    </div>
+</Section>

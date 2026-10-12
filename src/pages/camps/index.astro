@@ -1,0 +1,124 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Band from '@/components/ui/Band.astro';
+import Faq from '@/components/ui/Faq.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import {
+    CampCta,
+    CampDay,
+    CampFeature,
+    CampPanel,
+    ShapeMosaic,
+    campEvents,
+} from '@/modules/camps';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'camps');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const { panel, photos, campDay, shows, band, faq, join } = sections;
+
+const camps = (await getCollection('camps')).sort(
+    (a, b) => a.data.order - b.data.order,
+);
+const faqs = (await getCollection('faqs', f => f.data.topic === 'camps'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(f => ({ question: f.data.question, answer: f.rendered?.html ?? '' }));
+const dayGallery = campDay?.gallery ? await getEntry(campDay.gallery) : null;
+const showsGallery = shows?.gallery ? await getEntry(shows.gallery) : null;
+
+const jsonLd = [
+    ...campEvents(camps),
+    {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(f => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: { '@type': 'Answer', text: f.answer },
+        })),
+    },
+];
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+    jsonLd={jsonLd}
+>
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+        ctas={hero.ctas}
+        variant="camps"
+    />
+    <CampPanel
+        camps={camps}
+        facts={panel?.facts}
+    />
+    {
+        camps.map(camp => (
+            <CampFeature
+                camp={camp}
+                ctaLabel={hero.ctas[0]?.label ?? camp.data.name}
+            />
+        ))
+    }
+    {
+        photos && (
+            <CampCta
+                section={photos}
+                tone="sky"
+            />
+        )
+    }
+    {
+        campDay && dayGallery && (
+            <CampDay
+                section={campDay}
+                images={dayGallery.data.images}
+            />
+        )
+    }
+    {
+        shows && showsGallery && (
+            <Section
+                tone="paper"
+                id={shows.id}
+            >
+                {shows.heading && <Heading text={shows.heading} />}
+                {shows.lead && (
+                    <Lead>
+                        <Fragment set:html={inlineHtml(shows.lead)} />
+                    </Lead>
+                )}
+                <ShapeMosaic images={showsGallery.data.images} />
+            </Section>
+        )
+    }
+    {
+        band?.image && (
+            <Band
+                src={band.image.src}
+                alt={band.image.alt}
+            />
+        )
+    }
+    {
+        faq && (
+            <Section id={faq.id}>
+                {faq.heading && <Heading text={faq.heading} />}
+                <Faq items={faqs} />
+            </Section>
+        )
+    }
+    {join && <CampCta section={join} />}
+</BaseLayout>

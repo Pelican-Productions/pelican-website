@@ -1,0 +1,209 @@
+---
+import { getEntries, type CollectionEntry } from 'astro:content';
+import Button from '@/components/ui/Button.astro';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import OfferingCard from './OfferingCard.astro';
+
+interface Props {
+    finder: CollectionEntry<'finder'>;
+}
+
+const { finder } = Astro.props;
+const f = finder.data;
+
+const groups = await Promise.all(
+    f.matches.map(async m => ({
+        age: m.age,
+        interest: m.interest,
+        offerings: await getEntries(m.offerings),
+    })),
+);
+
+const questionClass =
+    'font-display tracking-tightish text-h2 mt-[34px] mb-[14px] font-extrabold uppercase text-[var(--tone-heading)]';
+const optionClass =
+    'border-navy text-navy shadow-none bg-white aria-pressed:bg-cobalt-deep aria-pressed:border-cobalt-deep aria-pressed:text-white aria-pressed:shadow-[4px_4px_0_var(--color-navy)]';
+---
+
+<Section id="finder">
+    <div data-finder>
+        <Heading text={f.heading} />
+        <Lead>
+            <Fragment set:html={inlineHtml(f.lead)} />
+        </Lead>
+
+        <h2
+            class={questionClass}
+            id="finder-age-q"
+        >
+            {f.ageQuestion}
+        </h2>
+        <div
+            class="flex flex-wrap gap-3"
+            role="group"
+            aria-labelledby="finder-age-q"
+        >
+            {
+                f.ages.map(a => (
+                    <Button
+                        size="sm"
+                        variant="ghost"
+                        class={optionClass}
+                        data-q="age"
+                        data-v={a.id}
+                    >
+                        {a.label}
+                    </Button>
+                ))
+            }
+        </div>
+
+        <h2
+            class={questionClass}
+            id="finder-interest-q"
+        >
+            {f.interestQuestion}
+        </h2>
+        <div
+            class="flex flex-wrap gap-3"
+            role="group"
+            aria-labelledby="finder-interest-q"
+        >
+            {
+                f.interests.map(i => (
+                    <Button
+                        size="sm"
+                        variant="ghost"
+                        class={optionClass}
+                        data-q="interest"
+                        data-v={i.id}
+                    >
+                        {i.label}
+                    </Button>
+                ))
+            }
+        </div>
+
+        <div
+            class="border-navy mt-11 scroll-mt-24 border-t-2 pt-7"
+            data-finder-results
+            aria-live="polite"
+            hidden
+        >
+            <Heading
+                as="h3"
+                size="h3"
+                text={f.resultsHeading}
+            />
+            {
+                groups.map(g => (
+                    <div
+                        class="grid [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))] gap-[18px]"
+                        data-age={g.age}
+                        data-interest={g.interest}
+                        hidden
+                    >
+                        {g.offerings.map(o => (
+                            <OfferingCard
+                                offering={o}
+                                cta={f.cardCta}
+                            />
+                        ))}
+                    </div>
+                ))
+            }
+            <p
+                class="text-[var(--tone-lead)]"
+                data-finder-empty
+                hidden
+                set:html={inlineHtml(f.emptyMessage)}
+            />
+            <CtaRow ctas={f.ctas} />
+        </div>
+    </div>
+</Section>
+
+<script>
+    type Choice = { age: string | null; interest: string | null };
+
+    function init() {
+        const root = document.querySelector<HTMLElement>('[data-finder]');
+        if (!root || root.dataset.ready) return;
+        root.dataset.ready = '1';
+
+        const buttons = [
+            ...root.querySelectorAll<HTMLButtonElement>('button[data-q]'),
+        ];
+        const results = root.querySelector<HTMLElement>(
+            '[data-finder-results]',
+        )!;
+        const empty = root.querySelector<HTMLElement>('[data-finder-empty]')!;
+        const groups = [...results.querySelectorAll<HTMLElement>('[data-age]')];
+
+        // Accept the reference site's compact age values (?age=711 etc.).
+        const AGE_ALIASES: Record<string, string> = {
+            '711': '7-11',
+            '1217': '12-17',
+            '18': '18-plus',
+        };
+        const params = new URLSearchParams(location.search);
+        const rawAge = params.get('age');
+        const state: Choice = {
+            age: rawAge ? (AGE_ALIASES[rawAge] ?? rawAge) : null,
+            interest: params.get('interest'),
+        };
+
+        function render(scroll: boolean) {
+            for (const b of buttons) {
+                const q = b.dataset.q as keyof Choice;
+                b.setAttribute(
+                    'aria-pressed',
+                    String(state[q] === b.dataset.v),
+                );
+            }
+            if (!state.age || !state.interest) {
+                results.hidden = true;
+                return;
+            }
+            let found = false;
+            for (const g of groups) {
+                const match =
+                    g.dataset.age === state.age &&
+                    g.dataset.interest === state.interest &&
+                    g.children.length > 0;
+                g.hidden = !match;
+                found ||= match;
+            }
+            empty.hidden = found;
+            results.hidden = false;
+            if (scroll) results.scrollIntoView({ block: 'nearest' });
+        }
+
+        function sync() {
+            const url = new URL(location.href);
+            for (const k of ['age', 'interest'] as const) {
+                if (state[k]) url.searchParams.set(k, state[k]!);
+                else url.searchParams.delete(k);
+            }
+            url.hash = 'finder';
+            history.replaceState(history.state, '', url);
+        }
+
+        for (const b of buttons) {
+            b.addEventListener('click', () => {
+                const q = b.dataset.q as keyof Choice;
+                state[q] = b.dataset.v ?? null;
+                sync();
+                render(true);
+            });
+        }
+
+        render(false);
+    }
+
+    document.addEventListener('astro:page-load', init);
+</script>

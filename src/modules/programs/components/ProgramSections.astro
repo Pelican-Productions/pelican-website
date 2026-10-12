@@ -1,0 +1,109 @@
+---
+import Band from '@/components/ui/Band.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+import type { ContentSection, Person } from '../types';
+import FactsPanel from './FactsPanel.astro';
+import JoinCta from './JoinCta.astro';
+import SplitSection from './SplitSection.astro';
+import TeacherCards from './TeacherCards.astro';
+
+interface Props {
+    /** Program `sections`, rendered in content (YAML) order. */
+    sections: Record<string, ContentSection>;
+    teachers?: Person[] | undefined;
+}
+
+const { sections, teachers = [] } = Astro.props;
+
+type Block =
+    | {
+          kind: 'band' | 'panel' | 'teachers' | 'join' | 'fees';
+          section: ContentSection;
+      }
+    | {
+          kind: 'split';
+          section: ContentSection;
+          reverse: boolean;
+          feature: boolean;
+      };
+
+/**
+ * Splits with these keys use the v56 dark ".foundations" feature styling;
+ * every other split sits on the default pale tone.
+ */
+const FEATURE_SPLITS = new Set(['foundations', 'academy']);
+
+let splits = 0;
+const blocks: Block[] = Object.entries(sections).flatMap(
+    ([key, section]): Block[] => {
+        switch (key) {
+            case 'teacherPage':
+                return [];
+            case 'band':
+            case 'panel':
+            case 'teachers':
+            case 'join':
+            case 'fees':
+                return [{ kind: key, section }];
+            default:
+                return [
+                    {
+                        kind: 'split',
+                        section,
+                        reverse: splits++ % 2 === 1,
+                        feature: FEATURE_SPLITS.has(key),
+                    },
+                ];
+        }
+    },
+);
+---
+
+{
+    blocks.map(block => {
+        const s = block.section;
+        switch (block.kind) {
+            case 'band':
+                return s.image ? (
+                    <Band
+                        src={s.image.src}
+                        alt={s.image.alt}
+                        position={s.image.position ?? '50% 22%'}
+                    />
+                ) : null;
+            case 'panel':
+                return <FactsPanel section={s} />;
+            case 'teachers':
+                return (
+                    <TeacherCards
+                        section={s}
+                        teachers={teachers}
+                    />
+                );
+            case 'join':
+                return <JoinCta section={s} />;
+            case 'fees':
+                return (
+                    <Section
+                        tone="paper"
+                        space="none"
+                        class="pb-6"
+                    >
+                        <Lead>
+                            <Fragment set:html={inlineHtml(s.lead ?? '')} />
+                        </Lead>
+                    </Section>
+                );
+            case 'split':
+                return (
+                    <SplitSection
+                        section={s}
+                        tone={block.feature ? 'paper' : 'default'}
+                        reverse={block.reverse}
+                    />
+                );
+        }
+    })
+}

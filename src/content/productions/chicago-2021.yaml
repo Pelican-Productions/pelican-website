@@ -1,0 +1,28 @@
+title: 'Chicago High School Edition'
+year: 2021
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/chicago-2021/cover.webp'
+        alt: ''
+    colors:
+        - '#2f6bf2'
+        - '#5b7cff'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/chicago-2021/1.webp'
+      alt: 'The full company beneath the giant CHICAGO letters'
+    - src: '/images/musicals/chicago-2021/2.webp'
+      alt: 'Two leads in silver fringe dancing under red light'
+    - src: '/images/musicals/chicago-2021/3.webp'
+      alt:
+          'A lead in a red jacket with cane and top hat, surrounded by the
+          ensemble'
+    - src: '/images/musicals/chicago-2021/4.webp'
+      alt: 'A lead in a red fur coat, arms raised'
+    - src: '/images/musicals/chicago-2021/5.webp'
+      alt: 'A soloist in black fringe with dancers on chairs'
+    - src: '/images/musicals/chicago-2021/6.webp'
+      alt: 'Two leads in a scene on the scaffold set'
+order: 9

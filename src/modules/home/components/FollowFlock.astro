@@ -1,0 +1,22 @@
+---
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import SocialButtons from '@/components/ui/SocialButtons.astro';
+
+interface Props {
+    heading?: string | undefined;
+    lead?: string | undefined;
+}
+
+const { heading, lead } = Astro.props;
+---
+
+<Section
+    tone="paper"
+    class="border-navy border-t-4"
+>
+    {heading && <Heading text={heading} />}
+    {lead && <Lead>{lead}</Lead>}
+    <SocialButtons />
+</Section>

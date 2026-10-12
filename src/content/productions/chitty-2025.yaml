@@ -1,0 +1,26 @@
+title: 'Chitty Chitty Bang Bang JR'
+year: 2025
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/chitty-2025/cover.webp'
+        alt: ''
+    colors:
+        - '#e83a5c'
+        - '#5bd8fd'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/chitty-2025/1.webp'
+      alt: 'Chitty takes flight with the family waving from the car'
+    - src: '/images/musicals/chitty-2025/2.webp'
+      alt: 'A night drive with the Potts family in the car'
+    - src: '/images/musicals/chitty-2025/3.webp'
+      alt: 'The ensemble with striped flags at the fair'
+    - src: '/images/musicals/chitty-2025/4.webp'
+      alt: 'Guards high-kicking in red coats'
+    - src: '/images/musicals/chitty-2025/5.webp'
+      alt: 'The Baron and Baroness on their thrones'
+    - src: '/images/musicals/chitty-2025/6.webp'
+      alt: 'The Child Catcher swoops in with his net'
+order: 4

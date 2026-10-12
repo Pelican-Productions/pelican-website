@@ -1,0 +1,10 @@
+title: 'Find us'
+images:
+    - src: '/images/nest/exterior-street.jpg'
+      position: '50% 35%'
+      alt: 'The Nest Studios from Price Avenue'
+      caption: 'From Price Avenue'
+    - src: '/images/nest/exterior-chapel.webp'
+      position: '50% 35%'
+      alt: 'The heritage stone chapel at The Nest Studios'
+      caption: 'The heritage chapel'

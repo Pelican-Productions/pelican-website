@@ -1,0 +1,44 @@
+---
+import Kicker from '@/components/ui/Kicker.astro';
+import Lead from '@/components/ui/Lead.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Props {
+    kicker?: string | undefined;
+    quote?: { text: string; cite?: string | undefined } | undefined;
+    lead?: string | undefined;
+}
+
+const { kicker, quote, lead } = Astro.props;
+---
+
+<Section tone="navy">
+    {
+        kicker && (
+            <Kicker
+                color="lightblue"
+                class="mb-2"
+            >
+                {kicker}
+            </Kicker>
+        )
+    }
+    {
+        quote && (
+            <blockquote class="mt-2.5 mb-[26px]">
+                <p
+                    class="font-script m-0 max-w-[26ch] text-[clamp(2.1rem,4.6vw,3.6rem)] leading-[1.15] font-semibold text-[#d9f3ff]"
+                    set:html={inlineHtml(quote.text)}
+                />
+            </blockquote>
+        )
+    }
+    {
+        lead && (
+            <Lead class="text-lavender max-w-[64ch]">
+                <Fragment set:html={inlineHtml(lead)} />
+            </Lead>
+        )
+    }
+</Section>

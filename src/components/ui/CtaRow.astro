@@ -1,0 +1,44 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { cn } from '@/lib/cn';
+
+export interface Cta {
+    label: string;
+    href: string;
+    variant?: 'primary' | 'enrol' | 'ghost' | 'dark' | 'light' | undefined;
+
+    external?: boolean | undefined;
+}
+
+interface Props {
+    /** Buttons to render. Children are appended after them. */
+    ctas?: Cta[] | undefined;
+
+    align?: 'left' | 'center' | undefined;
+
+    class?: string | undefined;
+}
+
+const { ctas = [], align = 'left', class: className } = Astro.props;
+---
+
+<div
+    class={cn(
+        'mt-7 flex flex-wrap items-center gap-x-[18px] gap-y-4',
+        align === 'center' && 'justify-center',
+        className,
+    )}
+>
+    {
+        ctas.map(cta => (
+            <Button
+                href={cta.href}
+                variant={cta.variant ?? 'primary'}
+                external={cta.external}
+            >
+                {cta.label}
+            </Button>
+        ))
+    }
+    <slot />
+</div>

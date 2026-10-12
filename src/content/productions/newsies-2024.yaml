@@ -1,0 +1,26 @@
+title: 'Newsies'
+year: 2024
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/newsies-2024/cover.webp'
+        alt: ''
+    colors:
+        - '#0b0d24'
+        - '#ff4d6d'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/newsies-2024/1.webp'
+      alt: 'The newsies strike, fists raised beneath the newspaper set'
+    - src: '/images/musicals/newsies-2024/2.webp'
+      alt: 'The full company in the finale, fists in the air'
+    - src: '/images/musicals/newsies-2024/3.webp'
+      alt: 'A newsie in a red neckerchief leads the line'
+    - src: '/images/musicals/newsies-2024/4.webp'
+      alt: 'Newsies kicking high under red light'
+    - src: '/images/musicals/newsies-2024/5.webp'
+      alt: 'The Bronx newsies in full voice'
+    - src: '/images/musicals/newsies-2024/6.webp'
+      alt: 'Calling the newsies to action'
+order: 6

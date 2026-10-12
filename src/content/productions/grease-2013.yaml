@@ -1,0 +1,11 @@
+title: 'Grease'
+year: 2013
+company: 'pelican'
+status: 'past'
+poster:
+    colors:
+        - '#ff4d6d'
+        - '#ff8fa3'
+    credit: 'Pelican Productions'
+photos: []
+order: 19

@@ -1,0 +1,26 @@
+title: 'Seussical JR'
+year: 2017
+company: 'pelican'
+status: 'past'
+poster:
+    image:
+        src: '/images/musicals/seussical/cover.webp'
+        alt: ''
+    colors:
+        - '#e83a5c'
+        - '#5bd8fd'
+    credit: 'Pelican Productions'
+photos:
+    - src: '/images/musicals/seussical/1.webp'
+      alt: 'The full Seussical cast on stage under the Whoville globe'
+    - src: '/images/musicals/seussical/2.webp'
+      alt: 'The Cat in the Hat and friends waving goodbye'
+    - src: '/images/musicals/seussical/3.webp'
+      alt: 'The Cat in the Hat beneath a giant striped hat'
+    - src: '/images/musicals/seussical/4.jpg'
+      alt: 'The cast in a colourful dance number'
+    - src: '/images/musicals/seussical/5.webp'
+      alt: 'Three performers mid-dance in orange high-tops'
+    - src: '/images/musicals/seussical/6.webp'
+      alt: 'The ensemble singing in front of a blue sky cloth'
+order: 16

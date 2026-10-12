@@ -1,0 +1,91 @@
+---
+import { getEntry } from 'astro:content';
+import Band from '@/components/ui/Band.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import { site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Journey } from '@/modules/home';
+import {
+    ProAuditions,
+    ProPathways,
+    ProspectusViewer,
+} from '@/modules/pelican-pro';
+import { SplitSection } from '@/modules/programs';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'pelican-pro');
+const home = await getEntry('pages', 'home');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const { journey, band, pathways, training, auditions, band2, prospectus } =
+    sections;
+
+const provider = {
+    '@type': 'Organization',
+    name: site.name,
+    url: site.url,
+};
+const jsonLd = (pathways?.items ?? []).map(item => ({
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: item.title,
+    courseCode: item.kicker?.split(' ')[0],
+    description: item.text,
+    provider,
+    url: new URL(`/courses/#${item.id}`, site.url).href,
+}));
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+    jsonLd={jsonLd}
+>
+    <PageHero
+        heading={hero.heading}
+        {...hero.text ? { intro: hero.text } : {}}
+        ctas={hero.ctas}
+        variant="default"
+    />
+    {
+        journey && (
+            <Journey
+                heading={journey.heading}
+                lead={journey.lead}
+                items={home?.data.sections.journey?.items ?? []}
+            />
+        )
+    }
+    {
+        band?.image && (
+            <Band
+                src={band.image.src}
+                alt={band.image.alt}
+                position={band.image.position ?? '50% 22%'}
+            />
+        )
+    }
+    {pathways && <ProPathways section={pathways} />}
+    {
+        training && (
+            <SplitSection
+                section={training}
+                tone="sky"
+            />
+        )
+    }
+    {auditions && <ProAuditions section={auditions} />}
+    {
+        band2?.image && (
+            <Band
+                src={band2.image.src}
+                alt={band2.image.alt}
+                position={band2.image.position ?? '50% 22%'}
+            />
+        )
+    }
+    {prospectus && <ProspectusViewer section={prospectus} />}
+</BaseLayout>

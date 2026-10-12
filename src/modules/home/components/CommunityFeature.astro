@@ -1,0 +1,114 @@
+---
+import CtaRow, { type Cta } from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+interface Img {
+    src: string;
+    alt: string;
+    position?: string | undefined;
+    width?: number | undefined;
+    height?: number | undefined;
+}
+
+interface Props {
+    /** Photo with overlaid heading ("Real stages. ==Lasting friendships.=="). */
+    feature?:
+        { heading?: string | undefined; image?: Img | undefined } | undefined;
+
+    /** Logo + copy block below the photo. */
+    community?:
+        | {
+              heading?: string | undefined;
+              body?: string[] | undefined;
+              ctas?: Cta[] | undefined;
+              image?: Img | undefined;
+          }
+        | undefined;
+}
+
+const { feature, community } = Astro.props;
+---
+
+<Section
+    tone="pink"
+    space="lg"
+>
+    {
+        feature?.image && (
+            <div class="photo border-navy relative mb-14 overflow-hidden border-2">
+                <img
+                    src={feature.image.src}
+                    alt={feature.image.alt}
+                    width="1400"
+                    height="934"
+                    loading="lazy"
+                    decoding="async"
+                    class="block aspect-[4/5] w-full object-cover sm:aspect-[3/2]"
+                    style={
+                        feature.image.position
+                            ? { objectPosition: feature.image.position }
+                            : undefined
+                    }
+                />
+                {feature.heading && (
+                    <div class="from-navy/0 to-navy/90 absolute inset-x-0 bottom-0 bg-linear-to-b px-6 pt-[100px] pb-6 sm:px-9 sm:pb-8">
+                        <Heading
+                            text={feature.heading}
+                            class="mb-0 text-[clamp(2.2rem,6vw,4rem)] leading-[1.02] text-white"
+                        />
+                    </div>
+                )}
+            </div>
+        )
+    }
+    {
+        community && (
+            <div class="grid items-center gap-[26px] px-0 md:grid-cols-[minmax(180px,300px)_1fr] md:gap-12 md:px-0">
+                {community.image && (
+                    <img
+                        src={community.image.src}
+                        alt={community.image.alt}
+                        width={community.image.width}
+                        height={community.image.height}
+                        loading="lazy"
+                        decoding="async"
+                        class="w-full max-w-[190px] md:max-w-[300px]"
+                    />
+                )}
+                <div>
+                    {community.heading && (
+                        <Heading
+                            text={community.heading}
+                            class="mt-0"
+                        />
+                    )}
+                    {community.body?.map(p => (
+                        <p
+                            class="text-navy my-[18px] max-w-[25em] text-[1.15rem] leading-[1.7]"
+                            set:html={inlineHtml(p)}
+                        />
+                    ))}
+                    {community.ctas && (
+                        <CtaRow
+                            ctas={community.ctas.map(c => ({
+                                ...c,
+                                variant: 'dark' as const,
+                            }))}
+                        />
+                    )}
+                </div>
+            </div>
+        )
+    }
+</Section>
+
+<style>
+    /* "Lasting friendships." is a plain yellow line on the photo, not a mark. */
+    .photo :global(mark) {
+        background: none;
+        color: var(--color-yellow);
+        padding: 0;
+    }
+</style>

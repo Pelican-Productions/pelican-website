@@ -1,0 +1,70 @@
+---
+import Kicker from '@/components/ui/Kicker.astro';
+import Section from '@/components/ui/Section.astro';
+import { inlineHtml } from '@/lib/content-text';
+
+export interface Bio {
+    name: string;
+    image?: { src: string; alt: string } | undefined;
+    kicker?: string | undefined;
+    quals?: string | undefined;
+    bio: string[];
+}
+
+interface Props {
+    people: Bio[];
+}
+
+const { people } = Astro.props;
+---
+
+<Section
+    tone="paper"
+    aria-label="Our directors"
+>
+    <div class="grid gap-12 min-[861px]:grid-cols-2">
+        {
+            people.map(p => (
+                <article class="border-navy grid gap-[22px] border-t-[3px] pt-6 min-[481px]:grid-cols-[120px_minmax(0,1fr)]">
+                    {p.image ? (
+                        <img
+                            src={p.image.src}
+                            alt={p.image.alt}
+                            width="120"
+                            height="150"
+                            loading="lazy"
+                            decoding="async"
+                            class="border-navy shadow-soft h-[170px] w-[140px] border-2 object-cover object-[50%_25%] min-[481px]:h-[150px] min-[481px]:w-[120px]"
+                        />
+                    ) : (
+                        <span />
+                    )}
+                    <div>
+                        {p.kicker && (
+                            <Kicker
+                                color="pink"
+                                class="mb-1.5"
+                            >
+                                {p.kicker}
+                            </Kicker>
+                        )}
+                        <h3 class="font-display mb-2.5 text-[1.6rem] leading-[1.1] font-extrabold text-white uppercase">
+                            {p.name}
+                        </h3>
+                        {p.quals && (
+                            <p class="text-pink mb-2.5 font-mono text-[0.85rem] font-bold tracking-[0.02em]">
+                                {p.quals}
+                            </p>
+                        )}
+                        {p.bio.map(para => (
+                            <p
+                                class="mb-4 text-[var(--tone-body)]"
+                                set:html={inlineHtml(para)}
+                            />
+                        ))}
+                    </div>
+                </article>
+            ))
+        }
+    </div>
+</Section>
