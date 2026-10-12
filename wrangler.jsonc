@@ -24,6 +24,15 @@
             "id": "b7ab468127944be691fcb224c9f6f0b5",
         },
     ],
+    // Preview deployments read bindings from here, not the top level.
+    "previews": {
+        "kv_namespaces": [
+            {
+                "binding": "SESSION",
+                "id": "b7ab468127944be691fcb224c9f6f0b5",
+            },
+        ],
+    },
     "observability": {
         "enabled": true,
         "traces": {
