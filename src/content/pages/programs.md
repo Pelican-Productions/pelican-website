@@ -14,7 +14,7 @@ hero:
         class.'
     ctas:
         - label: 'Enrol now'
-          href: 'https://dancestudio-pro.com/online/pelicanproductions'
+          href: '/enrol/'
 sections:
     compare:
         id: 'which'
@@ -32,7 +32,7 @@ sections:
               href: '#finder'
               variant: 'ghost'
             - label: 'Enrol now'
-              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+              href: '/enrol/'
     where:
         id: 'where'
         heading: 'Find us at ==The Nest Studios=='
@@ -60,7 +60,7 @@ sections:
         heading: 'Ready to join the flock?'
         ctas:
             - label: 'Enrol now'
-              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+              href: '/enrol/'
             - label: 'Ask a question'
               href: 'mailto:ahoy@pelicanproductions.com.au?subject=Weekly%20Classes%3A%20Ask%20a%20question'
               variant: 'ghost'

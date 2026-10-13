@@ -12,7 +12,7 @@ hero:
         Recreational, with no competitions or concerts.'
     ctas:
         - label: 'Enrol now'
-          href: 'https://dancestudio-pro.com/online/pelicanproductions'
+          href: '/enrol/'
         - label: 'Ask a question'
           href: 'mailto:ahoy@pelicanproductions.com.au?subject=Dance%20Classes%20%28SMASH%29%3A%20Ask%20a%20question'
           variant: 'ghost'
@@ -41,7 +41,7 @@ sections:
         heading: 'Ready to join the flock?'
         ctas:
             - label: 'Enrol now'
-              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+              href: '/enrol/'
             - label: 'Ask a question'
               href: 'mailto:ahoy@pelicanproductions.com.au?subject=Dance%20Classes%20%28SMASH%29%3A%20Ask%20a%20question'
               variant: 'ghost'

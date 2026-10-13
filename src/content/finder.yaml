@@ -33,7 +33,7 @@
   cardCta: 'See details'
   ctas:
       - label: 'Enrol now'
-        href: 'https://dancestudio-pro.com/online/pelicanproductions'
+        href: '/enrol/'
       - label: 'Not sure? Ask us'
         href: 'mailto:ahoy@pelicanproductions.com.au?subject=Help%20choosing%20a%20class'
         variant: 'ghost'

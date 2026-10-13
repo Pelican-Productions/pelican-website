@@ -12,7 +12,7 @@ hero:
         teachers.'
     ctas:
         - label: 'Book a singing lesson'
-          href: 'https://dancestudio-pro.com/online/pelicanproductions'
+          href: '/enrol/'
         - label: 'Enquire about lessons'
           href: 'mailto:ahoy@pelicanproductions.com.au?subject=Individual%20Singing%20Lessons%3A%20Enquire%20about%20lessons'
           variant: 'ghost'
@@ -49,7 +49,7 @@ sections:
         kicker: '← All singing teachers'
         ctas:
             - label: 'Book a singing lesson'
-              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+              href: '/enrol/'
             - label: 'Enquire about lessons'
               href: 'mailto:ahoy@pelicanproductions.com.au?subject=Singing%20lessons%20with%20{name}'
               variant: 'ghost'
@@ -57,7 +57,7 @@ sections:
         heading: 'Ready to join the flock?'
         ctas:
             - label: 'Book a singing lesson'
-              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+              href: '/enrol/'
             - label: 'Enquire about lessons'
               href: 'mailto:ahoy@pelicanproductions.com.au?subject=Individual%20Singing%20Lessons%3A%20Enquire%20about%20lessons'
               variant: 'ghost'

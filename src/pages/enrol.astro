@@ -1,0 +1,111 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CtaRow from '@/components/ui/CtaRow.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import Section from '@/components/ui/Section.astro';
+import { site } from '@/data/site';
+import { inlineHtml } from '@/lib/content-text';
+
+export const prerender = true;
+
+const entry = await getEntry('pages', 'enrol');
+if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const steps = sections.steps;
+const items = steps?.items ?? [];
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    image={ogImage}
+    noindex={noindex}
+>
+    <PageHero
+        heading={hero.heading}
+        intro={hero.text}
+    />
+    {
+        steps && (
+            <Section id={steps.id}>
+                {steps.heading && <Heading text={steps.heading} />}
+                {steps.lead && (
+                    <Lead>
+                        <Fragment set:html={inlineHtml(steps.lead)} />
+                    </Lead>
+                )}
+                <ol class="prose-tone mt-5 list-none p-0">
+                    {items.map(item => {
+                        const shots =
+                            item.images ?? (item.image ? [item.image] : []);
+                        return (
+                            <li class="group border-t-2 border-[var(--tone-rule)] py-[22px] last:border-b-2">
+                                <div class="grid grid-cols-[52px_1fr] gap-3.5 sm:grid-cols-[70px_1fr]">
+                                    <span class="font-condensed group-hover:text-pink text-[2.8rem] leading-[0.9] text-[var(--tone-heading)] transition-colors">
+                                        {item.number}
+                                    </span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-display mb-1 text-[1.1rem] leading-tight font-extrabold text-[var(--tone-heading)] uppercase">
+                                            {item.title}
+                                        </h3>
+                                        {item.text && (
+                                            <p
+                                                class="max-w-lead"
+                                                set:html={inlineHtml(item.text)}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+                                {shots.length > 0 && (
+                                    <div class="mt-4 grid max-w-[760px] gap-5">
+                                        {shots.map(shot => (
+                                            <figure>
+                                                <img
+                                                    src={shot.src}
+                                                    alt={shot.alt}
+                                                    width={shot.width}
+                                                    height={shot.height}
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    class="rounded-card w-full border border-[var(--tone-rule)] bg-white"
+                                                />
+                                                {shot.caption && (
+                                                    <figcaption class="text-muted mt-2 text-sm">
+                                                        {shot.caption}
+                                                    </figcaption>
+                                                )}
+                                            </figure>
+                                        ))}
+                                    </div>
+                                )}
+                            </li>
+                        );
+                    })}
+                </ol>
+                {steps.note && (
+                    <p
+                        class="prose-tone text-muted mt-6"
+                        set:html={inlineHtml(steps.note)}
+                    />
+                )}
+                <CtaRow
+                    ctas={[
+                        {
+                            label: "I'm new",
+                            href: site.signupUrl,
+                            variant: 'enrol',
+                        },
+                        {
+                            label: 'I already have a login',
+                            href: site.enrolUrl,
+                            variant: 'ghost',
+                        },
+                    ]}
+                />
+            </Section>
+        )
+    }
+</BaseLayout>

@@ -56,6 +56,7 @@ const item = z.object({
     href: z.string().optional(),
     cta: cta.optional(),
     image: image.optional(),
+    images: z.array(image).optional(),
     list: z.array(z.string()).optional(),
     links: z.array(link).optional(),
     facts: z.array(fact).optional(),

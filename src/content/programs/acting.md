@@ -12,7 +12,7 @@ hero:
         The Nest Studios, Mitcham.'
     ctas:
         - label: 'Enrol now'
-          href: 'https://dancestudio-pro.com/online/pelicanproductions'
+          href: '/enrol/'
         - label: 'Ask a question'
           href: 'mailto:ahoy@pelicanproductions.com.au?subject=Acting%20Classes%3A%20Ask%20a%20question'
           variant: 'ghost'
@@ -40,7 +40,7 @@ sections:
         heading: 'Ready to join the flock?'
         ctas:
             - label: 'Enrol now'
-              href: 'https://dancestudio-pro.com/online/pelicanproductions'
+              href: '/enrol/'
             - label: 'Ask a question'
               href: 'mailto:ahoy@pelicanproductions.com.au?subject=Acting%20Classes%3A%20Ask%20a%20question'
               variant: 'ghost'

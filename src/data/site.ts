@@ -28,7 +28,12 @@ export const site = {
         'Musical theatre, acting, dance and singing classes, holiday camps and productions for young performers in Adelaide, South Australia.',
     email: 'ahoy@pelicanproductions.com.au',
     enquiryHref: 'mailto:ahoy@pelicanproductions.com.au?subject=Enquiry',
+    /** On-site steps, then the portal. Header, nav and footer Enrol buttons. */
+    enrolPath: '/enrol/',
+    /** Returning families: Studio Pro parent portal login. */
     enrolUrl: 'https://dancestudio-pro.com/online/pelicanproductions',
+    /** New families: Studio Pro Create Account, skipping the login form. */
+    signupUrl: 'https://dancestudio-pro.com/online/signup.php?account_id=19487',
     themeColor: '#070a1f',
     locale: 'en_AU',
     lang: 'en-AU',
@@ -147,6 +152,7 @@ export function navKeyForPath(pathname: string): string | undefined {
         '/trips/': 'camps',
         '/professional/': 'shows',
         '/contact/': 'about',
+        '/enrol/': 'classes',
     };
     for (const [prefix, key] of Object.entries(extra)) {
         if (path.startsWith(prefix)) return key;
@@ -164,7 +170,7 @@ export const footer = {
         heading: 'Contact',
         items: [
             { label: site.email, href: site.enquiryHref },
-            { label: 'Enrol now', href: site.enrolUrl, external: true },
+            { label: 'Enrol now', href: site.enrolPath },
             { label: 'Sports Vouchers Plus accepted' },
         ] as { label: string; href?: string; external?: boolean }[],
     },
