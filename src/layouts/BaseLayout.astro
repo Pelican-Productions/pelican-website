@@ -19,7 +19,7 @@ interface Props {
     active?: string;
     /** Hide the "Stay in the loop" newsletter band above the footer. */
     hideNewsletter?: boolean;
-    /** Suppress the timed mailing-list popup. Always off on /thanks/ and 404. */
+    /** Suppress the timed mailing-list popup. Always off on the 404 page. */
     hidePopup?: boolean | undefined;
     noindex?: boolean;
     /** Extra JSON-LD objects for this page (FAQPage, Event...). */
@@ -46,7 +46,7 @@ const activeKey = active ?? navKeyForPath(Astro.url.pathname);
 const showPopup =
     !hidePopup &&
     Astro.response.status !== 404 &&
-    !/^\/(?:thanks|404)(?:\/|\.html)?$/.test(Astro.url.pathname);
+    !/^\/404(?:\/|\.html)?$/.test(Astro.url.pathname);
 
 const business = {
     '@context': 'https://schema.org',
@@ -213,5 +213,8 @@ const business = {
         {!hideNewsletter && <NewsletterSignup />}
         <SiteFooter />
         {showPopup && <NewsletterPopup />}
+        <script>
+            import '@/scripts/form-submit';
+        </script>
     </body>
 </html>

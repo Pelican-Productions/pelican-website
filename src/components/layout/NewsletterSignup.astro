@@ -11,7 +11,7 @@ const { id = 'updates' } = Astro.props;
 ---
 
 <section
-    class="news bg-navy text-lavender py-[84px]"
+    class="news bg-navy text-lavender py-[84px] [--form-error:var(--color-pink)] [--form-success:var(--color-yellow)]"
     id={id}
     aria-labelledby={`${id}-title`}
 >
@@ -30,6 +30,7 @@ const { id = 'updates' } = Astro.props;
         <form
             name="newsletter"
             method="POST"
+            data-form
             action={newsletter.action}
             class="max-w-[720px]"
         >
@@ -66,6 +67,12 @@ const { id = 'updates' } = Astro.props;
                 shadow="navy"
                 >{newsletter.button}</Button
             >
+            <p
+                class="form-status text-[1.05rem] [&:not(:empty)]:mt-5"
+                role="status"
+                data-form-status
+            >
+            </p>
         </form>
         <p class="mt-6 text-[0.9rem]">
             <a

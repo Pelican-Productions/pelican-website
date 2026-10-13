@@ -1,11 +1,13 @@
 import type { APIRoute } from 'astro';
-import { field, isBot, sendNotification, thanks } from '@/lib/forms';
+import { field, formResponse, isBot, sendNotification } from '@/lib/forms';
 
 export const prerender = false;
 
+const SENT = 'Thanks, we have your message and will be in touch soon.';
+
 export const POST: APIRoute = async ({ request }) => {
     const form = await request.formData();
-    if (isBot(form)) return thanks(request);
+    if (isBot(form)) return formResponse(request, { ok: true, message: SENT });
 
     const name = field(form, 'name');
     const email = field(form, 'email');
@@ -13,13 +15,26 @@ export const POST: APIRoute = async ({ request }) => {
     const message = field(form, 'message');
 
     if (!name || !email) {
-        return new Response('Missing required fields', { status: 400 });
+        return formResponse(request, {
+            ok: false,
+            message: 'Please add your name and email address.',
+        });
     }
 
-    const failed = await sendNotification({
+    const sent = await sendNotification({
         subject: `${topic}: ${name}`,
         replyTo: email,
         text: `Topic: ${topic}\nName: ${name}\nEmail: ${email}\n\n${message}`,
     });
-    return failed ?? thanks(request);
+    return formResponse(
+        request,
+        sent
+            ? { ok: true, message: SENT }
+            : {
+                  ok: false,
+                  status: 502,
+                  message:
+                      'Sorry, your message could not be sent. Please try again, or email ahoy@pelicanproductions.com.au.',
+              },
+    );
 };

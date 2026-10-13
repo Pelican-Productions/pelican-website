@@ -22,11 +22,6 @@ const siteKey = import.meta.env.DEV ? TEST_SITE_KEY : env.TURNSTILE_SITE_KEY;
 </div>
 
 <script>
-    interface TurnstileApi {
-        render: (el: HTMLElement, options: Record<string, string>) => string;
-        remove: (id: string) => void;
-    }
-
     const SRC =
         'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 
@@ -39,9 +34,10 @@ const siteKey = import.meta.env.DEV ? TEST_SITE_KEY : env.TURNSTILE_SITE_KEY;
             const script = document.createElement('script');
             script.src = SRC;
             script.async = true;
-            script.addEventListener('load', () =>
-                resolve((window as unknown as { turnstile: TurnstileApi }).turnstile),
-            );
+            script.addEventListener('load', () => {
+                if (window.turnstile) resolve(window.turnstile);
+                else reject(new Error('Turnstile did not load'));
+            });
             script.addEventListener('error', reject);
             document.head.appendChild(script);
         });
@@ -53,13 +49,16 @@ const siteKey = import.meta.env.DEV ? TEST_SITE_KEY : env.TURNSTILE_SITE_KEY;
         const els = document.querySelectorAll<HTMLElement>('[data-turnstile]');
         if (els.length === 0) return;
         const turnstile = await load();
-        widgets = [...els].map(el =>
-            turnstile.render(el, {
+        widgets = [...els].map(el => {
+            const id = turnstile.render(el, {
                 sitekey: el.dataset.sitekey ?? '',
                 theme: el.dataset.theme ?? 'auto',
                 size: 'flexible',
-            }),
-        );
+            });
+            // form-submit.ts resets the widget after each attempt.
+            el.dataset.widgetId = id;
+            return id;
+        });
     });
 
     document.addEventListener('astro:before-swap', async () => {

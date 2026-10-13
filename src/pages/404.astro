@@ -1,13 +1,19 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Grid from '@/components/ui/Grid.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Lead from '@/components/ui/Lead.astro';
 import PageHero from '@/components/ui/PageHero.astro';
+import PathCard from '@/components/ui/PathCard.astro';
+import Section from '@/components/ui/Section.astro';
 
 export const prerender = true;
 
 const entry = await getEntry('pages', '404');
 if (!entry) throw new Error('Missing pages entry for ' + Astro.url.pathname);
-const { title, description, ogImage, noindex, hero } = entry.data;
+const { title, description, ogImage, noindex, hero, sections } = entry.data;
+const links = sections.links;
 ---
 
 <BaseLayout
@@ -21,4 +27,22 @@ const { title, description, ogImage, noindex, hero } = entry.data;
         intro={hero.text}
         ctas={hero.ctas}
     />
+    {
+        links && (
+            <Section>
+                {links.heading && <Heading text={links.heading} />}
+                {links.lead && <Lead>{links.lead}</Lead>}
+                <Grid cols={3}>
+                    {links.items?.map(item => (
+                        <PathCard
+                            title={item.title ?? ''}
+                            href={item.href}
+                        >
+                            {item.text && <p>{item.text}</p>}
+                        </PathCard>
+                    ))}
+                </Grid>
+            </Section>
+        )
+    }
 </BaseLayout>

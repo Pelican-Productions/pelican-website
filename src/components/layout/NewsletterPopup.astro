@@ -6,7 +6,7 @@ import { newsletter } from '@/data/site';
 /**
  * Site-wide "Join our mailing list" modal (v56 `<dialog id="pop">`).
  * Opens once after 15s, then stays quiet for 7 days (localStorage `pp_pop`).
- * Submitting silences it for good. BaseLayout leaves it off /thanks/ and 404.
+ * Signing up silences it for good. BaseLayout leaves it off the 404 page.
  */
 const { popup } = newsletter;
 ---
@@ -46,6 +46,7 @@ const { popup } = newsletter;
         <form
             name="newsletter"
             method="POST"
+            data-form
             action={newsletter.action}
             class="grid gap-3"
         >
@@ -232,7 +233,7 @@ const { popup } = newsletter;
         });
         dialog
             .querySelector('form')
-            ?.addEventListener('submit', () => write(SIGNED_UP));
+            ?.addEventListener('form:success', () => write(SIGNED_UP));
 
         if (Date.now() - read() < QUIET) return;
 
