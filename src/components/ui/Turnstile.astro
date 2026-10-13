@@ -1,0 +1,71 @@
+---
+import { TURNSTILE_SITE_KEY } from 'astro:env/client';
+
+interface Props {
+    theme?: 'light' | 'dark' | undefined;
+    class?: string | undefined;
+}
+
+const { theme = 'light', class: className } = Astro.props;
+
+/** Cloudflare's always-pass test site key, used by `astro dev`. */
+const TEST_SITE_KEY = '1x00000000000000000000AA';
+const siteKey = import.meta.env.DEV ? TEST_SITE_KEY : TURNSTILE_SITE_KEY;
+---
+
+<div
+    class={className}
+    data-turnstile
+    data-sitekey={siteKey}
+    data-theme={theme}
+>
+</div>
+
+<script>
+    interface TurnstileApi {
+        render: (el: HTMLElement, options: Record<string, string>) => string;
+        remove: (id: string) => void;
+    }
+
+    const SRC =
+        'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+
+    let api: Promise<TurnstileApi> | undefined;
+    let widgets: string[] = [];
+
+    /** Loads the Turnstile script once, the first time a page needs it. */
+    function load(): Promise<TurnstileApi> {
+        api ??= new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = SRC;
+            script.async = true;
+            script.addEventListener('load', () =>
+                resolve((window as unknown as { turnstile: TurnstileApi }).turnstile),
+            );
+            script.addEventListener('error', reject);
+            document.head.appendChild(script);
+        });
+        return api;
+    }
+
+    // ClientRouter swaps the body, so render fresh widgets on every page.
+    document.addEventListener('astro:page-load', async () => {
+        const els = document.querySelectorAll<HTMLElement>('[data-turnstile]');
+        if (els.length === 0) return;
+        const turnstile = await load();
+        widgets = [...els].map(el =>
+            turnstile.render(el, {
+                sitekey: el.dataset.sitekey ?? '',
+                theme: el.dataset.theme ?? 'auto',
+                size: 'flexible',
+            }),
+        );
+    });
+
+    document.addEventListener('astro:before-swap', async () => {
+        if (!api || widgets.length === 0) return;
+        const turnstile = await api;
+        for (const id of widgets) turnstile.remove(id);
+        widgets = [];
+    });
+</script>

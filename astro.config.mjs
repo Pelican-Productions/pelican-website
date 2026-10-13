@@ -11,6 +11,12 @@ export default defineConfig({
                 context: 'client',
                 access: 'public',
             }),
+            // Turnstile site key (public). `astro dev` uses the test key.
+            TURNSTILE_SITE_KEY: envField.string({
+                context: 'client',
+                access: 'public',
+                optional: true,
+            }),
         },
     },
     fonts: [

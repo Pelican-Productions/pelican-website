@@ -178,13 +178,19 @@ export const footer = {
 export const newsletter = {
     heading: 'Don’t miss a beat.',
     headingAccent: 'Stay in the loop.',
+    text: 'Become a VIP Pelican Member for all the latest news on our productions, access to pre-sale and much more!',
     placeholder: 'Your email address',
-    button: 'Stay in the loop',
+    button: 'Subscribe',
+    privacy: {
+        label: 'Privacy Policy',
+        href: '/downloads/pelican-productions-privacy-policy.pdf',
+    },
+    /** Posts to our route, which adds the email to Mailchimp. */
     action: '/api/newsletter',
     /** Timed "Join our mailing list" modal (NewsletterPopup). */
     popup: {
         heading: 'Join our mailing list',
-        text: 'Be first to hear about auditions, camp bookings and new classes.',
-        button: 'Keep me posted',
+        text: 'Become a VIP Pelican Member: news on our productions, show pre-sales, auditions and camp bookings.',
+        button: 'Subscribe',
     },
 } as const;

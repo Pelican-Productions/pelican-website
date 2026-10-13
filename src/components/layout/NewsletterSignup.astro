@@ -1,5 +1,6 @@
 ---
 import Button from '@/components/ui/Button.astro';
+import Turnstile from '@/components/ui/Turnstile.astro';
 import { newsletter } from '@/data/site';
 
 interface Props {
@@ -17,12 +18,15 @@ const { id = 'updates' } = Astro.props;
     <div class="wrap">
         <h2
             id={`${id}-title`}
-            class="font-condensed tracking-tightish mb-8 text-[clamp(2.6rem,7vw,4.6rem)] leading-[0.86] font-normal text-white uppercase"
+            class="font-condensed tracking-tightish mb-6 text-[clamp(2.6rem,7vw,4.6rem)] leading-[0.86] font-normal text-white uppercase"
         >
             {newsletter.heading}<br /><span class="text-yellow"
                 >{newsletter.headingAccent}</span
             >
         </h2>
+        <p class="mb-8 max-w-[36em] text-[1.15rem] leading-[1.6]">
+            {newsletter.text}
+        </p>
         <form
             name="newsletter"
             method="POST"
@@ -52,6 +56,10 @@ const { id = 'updates' } = Astro.props;
                 placeholder={newsletter.placeholder}
                 class="rounded-btn border-field bg-navy placeholder:text-lavender/70 focus:border-lightblue block w-full border px-[22px] py-[18px] text-[1.1rem] text-white"
             />
+            <Turnstile
+                theme="dark"
+                class="mt-5"
+            />
             <Button
                 type="submit"
                 class="mt-[30px]"
@@ -59,5 +67,13 @@ const { id = 'updates' } = Astro.props;
                 >{newsletter.button}</Button
             >
         </form>
+        <p class="mt-6 text-[0.9rem]">
+            <a
+                href={newsletter.privacy.href}
+                class="text-lavender underline underline-offset-4 hover:text-white"
+                target="_blank"
+                rel="noopener">{newsletter.privacy.label}</a
+            >
+        </p>
     </div>
 </section>

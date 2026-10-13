@@ -1,5 +1,6 @@
 ---
 import Button from '@/components/ui/Button.astro';
+import Turnstile from '@/components/ui/Turnstile.astro';
 import { newsletter } from '@/data/site';
 
 /**
@@ -75,6 +76,7 @@ const { popup } = newsletter;
                     class="field"
                 />
             </label>
+            <Turnstile />
             <Button
                 type="submit"
                 shadow="navy"
@@ -82,6 +84,14 @@ const { popup } = newsletter;
                 >{popup.button}</Button
             >
         </form>
+        <p class="mt-4 mb-0 text-[0.9rem]">
+            <a
+                href={newsletter.privacy.href}
+                class="text-navy underline underline-offset-4"
+                target="_blank"
+                rel="noopener">{newsletter.privacy.label}</a
+            >
+        </p>
     </div>
 </dialog>
 

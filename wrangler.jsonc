@@ -20,8 +20,10 @@
     "vars": {
         "CONTACT_FROM_EMAIL": "website@send.pelicanproductions.com.au",
         "CONTACT_TO_EMAIL": "ahoy@pelicanproductions.com.au",
+        // Newsletter audience. MAILCHIMP_API_KEY is a secret (.env locally).
+        "MAILCHIMP_LIST_ID": "6b52c75cc1",
     },
-    // Cloudflare Email Service: contact + newsletter form notifications.
+    // Cloudflare Email Service: contact form notifications.
     // The sender domain must be onboarded in Email Routing/Sending.
     "send_email": [
         {
