@@ -1,5 +1,5 @@
 ---
-import { TURNSTILE_SITE_KEY } from 'astro:env/client';
+import { env } from 'cloudflare:workers';
 
 interface Props {
     theme?: 'light' | 'dark' | undefined;
@@ -10,7 +10,7 @@ const { theme = 'light', class: className } = Astro.props;
 
 /** Cloudflare's always-pass test site key, used by `astro dev`. */
 const TEST_SITE_KEY = '1x00000000000000000000AA';
-const siteKey = import.meta.env.DEV ? TEST_SITE_KEY : TURNSTILE_SITE_KEY;
+const siteKey = import.meta.env.DEV ? TEST_SITE_KEY : env.TURNSTILE_SITE_KEY;
 ---
 
 <div

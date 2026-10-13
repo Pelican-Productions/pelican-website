@@ -22,6 +22,8 @@
         "CONTACT_TO_EMAIL": "ahoy@pelicanproductions.com.au",
         // Newsletter audience. MAILCHIMP_API_KEY is a secret (.env locally).
         "MAILCHIMP_LIST_ID": "6b52c75cc1",
+        // Public; baked into prerendered pages. `astro dev` uses the test key.
+        "TURNSTILE_SITE_KEY": "0x4AAAAAAFV_ScTaXFFP9fuA",
     },
     // Cloudflare Email Service: contact form notifications.
     // The sender domain must be onboarded in Email Routing/Sending.
@@ -36,8 +38,20 @@
             "id": "b7ab468127944be691fcb224c9f6f0b5",
         },
     ],
-    // Preview deployments read bindings from here, not the top level.
+    // Preview deployments read bindings, vars and secrets from here, not the
+    // top level. Secrets: `wrangler preview secret put <NAME>`.
     "previews": {
+        "vars": {
+            "CONTACT_FROM_EMAIL": "website@send.pelicanproductions.com.au",
+            "CONTACT_TO_EMAIL": "ahoy@pelicanproductions.com.au",
+            "MAILCHIMP_LIST_ID": "6b52c75cc1",
+            "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+        },
+        "send_email": [
+            {
+                "name": "EMAIL",
+            },
+        ],
         "kv_namespaces": [
             {
                 "binding": "SESSION",
