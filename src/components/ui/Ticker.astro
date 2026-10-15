@@ -42,7 +42,12 @@ const { items, label = 'Latest news', duration = 40 } = Astro.props;
     .track {
         display: inline-flex;
         width: max-content;
-        animation: tick var(--dur, 40s) linear infinite;
+        animation: ticker-tick var(--dur, 40s) linear infinite;
+    }
+    @keyframes ticker-tick {
+        to {
+            transform: translateX(-50%);
+        }
     }
 
     .ticker:hover .track,

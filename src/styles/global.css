@@ -83,17 +83,10 @@
     --breakpoint-nav: 56.25rem;
 
     /* Motion */
-    --animate-tick: tick 40s linear infinite;
-    --animate-marquee: tick 70s linear infinite;
     --animate-dash: dash 2.6s linear infinite;
     --animate-glow: glow 6s ease-in-out infinite;
     --animate-bulbs: bulbs 1.2s steps(1) infinite;
 
-    @keyframes tick {
-        to {
-            transform: translateX(-50%);
-        }
-    }
     @keyframes dash {
         to {
             stroke-dashoffset: -32;

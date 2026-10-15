@@ -88,7 +88,12 @@ const { items, label, duration = 70 } = Astro.props;
     .track {
         display: inline-flex;
         width: max-content;
-        animation: tick var(--dur, 70s) linear infinite;
+        animation: marquee-tick var(--dur, 70s) linear infinite;
+    }
+    @keyframes marquee-tick {
+        to {
+            transform: translateX(-50%);
+        }
     }
 
     .marquee:hover .track,
