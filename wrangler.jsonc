@@ -12,7 +12,24 @@
         "disable_nodejs_process_v2",
     ],
     "workers_dev": true,
-    "routes": [],
+    "routes": [
+      {
+        "custom_domain": true,
+        "pattern": "pelicanproductions.net.au"
+      },
+      {
+        "custom_domain": true,
+        "pattern": "www.pelicanproductions.net.au"
+      },
+      {
+        "custom_domain": true,
+        "pattern": "pelicanproductions.com.au"
+      },
+      {
+        "custom_domain": true,
+        "pattern": "www.pelicanproductions.com.au"
+      },
+    ],
     "assets": {
         "binding": "ASSETS",
         "directory": "./dist",
