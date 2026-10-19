@@ -1,5 +1,5 @@
 ---
-import { pelicanLayers } from '@/data/site';
+import { pelicanMark } from '@/data/site';
 import { cn } from '@/lib/cn';
 
 interface Props {
@@ -14,11 +14,6 @@ interface Props {
 const { size = 'header', href = '/', class: className } = Astro.props;
 const footer = size === 'footer';
 
-/** The footer sits the mark on a backing circle; the header doesn't. */
-const layers = footer
-    ? ['/images/brand/circle.svg', ...pelicanLayers]
-    : pelicanLayers;
-
 const productions = [...'PRODUCTIONS'];
 ---
 
@@ -27,21 +22,14 @@ const productions = [...'PRODUCTIONS'];
     aria-label="Pelican Productions"
     class={cn('lockup', footer && 'is-footer', className)}
 >
-    <span
+    <img
         class="mark"
+        src={pelicanMark.src}
+        alt=""
         aria-hidden="true"
-    >
-        {
-            layers.map(src => (
-                <img
-                    src={src}
-                    alt=""
-                    width="260"
-                    height="244"
-                />
-            ))
-        }
-    </span>
+        width={pelicanMark.width}
+        height={pelicanMark.height}
+    />
     <span
         class="word"
         aria-hidden="true"
@@ -74,16 +62,12 @@ const productions = [...'PRODUCTIONS'];
         }
     }
 
+    /* The SVG pads the pelican so its neon glow isn't clipped; the negative
+       margin keeps the drawn bird where it sat before. */
     .mark {
-        display: grid;
-        height: 2.15em;
-        aspect-ratio: 260 / 244;
-    }
-
-    .mark img {
-        grid-area: 1 / 1;
-        width: 100%;
-        height: 100%;
+        width: auto;
+        height: 2.38em;
+        margin: -0.19em -0.13em;
     }
 
     .word {

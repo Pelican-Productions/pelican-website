@@ -27,8 +27,9 @@ teachers:
 sections:
     band:
         image:
-            src: '/images/stage/singing-full-out.webp'
-            alt: 'Young Pelican performers singing full out on stage'
+            src: '/images/stage/singing-lessons-card.webp'
+            alt: 'A Pelican performer singing into a microphone on stage'
+            position: '50% 12%'
     panel:
         facts:
             - label: 'Ages'

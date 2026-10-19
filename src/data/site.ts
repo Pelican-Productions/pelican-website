@@ -38,7 +38,7 @@ export const site = {
     locale: 'en_AU',
     lang: 'en-AU',
     shareImage: '/images/share.jpg',
-    logo: '/images/logo-light.svg',
+    logo: '/icon-512.png',
     venue: 'The Nest Studios',
     address: {
         streetAddress: '57A Price Avenue',
@@ -48,20 +48,12 @@ export const site = {
     },
 } as const;
 
-/**
- * The flat Pelican mark, back to front. All share one 260x244 viewBox so they
- * stack in the same box (Logo, PageHero).
- */
-export const pelicanLayers = [
-    '/images/brand/wing-pale.svg',
-    '/images/brand/wing-pale-beak.svg',
-    '/images/brand/wing-red.svg',
-    '/images/brand/wing-blue.svg',
-    '/images/brand/body.svg',
-    '/images/brand/tail.svg',
-    '/images/brand/beak.svg',
-    '/images/brand/eye.svg',
-];
+/** The outline Pelican mark used by Logo and PageHero. */
+export const pelicanMark = {
+    src: '/images/brand/pelican.svg',
+    width: 1525,
+    height: 1131,
+};
 
 export const socials: SocialLink[] = [
     {

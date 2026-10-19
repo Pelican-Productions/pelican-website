@@ -26,6 +26,7 @@ images:
     - src: '/images/stage/boys.webp'
       alt: 'Teen performers in suspenders and ties mid-number'
       position: '50% 30%'
-    - src: '/images/stage/lion-jump.webp'
-      alt: 'A dancer leaping across a misty stage'
-      position: '50% 40%'
+    - src: '/images/musicals/chitty-2025/3.webp'
+      alt:
+          'Chitty Chitty Bang Bang, 2025: the ensemble in striped costumes under
+          a circus tent'

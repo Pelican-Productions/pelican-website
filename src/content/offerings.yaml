@@ -122,7 +122,7 @@
       who: '7+ years'
       when: 'Monday, Tuesday, Wednesday, Thursday and Saturday'
       length: '30 min, private'
-      cost: '$450 per term'
+      cost: '$450 per 10-week term'
   order: 7
 - id: 'spotlight'
   name: 'Spotlight camp'

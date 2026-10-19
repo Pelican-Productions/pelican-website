@@ -2,7 +2,7 @@
 import CtaRow, { type Cta } from '@/components/ui/CtaRow.astro';
 import Heading from '@/components/ui/Heading.astro';
 import Kicker from '@/components/ui/Kicker.astro';
-import { pelicanLayers } from '@/data/site';
+import { pelicanMark } from '@/data/site';
 import { cn } from '@/lib/cn';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 
     /**
      * Replace the artwork on the right (decorative, so alt is empty). Defaults
-     * to the flat Pelican mark from the header, the same on every page.
+     * to the Pelican mark from the header, the same on every page.
      */
     image?: { src: string; width: number; height: number } | undefined;
     /** Hide the dotted flight-path squiggle. */
@@ -32,7 +32,7 @@ const {
     intro,
     kicker,
     ctas = [],
-    image,
+    image = pelicanMark,
     flight = true,
     class: className,
 } = Astro.props;
@@ -54,34 +54,15 @@ const {
             </svg>
         )
     }
-    {
-        image ? (
-            <img
-                class="art"
-                src={image.src}
-                width={image.width}
-                height={image.height}
-                alt=""
-                aria-hidden="true"
-                decoding="async"
-            />
-        ) : (
-            <span
-                class="art mark"
-                aria-hidden="true"
-            >
-                {pelicanLayers.map(src => (
-                    <img
-                        src={src}
-                        alt=""
-                        width="260"
-                        height="244"
-                        decoding="async"
-                    />
-                ))}
-            </span>
-        )
-    }
+    <img
+        class="art"
+        src={image.src}
+        width={image.width}
+        height={image.height}
+        alt=""
+        aria-hidden="true"
+        decoding="async"
+    />
     <div class="wrap">
         {kicker && <Kicker>{kicker}</Kicker>}
         {
@@ -167,22 +148,11 @@ const {
         position: absolute;
         z-index: 0;
         top: 50%;
-        right: 70px;
-        width: 280px;
+        right: 50px;
+        width: 318px;
         height: auto;
         transform: translateY(-50%);
         pointer-events: none;
-    }
-
-    .mark {
-        display: grid;
-        aspect-ratio: 260 / 244;
-    }
-
-    .mark img {
-        grid-area: 1 / 1;
-        width: 100%;
-        height: 100%;
     }
 
     @media (max-width: 900px) {
@@ -192,8 +162,8 @@ const {
 
         .art {
             top: 20px;
-            right: 14px;
-            width: 92px;
+            right: 8px;
+            width: 104px;
             transform: none;
             opacity: 0.55;
         }

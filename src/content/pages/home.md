@@ -268,10 +268,10 @@ sections:
               href: '/about/'
               variant: 'ghost'
         image:
-            src: '/images/logo-white.svg'
+            src: '/images/brand/pelican-white.svg'
             alt: ''
-            width: 320
-            height: 309
+            width: 1345
+            height: 951
     vouchers:
         heading: 'Sports Vouchers Plus accepted'
         body:

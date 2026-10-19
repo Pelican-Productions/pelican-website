@@ -8,9 +8,9 @@ path: '/camps/'
 hero:
     heading: 'Summer ==Sorted=='
     text:
-        'Music Theatre Camp and Spotlight, our January school holiday camps. Two
-        intensive day camps of singing, dancing and acting, ending in a fully
-        staged show at the Michael Murray Performance Centre.'
+        'Music Theatre Camp and Spotlight, our January school holiday camps.
+        One- and two-week day camps packed with singing, dancing and acting,
+        ending in a fully staged show at the Michael Murray Performance Centre.'
     ctas:
         - label: 'Book now'
           href: 'https://www.trybooking.com/DNSQG'
@@ -43,7 +43,7 @@ sections:
                   year'
         gallery: 'camp-day'
     shows:
-        heading: 'Big numbers, ==bigger== smiles'
+        heading: 'Big showstoppers, ==bigger== smiles'
         lead:
             'Every camp ends in a fully staged show. Here’s a taste of what our
             performers bring to the stage.'
