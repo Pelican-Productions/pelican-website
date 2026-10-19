@@ -138,11 +138,11 @@ sections:
                   'The Voice Australia, The 60 Four, Jersey Boys (Norwegian
                   Cruise Line), Denim & Divas'
             - title: 'Ben Francis'
-              text: 'The Voice Australia (The 60 Four)'
+              text: 'The Voice Australia, The 60 Four'
             - title: 'Lachlan Williams'
-              text: 'The Voice Australia (The 60 Four)'
+              text: 'The Voice Australia, The 60 Four'
             - title: 'Jack Conroy'
-              text: 'The 60 Four, The Book of Mormon'
+              text: 'The Voice Australia, The 60 Four, The Book of Mormon'
             - title: 'Oscar Bridges'
               text:
                   'The Book of Mormon, Grease (national tour), Elf the Musical,
@@ -172,7 +172,9 @@ sections:
             - title: 'Mateja Sardelis'
               text: 'Sweet Charity, A Chorus Line, The Voice Australia'
             - title: 'Mim Sarre'
-              text: 'Kimberley Akimbo'
+              text:
+                  'Kimberley Akimbo, Friendly Feminism, Millicent Sarre is
+                  Opinionated, Too Tired to Smash (Patriarchy), PRIMETIME'
             - title: 'Allycia Angeles'
               text: 'Kimberley Akimbo'
             - title: 'Jasmine Garcia'
@@ -184,13 +186,15 @@ sections:
             - title: 'Addi Schwartz'
               text: 'Catch Me If You Can'
             - title: 'Josh Angeles'
-              text: 'G’day Adventure'
+              text: 'G’day Adventure, CLUB y2k'
             - title: 'Emma Pool'
               text: 'G’day Adventure'
             - title: 'Tom Russell'
               text: 'Harry Potter'
             - title: 'Jacinta Tsakalos'
               text: 'Spamalot'
+            - title: 'Phoebe Rodger'
+              text: 'Phoebs, You’re a Lesbian'
     castIn:
         heading: 'Pelican alumni have been cast in'
         list:

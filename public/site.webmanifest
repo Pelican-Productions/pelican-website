@@ -4,8 +4,8 @@
     "description": "Classes, camps and full-scale musicals for young performers across South Australia.",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#e2e2df",
-    "theme_color": "#070607",
+    "background_color": "#070a1f",
+    "theme_color": "#070a1f",
     "icons": [
         {
             "src": "/favicon.svg",

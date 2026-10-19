@@ -122,8 +122,11 @@ sections:
               variant: 'ghost'
     band2:
         image:
-            src: '/images/stage/blue-window.webp'
-            alt: 'Blue stage lighting through a stained-glass window shape'
+            src: '/images/stage/velma.webp'
+            alt:
+                'A performer in purple sequins singing with arms raised, backed
+                by dancers'
+            position: '50% 30%'
     prospectus:
         id: 'prospectus'
         heading: 'Read the ==prospectus=='

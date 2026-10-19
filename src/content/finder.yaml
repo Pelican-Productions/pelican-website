@@ -2,7 +2,7 @@
   heading: 'Find my ==class=='
   lead:
       'Two quick taps and we’ll show you the right class, with times and fees.'
-  ageQuestion: '1. How old is your performer?'
+  ageQuestion: '1. How old is the performer?'
   ages:
       - id: 'foundation'
         label: '5–10 years'
@@ -12,7 +12,7 @@
         label: '12–17 years'
       - id: '18-plus'
         label: '18 and over'
-  interestQuestion: '2. What do they love?'
+  interestQuestion: '2. What do you want to do?'
   interests:
       - id: 'sing'
         label: 'Singing'
