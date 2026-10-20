@@ -15,6 +15,9 @@ hero:
         - label: 'Find your place'
           href: '#explore'
           variant: 'ghost'
+        - label: 'Parent portal login'
+          href: 'https://dancestudio-pro.com/online/pelicanproductions'
+          variant: 'primary'
     image:
         src: '/images/stage/coats-pointing.webp'
         position: '50% 20%'
