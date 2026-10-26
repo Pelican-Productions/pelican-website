@@ -49,6 +49,7 @@ const jsonLd = (pathways?.items ?? []).map(item => ({
         {...hero.text ? { intro: hero.text } : {}}
         ctas={hero.ctas}
     />
+    {auditions && <ProAuditions section={auditions} />}
     {
         journey && (
             <Journey
@@ -76,7 +77,6 @@ const jsonLd = (pathways?.items ?? []).map(item => ({
             />
         )
     }
-    {auditions && <ProAuditions section={auditions} />}
     {
         band2?.image && (
             <Band
