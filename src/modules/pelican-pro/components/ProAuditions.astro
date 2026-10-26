@@ -35,7 +35,16 @@ const columns = (section.items ?? []).map(item => ({
             </Lead>
         )
     }
-    <div class="mt-5 grid gap-10 md:grid-cols-2">
+    {
+        section.note && (
+            <p
+                class="text-lavender mt-5 text-[0.95rem]"
+                set:html={inlineHtml(section.note)}
+            />
+        )
+    }
+    {section.ctas && <CtaRow ctas={section.ctas} />}
+    <div class="mt-12 grid gap-10 md:grid-cols-2">
         {
             columns.map(col => (
                 <div>
@@ -73,13 +82,4 @@ const columns = (section.items ?? []).map(item => ({
             ))
         }
     </div>
-    {
-        section.note && (
-            <p
-                class="text-lavender mt-[34px] mb-[15px] text-[0.95rem]"
-                set:html={inlineHtml(section.note)}
-            />
-        )
-    }
-    {section.ctas && <CtaRow ctas={section.ctas} />}
 </Section>
