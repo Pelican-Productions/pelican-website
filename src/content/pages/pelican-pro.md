@@ -19,6 +19,9 @@ hero:
         - label: 'Register your interest'
           href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Courses%3A%20register%20my%20interest'
           variant: 'ghost'
+        - label: 'Submit your audition'
+          href: '#auditions'
+          variant: 'ghost'
 sections:
     journey:
         heading: 'From first class to ==professional stage=='
