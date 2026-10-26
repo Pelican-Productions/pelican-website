@@ -19,8 +19,11 @@ hero:
         - label: 'Register your interest'
           href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20Courses%3A%20register%20my%20interest'
           variant: 'ghost'
-        - label: 'Submit your audition'
-          href: '#auditions'
+        - label: 'Submit Cert IV audition'
+          href: 'https://docs.google.com/forms/d/e/1FAIpQLSftdAtOMtMvsUuC_F7o2-mYhiTKfQcz_1PGO3I8FIChmMiVLw/viewform?usp=header'
+          variant: 'ghost'
+        - label: 'Submit Diploma audition'
+          href: 'https://docs.google.com/forms/d/e/1FAIpQLSfOEujg6NisxOERA46AsofYkoeiFgFRkIsjaMv2PBvn7e8UWw/viewform?usp=header'
           variant: 'ghost'
 sections:
     journey:
