@@ -89,10 +89,9 @@
       - 'cert-iv-auditions'
   order: 10
 - id: 'cert-iv-final-submissions'
-  when: '30 Sep'
+  when: '6 Dec'
   sub: '2026'
   title: 'Final submissions (closing date)'
-  text: 'Submissions are still being accepted, so get in touch to apply.'
   lists:
       - 'cert-iv-auditions'
   order: 11
