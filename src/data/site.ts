@@ -51,8 +51,8 @@ export const site = {
 /** The outline Pelican mark used by Logo and PageHero. */
 export const pelicanMark = {
     src: '/images/brand/pelican.svg',
-    width: 1525,
-    height: 1131,
+    width: 1643,
+    height: 1249,
 };
 
 export const socials: SocialLink[] = [
