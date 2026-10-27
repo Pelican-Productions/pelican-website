@@ -2,6 +2,7 @@
 import { getEntry } from 'astro:content';
 import Button from '@/components/ui/Button.astro';
 import Heading from '@/components/ui/Heading.astro';
+import Turnstile from '@/components/ui/Turnstile.astro';
 import { cn } from '@/lib/cn';
 
 interface Props {
@@ -125,6 +126,7 @@ const labelClass = 'grid gap-1.5 font-semibold text-[var(--tone-heading)]';
                 class={field}
             ></textarea>
         </label>
+        <Turnstile />
         <Button
             type="submit"
             class="w-full text-center"

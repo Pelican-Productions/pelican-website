@@ -62,7 +62,9 @@
             "CONTACT_FROM_EMAIL": "website@send.pelicanproductions.com.au",
             "CONTACT_TO_EMAIL": "ahoy@pelicanproductions.com.au",
             "MAILCHIMP_LIST_ID": "6b52c75cc1",
+            // Cloudflare's always-pass test keys (public, not real secrets).
             "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+            "TURNSTILE_SECRET_KEY": "1x0000000000000000000000000000000AA",
         },
         "send_email": [
             {

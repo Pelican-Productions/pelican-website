@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { field, formResponse, isBot, sendNotification } from '@/lib/forms';
+import { verifyTurnstile } from '@/lib/turnstile';
 
 export const prerender = false;
 
@@ -8,6 +9,13 @@ const SENT = 'Thanks, we have your message and will be in touch soon.';
 export const POST: APIRoute = async ({ request }) => {
     const form = await request.formData();
     if (isBot(form)) return formResponse(request, { ok: true, message: SENT });
+
+    if (!(await verifyTurnstile(form, request))) {
+        return formResponse(request, {
+            ok: false,
+            message: 'Please complete the security check and try again.',
+        });
+    }
 
     const name = field(form, 'name');
     const email = field(form, 'email');
