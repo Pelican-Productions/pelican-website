@@ -56,15 +56,15 @@
         },
     ],
     // Preview deployments read bindings, vars and secrets from here, not the
-    // top level. Secrets: `wrangler preview secret put <NAME>`.
+    // top level. Shared secrets: `wrangler preview base-config secret put <NAME>`.
     "previews": {
         "vars": {
             "CONTACT_FROM_EMAIL": "website@send.pelicanproductions.com.au",
             "CONTACT_TO_EMAIL": "ahoy@pelicanproductions.com.au",
             "MAILCHIMP_LIST_ID": "6b52c75cc1",
-            // Cloudflare's always-pass test keys (public, not real secrets).
+            // Cloudflare's always-pass test key. The matching test secret
+            // is TURNSTILE_SECRET_KEY in the Preview base config.
             "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
-            "TURNSTILE_SECRET_KEY": "1x0000000000000000000000000000000AA",
         },
         "send_email": [
             {
