@@ -18,11 +18,11 @@
   lists:
       - 'home'
   order: 4
-- id: 'diploma-submissions-close'
+- id: 'course-submissions-close'
   when: '6 Dec'
   sub: '2026'
-  title: 'Diploma audition submissions close'
-  text: 'Video auditions for the 2027 Diploma of Musical Theatre.'
+  title: 'Cert IV & Diploma audition submissions close'
+  text: 'Video auditions for the 2027 Certificate IV and Diploma of Musical Theatre.'
   href: '/courses/'
   lists:
       - 'home'
