@@ -9,24 +9,6 @@
   lists:
       - 'home'
   order: 1
-- id: 'camp-auditions-2026'
-  when: '9–18 Oct'
-  sub: '2026'
-  title: 'Music Theatre Camp & Spotlight auditions'
-  text: 'Optional: you don’t need to audition to take part.'
-  href: '/camps/'
-  lists:
-      - 'home'
-  order: 2
-- id: 'sing-oz-concert-2026'
-  when: 'Sat 24 Oct'
-  sub: '2026'
-  title: 'Sing!OZ in concert'
-  text: 'Norwood Concert Hall, with a live band.'
-  href: '/sing-oz/'
-  lists:
-      - 'home'
-  order: 3
 - id: 'academy-showcase-2026'
   when: 'Sat 5 Dec'
   sub: '2026'
