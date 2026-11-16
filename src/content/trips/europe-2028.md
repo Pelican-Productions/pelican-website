@@ -4,7 +4,8 @@ status: 'upcoming'
 heading: 'Now boarding: ==Europe 2028=='
 lead:
     'Paris, Disneyland Paris, London, then an 11-night Greek Islands cruise to
-    Greece, Turkey, Malta and Italy. 7 April to 8 May 2028.'
+    Greece, Turkey, Malta and Italy. 7 April to 8 May 2028. Sign up and we’ll
+    email you the full itinerary with pricing, FAQs and performer costs.'
 dates:
     depart: '2028-04-07'
     return: '2028-05-08'
@@ -75,9 +76,16 @@ stops:
       text:
           'Valletta in Malta, then Messina, Salerno and Livorno, before three
           easy days in Gaeta.'
-stopsNote: 'Performances and workshops are being finalised and may change.'
+stopsNote:
+    'Performances and workshops are being finalised and may change. [Sign up for
+    the full
+    itinerary](https://mailchi.mp/pelicanproductions.com.au/europelondon-2028)
+    with pricing, FAQs and performer costs.'
 ctas:
-    - label: 'Register your interest'
-      href: 'mailto:ahoy@pelicanproductions.com.au?subject=Europe%202028%20tour%3A%20register%20my%20interest'
+    - label: 'Get the full itinerary'
+      href: 'https://mailchi.mp/pelicanproductions.com.au/europelondon-2028'
+    - label: 'Reserve your spot'
+      href: 'https://www.pht.com.au/deposit-form/pelican-dance-group-deposit-form'
+      variant: 'ghost'
 order: 0
 ---

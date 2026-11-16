@@ -11,10 +11,10 @@ hero:
         'Performing adventures with Pelican, from Disneyland Paris to the West
         End. Next stop: Europe 2028.'
     ctas:
-        - label: 'Register your interest'
-          href: 'mailto:ahoy@pelicanproductions.com.au?subject=Europe%202028%20tour%3A%20register%20my%20interest'
-        - label: 'Ask a question'
-          href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20trips%3A%20a%20question'
+        - label: 'Get the full itinerary'
+          href: 'https://mailchi.mp/pelicanproductions.com.au/europelondon-2028'
+        - label: 'Reserve your spot'
+          href: 'https://www.pht.com.au/deposit-form/pelican-dance-group-deposit-form'
           variant: 'ghost'
 sections:
     openAll:
@@ -25,8 +25,11 @@ sections:
             you’ll come home with a group of friends who love it as much as you
             do.'
         ctas:
-            - label: 'Register your interest'
-              href: 'mailto:ahoy@pelicanproductions.com.au?subject=Europe%202028%20tour%3A%20register%20my%20interest'
+            - label: 'Get the full itinerary'
+              href: 'https://mailchi.mp/pelicanproductions.com.au/europelondon-2028'
+            - label: 'Reserve your spot'
+              href: 'https://www.pht.com.au/deposit-form/pelican-dance-group-deposit-form'
+              variant: 'ghost'
             - label: 'Ask a question'
               href: 'mailto:ahoy@pelicanproductions.com.au?subject=Pelican%20trips%3A%20a%20question'
               variant: 'ghost'
